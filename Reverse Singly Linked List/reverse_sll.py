@@ -58,8 +58,10 @@ def reverse_sll(sll_head):
 class TestReverseLinkedList(unittest.TestCase):
     def test_none(self):
         self.assertEqual(reverse_sll(None), None)
+
     def test_single_node(self):
         self.assertEqual(reverse_sll(SLLNode(2)), 2)
+        
     def test_generic_example(self):
         a = SLLNode(2)
         b = SLLNode(6)
