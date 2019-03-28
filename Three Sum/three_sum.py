@@ -24,9 +24,7 @@ Sort:
 
 import unittest
 def three_sum(nums):
-
     result = []
-    
     nums = sorted(nums)
     for idx in range(0, len(nums) - 3):
         #No duplicates condition =>
@@ -54,7 +52,7 @@ def three_sum(nums):
 
 class TestThreeSum(unittest.TestCase):
     def test_generic_example(self):
-        self.assertEqual(three_sum([-4, -1, -1, 0, 1, 2]), [[-1, -1, 2]], [-1, 0, 1])
+        self.assertEqual(three_sum([-1, 0, 1, 2, -1, -4]), [[-1, -1, 2]], [-1, 0, 1])
 
     def test_all_zero_input(self):
         self.assertEqual(three_sum([0, 0, 0, 0, 0]), [[0, 0, 0]])
