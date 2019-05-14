@@ -2,13 +2,15 @@
 #which has the largest sum and return its sum.
 
 """
-max()
+max(prev_sum + nums[idx], nums[idx])
 
  0   1   2  3   4  5  6   7  8  
 [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 
 dp
-[]
+[-2, 1, -2, 4, 3, 5, 6, 1, 4]
+
+return 6
 
 """
 import unittest
@@ -36,6 +38,5 @@ class TestKadanesAlgorithm(unittest.TestCase):
     def test_mixed_array(self):
         self.assertEqual(kadane([-2, 1, -3, 4, -1, 2, 1, -5, 4]), 6)
         self.assertEqual(kadane([-3, 1, 0, -2, 3, 4, -1, 4, -2]), 10)
-
 
 if __name__ == "__main__": unittest.main()
