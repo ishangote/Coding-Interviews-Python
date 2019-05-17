@@ -6,7 +6,7 @@ import unittest
 def three_sum(nums):
     nums = sorted(nums)
     solutions = []
-    for idx in range(0, len(nums) - 3):
+    for idx in range(0, len(nums) - 2):
         if nums[idx] > 0: break
         if idx > 0 and nums[idx] == nums[idx - 1]: continue
         left, right = idx + 1, len(nums) - 1
