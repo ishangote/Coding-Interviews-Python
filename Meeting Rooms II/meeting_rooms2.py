@@ -57,6 +57,7 @@ def meeting_rooms_ii_heap(intervals):
 
     for interval in intervals:
         if heap and interval[0] >= heap[0]:
+            # Pop and return the smallest item from the heap, and also push the new item.
             heapq.heapreplace(heap, interval[1])
 
         else:
