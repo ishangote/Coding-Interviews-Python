@@ -12,6 +12,8 @@ Output: 49
 Area = length * width => (idx2 - idx1) * shorter_segment
                                 ^           ^
                             Maximize    Maximize
+
+Approach 2:
 Brute Force => O (n^2)
  for each i, j => j = i+1 -> len(arr):
      update max_area
