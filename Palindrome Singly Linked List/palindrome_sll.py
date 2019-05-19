@@ -30,24 +30,16 @@ def palindrome_sll(sll_head):
     while fast_pointer != None and fast_pointer.next != None:
         stack.append(slow_pointer.data)
         slow_pointer = slow_pointer.next
-        fast_pointer = fast_pointer.next.next
+        fast_pointer = fast_pointer.next.next  
 
-    #Case 1: Even length
-    if fast_pointer == None:
-        while slow_pointer != None:
-            if slow_pointer.data == stack[-1]: stack.pop()
-            slow_pointer = slow_pointer.next
-        
-        return len(stack) == 0
-
-    #Case 2: Odd length
-    else:
+    #Odd Length SLL Case:
+    if fast_pointer: slow_pointer = slow_pointer.next
+    
+    while slow_pointer != None:
+        if slow_pointer.data == stack[-1]: stack.pop()
         slow_pointer = slow_pointer.next
-        while slow_pointer != None:
-            if slow_pointer.data == stack[-1]: stack.pop()
-            slow_pointer = slow_pointer.next
-        
-        return len(stack) == 0  
+    
+    return len(stack) == 0   
 
 class TestPalindromeSinglyLinkedList(unittest.TestCase):
     def test_none_input(self):
