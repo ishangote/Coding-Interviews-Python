@@ -1,31 +1,46 @@
+# Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
 """
-        0  1  2
+    0  1  2
 
- 0      1, 2, 3
- 1      4, 5, 6
- 2      7, 8, 9
+0   1, 2, 3
+1   4, 5, 6
+2   7, 8, 9
 
-rs = 0, re = 2
-cs = 0, ce = 2
 result = []
+fr, lr = 0, 2
+fc, lc = 0, 2
 
-        0  1  2
+    0  1  2
 
- 1      4, 5
- 2      7, 8
+0   
+1   4, 5
+2   7, 8
 
-rs = 1, re = 2
-cs = 0, ce = 1
 result = [1,2,3, 6,9]
+fr, lr = 1, 2
+fc, lc = 0, 1
 
-        0  1  2
+    0  1  2
 
- 1      
- 2      7
+0   
+1   5
+2   
 
-rs = 2, re = 2
-cs = 0, ce = 0
-result = [1,2,3, 6,9, 4,5, 8, ]
+result = [1,2,3, 6,9, 8,7,4, ]
+fr, lr = 1, 1
+fc, lc = 0, 0
+
+    0  1  2
+
+0   
+1   
+2   
+
+result = [1,2,3, 6,9, 8,7,4, 5]
+fr, lr = 1, 0 -> break
+fc, lc = 0, 0
+
+return [1,2,3, 6,9, 8,7,4, 5]
 
 """
 
