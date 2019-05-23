@@ -144,6 +144,36 @@ def level_order_dequeue(root):
     return result
 
 #--------------------------------------------------
+# Print according to level [[1], [3, 2], [4, 5, 6, 7], ...]
+
+from collections import deque
+def level_order_dequeue_level_print(root):
+    if not root: return None
+    
+    result = [[]]
+    deq = deque([None])
+    deq.appendleft((root, 0))
+
+    while len(deq) > 1:
+        while deq[0] != None:
+            node, level = deq.popleft()
+            if len(result) <= level: result.append([])        
+            result[level].append(node.val)
+
+            if node.left: deq.append((node.left, level + 1))
+            if node.right: deq.append((node.right, level + 1))
+
+        while deq[-1] != None:
+            node, level = deq.pop()
+            if len(result) <= level: result.append([])        
+            result[level].append(node.val)
+
+            if node.right: deq.appendleft((node.right, level + 1))
+            if node.left: deq.appendleft((node.left, level + 1))
+
+    return result
+
+#--------------------------------------------------
 
 import unittest
 class BinaryTreeNode:
@@ -169,9 +199,10 @@ class TestZigzagLevelOrder(unittest.TestCase):
     def test_root_none(self):
         self.assertEqual(level_order_two_stacks(None), None)
         self.assertEqual(level_order_dequeue(None), None)
-
+        
     def test_zigzag_level_order(self):
         self.assertEqual(level_order_two_stacks(self.root), [1, 3, 2, 4, 5, 6, 7, 10, 9, 8])
         self.assertEqual(level_order_dequeue(self.root), [1, 3, 2, 4, 5, 6, 7, 10, 9, 8])
+        self.assertEqual(level_order_dequeue_level_print(self.root), [[1], [3, 2], [4, 5, 6, 7], [10, 9, 8]])
 
 if __name__ == "__main__": unittest.main()
