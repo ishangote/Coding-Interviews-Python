@@ -28,35 +28,37 @@ cout = (a & b) or (cin & (a XOR b))
 """
 
 def add_binary(a, b):
-    if not a or not b: return a or b
-    
-    idxa, idxb = len(a) - 1, len(b) - 1
-    ans = ""
+    if not a and not b: return "0"
+    i, j = len(a) - 1, len(b) - 1
     carry = 0
+    ans = ""
 
-    while idxa >= 0 or idxb >= 0 or carry:
-        temp_a = temp_b = sum = 0
-        if idxa >= 0:
-            temp_a = int(a[idxa])
-            idxa -= 1
-        
-        if idxb >= 0:
-            temp_b = int(b[idxb])
-            idxb -= 1
+    while i >=0 or j >= 0 or carry:
+        temp_a = temp_b = s = 0
 
-        sum = temp_a ^ temp_b ^ carry
-        ans += str(sum)
+        if i >= 0:
+            temp_a = int(a[i])
+            i -= 1
+
+        if j >= 0:
+            temp_b = int(b[j])
+            j -= 1
+
+        s = temp_a ^ temp_b ^ carry
         carry = (temp_a & temp_b) | (carry & (temp_a ^ temp_b))
+        ans += str(s)
 
-    return a[::-1]
+    return ans[::-1]
 
 import unittest
 class TestFullAdderBinary(unittest.TestCase):
     def test_empty_inputs(self):
         self.assertEqual(add_binary("", '1'), '1')
         self.assertEqual(add_binary("101", ""), "101")
-
+        self.assertEqual(add_binary("", ""), "0")
+        
     def test_generic(self):
         self.assertEqual(add_binary("1010", "1011"), "10101")
+        self.assertEqual(add_binary("11", "1"), "100")
 
 if __name__ == "__main__": unittest.main()
