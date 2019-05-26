@@ -18,7 +18,7 @@ class TestTwoSumUnitTest(unittest.TestCase):
         self.assertEqual(two_sum([], 3), [])
         self.assertEqual(two_sum(None, 3), None)
 
-    def two_sum_no_pair(self):
+    def test_two_sum_no_pair(self):
         self.assertEqual(two_sum([1, 3, 7, 5], 3), [])
 
     def test_two_sum_negative_nums(self):
