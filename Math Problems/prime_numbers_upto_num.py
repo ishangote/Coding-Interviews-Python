@@ -46,7 +46,6 @@ def sieve_of_eratosthenes(n):
 
     return result
 
-
 import unittest
 class TestSieveOfEratosthenes(unittest.TestCase):
     def test_sieve_of_eratosthenes_zero_one(self):

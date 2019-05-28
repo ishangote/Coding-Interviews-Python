@@ -10,7 +10,6 @@ n       quotient     remainder
 1       0            1      
 
 """
-
 def decimal_to_binary(number):
 
     if number == 0: return '0'
