@@ -13,10 +13,9 @@ factors exist in pairs => i, n/i
 a x b = n => if a < root(n) => b > root(n) else if a == b => a, b = root(n)
 
 """
-
 def find_all_factors(n):
     if n == 0: return 'inf'
-        
+
     result = set()
     result.add(1)
     result.add(n)

@@ -7,8 +7,7 @@ n       quotient     remainder
 15      7            1
 7       3            1
 3       1            1
-1       0            1      
-
+1       0            1
 """
 def decimal_to_binary(number):
 

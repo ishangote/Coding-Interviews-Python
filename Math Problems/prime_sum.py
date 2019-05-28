@@ -5,13 +5,12 @@
 # and [c,d] is another solution with c <= d, then
 # [a, b] < [c, d] 
 # If a < c OR a==c AND b < d. 
-
 """
 Example:
 Input : 4
 Output: 2 + 2 = 4
-
 10 -> (2, 3, 5, 7) -> 3, 7
+
 """
 from prime_numbers_upto_num import sieve_of_eratosthenes
 def prime_sum(number):

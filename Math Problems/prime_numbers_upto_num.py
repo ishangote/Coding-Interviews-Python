@@ -30,7 +30,6 @@ def sieve_of_eratosthenes(n):
     prime = [True for i in range(n+1)] 
     p = 2
     while (p * p <= n): 
-          
         # If prime[p] is not changed, then it is a prime 
         if (prime[p] == True): 
               
