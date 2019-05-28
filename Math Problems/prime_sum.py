@@ -11,11 +11,7 @@ Example:
 Input : 4
 Output: 2 + 2 = 4
 
-5 -> (2, 3)
-
-10 -> (2, 3, 5, 7)
-
-15 -> (2, 3, 5, 7, 11, 13)
+10 -> (2, 3, 5, 7) -> 3, 7
 """
 from prime_numbers_upto_num import sieve_of_eratosthenes
 def prime_sum(number):
@@ -34,6 +30,8 @@ class TestPrimeNumbersTwoSum(unittest.TestCase):
 
     def test_prime_sum_generic(self):
         self.assertEqual(prime_sum(4), [2, 2])
-        self.assertEqual(prime_sum(3), [1, 2])
+        self.assertEqual(prime_sum(6), [3, 3])
+        self.assertEqual(prime_sum(8), [3, 5])
+        self.assertEqual(prime_sum(10), [3, 7])
 
 if __name__ == "__main__": unittest.main()
