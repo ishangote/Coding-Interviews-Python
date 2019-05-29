@@ -18,3 +18,9 @@ def group_anagrams(input_strings):
         else: hm[''.join(sorted(word))] = [word]
 
     return list(hm.values())
+
+class TestGroupAnagrams(unittest.TestCase):
+    def test_group_anagram(self):
+        self.assertEqual(group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]), [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]])
+
+if __name__ == '__main__': unittest.main()
