@@ -1,0 +1,57 @@
+"""
+
+1 -> 2 -> 3 -> None
+
+
+1 -> 2 -> 3 -> 4        return 2
+     |_________|
+
+
+"""
+
+class SLL:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+def cycle_start(head):
+    if not head: return None
+    
+    sp, fp = head, head
+    while fp and fp.next:
+        sp = sp.next
+        fp = fp.next.next
+
+        if sp == fp: break
+
+    # Not cyclic
+    if sp != fp : return None
+    
+    sp = head
+    while sp != fp:
+        sp = sp.next
+        fp = fp.next
+    return sp
+
+import unittest
+class TestCylceStart(unittest.TestCase):
+    def test_none_head(self):
+        self.assertEqual(cycle_start(None), None)
+
+    def test_not_a_cycle(self):
+        head = SLL(1)
+        head.next = SLL(2)
+        head.next.next = SLL(3)
+
+        self.assertEqual(cycle_start(head), None)
+
+    def test_cycle_start(self):
+        head = SLL(1)
+        head.next = SLL(2)
+        head.next.next = SLL(3)
+        head.next.next.next = SLL(4)
+        head.next.next.next = head.next
+
+        self.assertEqual(cycle_start(head), head.next)
+
+if __name__ == '__main__': unittest.main()
