@@ -15,8 +15,12 @@ Example:
 import string
 def pre_process(input_string):
     tr = str.maketrans("", "", string.punctuation)      #Removes Punctuations
-
     input_string = input_string.translate(tr).lower()   # All lower case
+    
+    # Or ...
+    # punctuation = ",.:;?!'"
+    # words = [w.strip(punctuation).lower() for w in words]
+
     return ' '.join(input_string.split())               # Removes only tabs and new_lines. Keeps spaces
 
 from collections import Counter
