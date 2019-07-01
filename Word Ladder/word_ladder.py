@@ -86,16 +86,16 @@ queue []
 import queue
 
 def word_ladder(begin_word, end_word, word_list):
-    if begin_word == end_word: return 0
+    if begin_word == end_word: return None
     if len(begin_word) != len(end_word): return None
     begin_word, end_word = begin_word.lower(), end_word.lower()
 
-    if not word_list or len(word_list) == 0: return 0
+    if not word_list or len(word_list) == 0: return None
     word_list = list(set(word_list))
-    if end_word not in word_list: return 0
+    if end_word not in word_list: return None
 
     my_q = queue.Queue()
-    my_q.put((begin_word, 1))
+    my_q.put((begin_word, 0))
 
     while my_q:
         word, level = my_q.get()
@@ -107,11 +107,19 @@ def word_ladder(begin_word, end_word, word_list):
                 if new_word in word_list:
                     my_q.put((new_word, level + 1))
                     word_list.remove(new_word)
-    return 0
+    return None
 
 import unittest
 class TestWordLadder(unittest.TestCase):
+    def test_word_ladder_invalid_input(self):
+        self.assertEqual(word_ladder('', 'cog', ["hot","dot","dog","lot","log","cog"]), None)
+        self.assertEqual(word_ladder('hit', 'cog', []), None)
+
     def test_word_ladder(self):
-        self.assertEqual(word_ladder("hit", "cog", ["hot","dot","dog","lot","log","cog"]), 5)
+        self.assertEqual(word_ladder("hit", "cog", ["hot","dot","dog","lot","log","cog"]), 4)
+        self.assertEqual(word_ladder("bit", "dog", ["but","put","big","pot","pog","dog","lot"]), 5)
+        self.assertEqual(word_ladder("no", "go", ["to"]), None)
+        self.assertEqual(word_ladder("bit", "pog", ["but","put","big","pot","pog","pig","dog","lot"]), 3)
+        self.assertEqual(word_ladder("aa", "bb", ["ab","bb"]), 2)
 
 if __name__ == "__main__": unittest.main()
