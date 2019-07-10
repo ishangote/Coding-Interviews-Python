@@ -46,6 +46,14 @@ def inorder_iterative(root):
 import unittest
 class TestInorderTraversalBinaryTree(unittest.TestCase):
 
+    """
+        10
+       /  \
+      0    -10
+     / \     \
+    5   6     11
+    """
+
     root = BinaryTreeNode(10)
     root.left = BinaryTreeNode(0)
     root.left.left = BinaryTreeNode(5)
