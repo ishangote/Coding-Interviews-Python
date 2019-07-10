@@ -21,7 +21,7 @@ def preorder(root):
     return result
 
 import unittest
-class TestInorderTraversalBinaryTree(unittest.TestCase):
+class TestPreorderTraversalBinaryTree(unittest.TestCase):
     """
         10
        /  \

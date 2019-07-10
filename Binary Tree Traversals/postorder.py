@@ -63,7 +63,7 @@ def postorder_two_stacks(root):
     return stack2[::-1]        
 
 import unittest
-class TestInorderTraversalBinaryTree(unittest.TestCase):
+class TestPostorderTraversalBinaryTree(unittest.TestCase):
     """
         10
        /  \
