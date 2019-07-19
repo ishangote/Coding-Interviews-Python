@@ -44,8 +44,8 @@ def max_depth(root):
 def min_depth(root):
     if not root: return 0
     if not root.left and not root.right: return 1
-    if not root.left and root.right: return 1 + max_depth(root.right)
-    if root.left and not root.right: return 1 + max_depth(root.left)
+    if not root.left and root.right: return 1 + min_depth(root.right)
+    if root.left and not root.right: return 1 + min_depth(root.left)
     return 1 + min(min_depth(root.left), min_depth(root.right))
 
 import unittest
@@ -59,7 +59,16 @@ class TestMinMaxDepthBinaryTree(unittest.TestCase):
     root2 = BinaryTreeNode(1)
     root2.left = BinaryTreeNode(2)
 
-    def test_max_depth(self): self.assertEqual(max_depth(self.root1), 3)
-    def test_min_depth(self): self.assertEqual(min_depth(self.root2), 2)
+    root3 = BinaryTreeNode(7)
+    root3.left = BinaryTreeNode(1)
+    root3.right = BinaryTreeNode(2)
+    root3.right.left = BinaryTreeNode(3)
+
+    def test_max_depth(self):
+        self.assertEqual(max_depth(self.root1), 3)
+        self.assertEqual(max_depth(self.root3), 3)
+    def test_min_depth(self):
+        self.assertEqual(min_depth(self.root2), 2)
+        self.assertEqual(min_depth(self.root3), 2)
 
 if __name__ == "__main__": unittest.main()
