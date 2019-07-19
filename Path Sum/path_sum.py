@@ -40,10 +40,10 @@ def path_sum_iterative(root, target):
     stack = [(root, target - root.val)]
     while stack:
         curr_node, curr_target = stack.pop()
-        if not curr_node.left and not curr_node.right: return curr_target == 0
+        if not curr_node.left and not curr_node.right and curr_target == 0: return True
         
-        if curr_node.left: stack.append((curr_node.left, curr_target - curr_node.val))
-        if curr_node.right: stack.append((curr_node.right, curr_target - curr_node.val))
+        if curr_node.right: stack.append((curr_node.right, curr_target - curr_node.right.val))
+        if curr_node.left: stack.append((curr_node.left, curr_target - curr_node.left.val))
         
     return False
 
@@ -58,9 +58,16 @@ class TestPathSum(unittest.TestCase):
     root.left.left.left = BinaryTreeNode(7)
     root.left.left.right = BinaryTreeNode(2)
     root.right.right.right = BinaryTreeNode(1)
+
+    #-----------------------------------------
     
+    root1 = BinaryTreeNode(1)
+    root1.left = BinaryTreeNode(2)
+
     def test_path_sum(self):
         self.assertEqual(path_sum(self.root, 22), True)
         self.assertEqual(path_sum_iterative(self.root, 22), True)
 
+        self.assertEqual(path_sum(self.root1, 2), False)
+        self.assertEqual(path_sum_iterative(self.root1, 2), False)
 if __name__ == "__main__": unittest.main()
