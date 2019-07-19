@@ -15,11 +15,11 @@ Initially, all next pointers are set to NULL.
 
 Example:
 
-              1
-            /   \
-           2     3
-          / \   / \
-         4   5 6   7
+                1 ...> None
+            /        \
+           2.........>3...>None
+          /  \      /   \
+         4...>5..> 6 ...>7...>None
 
 
 """
@@ -65,11 +65,14 @@ class TestPopulateNextRightPerfectBinaryTree(unittest.TestCase):
       node = dq.pop()
       if node.next: result.append(node.next.val)
       else: result.append(None)
-      if node.right: dq.appendleft(node.right)
       if node.left: dq.appendleft(node.left)
+      if node.right: dq.appendleft(node.right)
+      
     return result
 
   def test_populate_next_right(self):
     populate_next_right(self.root)
     result = self.print_all_next_in_level_order()
     self.assertEqual(result, [None, 3, None, 5, 6, 7, None])
+
+if __name__ == "__main__": unittest.main()
