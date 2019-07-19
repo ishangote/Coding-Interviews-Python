@@ -31,7 +31,7 @@ class BinaryTreeNode:
         self.right = None
         self.next = None
 
-#Level order traversal
+#Level order traversal from right tto left on each level.
 from collections import deque
 def populate_next_right(root):
     if not root: return None
