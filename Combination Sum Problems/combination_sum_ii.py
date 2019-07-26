@@ -34,7 +34,7 @@ def combination_sum_ii(nums, target):
 import copy
 def backtrack(result, combination, nums, remain, start):
   if remain < 0: return
-  elif remain == 0: result.append(copy.deepcopy(combination))
+  elif remain == 0: result.append(list(combination))
   else:
     for idx in range(start, len(nums)):
       if idx > start and nums[idx] == nums[idx - 1]: continue #to skip duplicates
