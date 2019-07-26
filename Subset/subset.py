@@ -24,7 +24,7 @@ def subsets(nums):
     return result
     
 def backtrack(result, subset, nums, start):
-    result.append(copy.deepcopy(subset))
+    result.append(list(subset))
     for idx in range(start, len(nums)):
         subset.append(nums[idx])
         backtrack(result, subset, nums, idx + 1)

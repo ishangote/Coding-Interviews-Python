@@ -13,7 +13,7 @@ Output:
   []
 ]
 """
-from copy import deepcopy
+
 def subset_ii(nums):
     result = []
     nums.sort()
@@ -21,7 +21,7 @@ def subset_ii(nums):
     return result
 
 def backtrack(result, subset, nums, start):
-    result.append(deepcopy(subset))
+    result.append(list(subset))
     for idx in range(start, len(nums)):
         if idx > start and nums[idx] == nums[idx - 1]: continue
         subset.append(nums[idx])
