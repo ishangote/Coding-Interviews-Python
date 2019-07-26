@@ -48,7 +48,7 @@ def combination_sum(nums, target):
 import copy
 def backtrack(result, combination, nums, remain, start):
   if remain < 0: return
-  elif remain == 0: result.append(copy.deepcopy(combination))
+  elif remain == 0: result.append(list(combination))
   else:
     for idx in range(start, len(nums)):
       combination.append(nums[idx])
