@@ -65,5 +65,35 @@ def dp(num, memo):
 
 import unittest
 class TestDecodeWays(unittest.TestCase):
+
+    def test_leading_0(self):
+        self.assertEqual(decode_ways('0'), 0)
+        self.assertEqual(decode_ways('03'), 0)
+        self.assertEqual(decode_ways('025'), 0)
+    
+    def test_one_digit(self):
+        self.assertEqual(decode_ways('1'), 1)
+        self.assertEqual(decode_ways('5'), 1)
+        self.assertEqual(decode_ways('4'), 1)
+
+    def test_two_digit(self):
+        self.assertEqual(decode_ways('12'), 2)
+        self.assertEqual(decode_ways('25'), 2)
+        self.assertEqual(decode_ways('21'), 2)
+
+        self.assertEqual(decode_ways('32'), 1)
+        self.assertEqual(decode_ways('54'), 1)
+        self.assertEqual(decode_ways('71'), 1)
+
+    def test_mod_10_case(self):
+        self.assertEqual(decode_ways('10'), 1)
+        self.assertEqual(decode_ways('20'), 1)
+
+        self.assertEqual(decode_ways('30'), 0)
+        self.assertEqual(decode_ways('500'), 0)
+
     def test_generic(self):
-        self.assert
+        self.assertEqual(decode_ways("226"), 3)
+        self.assertEqual(decode_ways("1221"), 5)
+
+if __name__ == "__main__": unittest.main()
