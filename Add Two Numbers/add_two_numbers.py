@@ -18,6 +18,8 @@ class SLLNode:
         self.val = val
         self.next = None
 
+#--------------------------------------------------
+
 def add_two_numbers(l1, l2):
     if not l1: return l2
     if not l2: return l1
@@ -41,9 +43,11 @@ def add_two_numbers(l1, l2):
         l3 = l3.next
 
         if not l1 and not l2 and carry == 1:
-                l3.next = ListNode(carry)
+                l3.next = SLLNode(carry)
 
     return dummy.next
+
+#--------------------------------------------------
 
 import unittest
 class TestAddTwoNumbers(unittest.TestCase):
@@ -59,13 +63,29 @@ class TestAddTwoNumbers(unittest.TestCase):
     def print_list(self, head):
         if not head: return None
         ans = []
-        while not head:
+        while head:
             ans.append(head.val)
             head = head.next
         return ans
 
-    def test_add_two_numbers(self):
+#--------------------------------------------------TESTING
+
+    def test_not_l2(self):
+        l1 = self.create_list([2, 4, 3])
+        l2 = None
+        self.assertEqual(self.print_list(add_two_numbers(l1, l2)), [2, 4, 3])
+        
+    def test_generic(self):
         l1 = self.create_list([2, 4, 3])
         l2 = self.create_list([8, 1])
+        self.assertEqual(self.print_list(add_two_numbers(l1, l2)), [0, 6, 3])
 
-        self.assertEqaul
+        l1 = self.create_list([9, 9])
+        l2 = self.create_list([1])
+        self.assertEqual(self.print_list(add_two_numbers(l1, l2)), [0, 0, 1])
+
+        l1 = self.create_list([9, 9])
+        l2 = self.create_list([9])
+        self.assertEqual(self.print_list(add_two_numbers(l1, l2)), [8, 0, 1])
+
+if __name__ == "__main__": unittest.main()
