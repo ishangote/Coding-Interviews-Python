@@ -28,6 +28,8 @@ class SLLNode:
         self.val = val
         self.next = None
 
+#------------------------------------------
+
 def one_pass_remove_nth(head, n):
     if not head: return None
     
@@ -43,19 +45,29 @@ def one_pass_remove_nth(head, n):
     slow.next = slow.next.next
     return head
 
+#------------------------------------------
+
+def two_pass_remove_nth(head, n):
+    if not head: return None
+    L, curr = 1, head
+    while curr.next: 
+        L += 1
+        curr = curr.next
+    
+    if L == n: return head.next
+    curr = head
+
+    for itr in range(L - n - 1):
+        curr = curr.next
+    
+    curr.next = curr.next.next
+
+    return head
+
+#------------------------------------------
+
 import unittest
 class TestRemoveNthElemnet(unittest.TestCase):
-    head = SLLNode(1)
-    head.next = SLLNode(2)
-    head.next.next = SLLNode(3)
-    head.next.next.next = SLLNode(4)
-    head.next.next.next.next = SLLNode(5)
-
-    head1 = SLLNode(1)
-
-    head2 = SLLNode(1)
-    head2.next = SLLNode(2)
-
     def print_node_vals(self, node):
         if not node: return []
         ans = []
@@ -64,9 +76,44 @@ class TestRemoveNthElemnet(unittest.TestCase):
             node = node.next
         return ans
 
+    def create_list(self, vals):
+        dummy = SLLNode(-999)
+        curr = dummy
+        for val in vals:
+            curr.next = SLLNode(val)
+            curr = curr.next
+        return dummy.next
+
+#------------------------------------------
+
+    def test_l_equal_to_n(self):
+
+        head = self.create_list([1, 2, 3, 4, 5])
+
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head, 5)), [1, 2, 3, 5])
+        self.assertEqual(self.print_node_vals(two_pass_remove_nth(head, 5)), [1, 2, 3, 5])
+
     def test_generic(self):
-        self.assertEqual(self.print_node_vals(one_pass_remove_nth(self.head, 2)), [1, 2, 3, 5])
-        self.assertEqual(self.print_node_vals(one_pass_remove_nth(self.head2, 2)), [2])
-        self.assertEqual(self.print_node_vals(one_pass_remove_nth(self.head1, 1)), [])
+
+        head = self.create_list([1, 2, 3, 4, 5])
+        head1 = self.create_list([1])
+        head2 = self.create_list([1, 2])
+        head3 = self.create_list([1, 2, 3])
+
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head, 2)), [1, 2, 3, 5])
+
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head2, 2)), [2])
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head2, 1)), [1])
+
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head3, 1)), [1, 2])
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head1, 1)), [])
+
+        self.assertEqual(self.print_node_vals(two_pass_remove_nth(head, 2)), [1, 2, 3, 5])
+
+        self.assertEqual(self.print_node_vals(two_pass_remove_nth(head2, 2)), [2])
+        self.assertEqual(self.print_node_vals(two_pass_remove_nth(head2, 1)), [1])
+
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head3, 1)), [1, 2])
+        self.assertEqual(self.print_node_vals(two_pass_remove_nth(head1, 1)), [])
 
 if __name__ == "__main__": unittest.main()
