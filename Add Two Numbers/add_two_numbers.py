@@ -8,6 +8,9 @@ Example:
 Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 0 -> 8
 Explanation: 342 + 465 = 807.
+
+
+REMEMBER TESTCASE: 99 + 1
 """
 
 class SLLNode:
@@ -32,8 +35,8 @@ def add_two_numbers(l1, l2):
             temp += l2.val
             l2 = l2.next
         
-        l3.next = SLLNode(temp % 10 + carry)
-        carry = temp // 10
+        l3.next = SLLNode((temp + carry) % 10)
+        carry = (temp + carry) // 10
 
         l3 = l3.next
 
@@ -44,3 +47,25 @@ def add_two_numbers(l1, l2):
 
 import unittest
 class TestAddTwoNumbers(unittest.TestCase):
+    
+    def create_list(self, vals):
+        dummy = SLLNode(-999)
+        curr = dummy
+        for val in vals:
+            curr.next = SLLNode(val)
+            curr = curr.next
+        return dummy.next
+
+    def print_list(self, head):
+        if not head: return None
+        ans = []
+        while not head:
+            ans.append(head.val)
+            head = head.next
+        return ans
+
+    def test_add_two_numbers(self):
+        l1 = self.create_list([2, 4, 3])
+        l2 = self.create_list([8, 1])
+
+        self.assertEqaul
