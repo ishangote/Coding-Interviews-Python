@@ -25,7 +25,7 @@ return " ".join()
 """
 
 def reverse_words(input):
-    if not input or len(input) == 0 or len(input) == 1: return input
+    if not input or len(input) == 0 or len(input) == 1: return ''.join(input.split())
 
     input = input.split()
 
@@ -41,6 +41,7 @@ import unittest
 class TestReverseWords(unittest.TestCase):
     def test_len01_string(self):
         self.assertEqual(reverse_words(""), "")
+        self.assertEqual(reverse_words(" "), "")
         self.assertEqual(reverse_words("a"), "a")
 
     def test_reverse_words_multiple_spaces(self):
