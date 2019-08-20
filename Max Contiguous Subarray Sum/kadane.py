@@ -15,16 +15,13 @@ return 6
 """
 import unittest
 def kadane(nums):
-    if len(nums) == 0: return 0
-    result = nums[0] # For array with all negative integers
-    prev_sum, curr_sum = 0, 0
-    for idx in range(len(nums)):
-        curr_sum = max(prev_sum + nums[idx], nums[idx])
-        result = max(result, curr_sum)
-        prev_sum = curr_sum
-
-    return result
-
+    if not nums: return 0
+    ans = curr_sum = nums[0]
+    for i in range(1, len(nums)):
+        curr_sum = max(curr_sum + nums[i], nums[i])
+        ans = max(ans, curr_sum)
+    return ans
+    
 class TestKadanesAlgorithm(unittest.TestCase):
     def test_null_array(self):
         self.assertEqual(kadane([]), 0)
