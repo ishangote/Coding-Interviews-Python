@@ -38,5 +38,6 @@ class TestKadanesAlgorithm(unittest.TestCase):
     def test_mixed_array(self):
         self.assertEqual(kadane([-2, 1, -3, 4, -1, 2, 1, -5, 4]), 6)
         self.assertEqual(kadane([-3, 1, 0, -2, 3, 4, -1, 4, -2]), 10)
+        self.assertEqual(kadane([9, 8, -1, -2, -3]), 17)
 
 if __name__ == "__main__": unittest.main()
