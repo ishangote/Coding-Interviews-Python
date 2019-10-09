@@ -7,11 +7,12 @@ def dijkstras(graph, start_node):
 
     while q:
         curr_dist, curr_node = heapq.heappop(q)
-
+        # Nodes pushed to priority queue get popped. Initial push: (start_node)
         if curr_dist > distances[curr_node]: continue
 
         for neighbor, wt in graph[curr_node].items():
             distance = curr_dist + wt
+            # Path chosen if minimum of all other paths seen before
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
                 heapq.heappush(q, (distance, neighbor))
