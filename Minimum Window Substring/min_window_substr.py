@@ -69,6 +69,16 @@ a z j s k f z t s, sz
 # >>> a
 # Counter({'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 1})
 
+
+# Counter({'a': 2, 'b': 1, 'c': 1, 'd': 1, 'e': 1})
+# >>> a['k'] -= 1
+# >>> a
+# Counter({'a': 2, 'b': 1, 'c': 1, 'd': 1, 'e': 1, 'k': -1})        Very important it adds chars by itself
+
+# Counter({'a': 2, 'b': 1, 'c': 1, 'd': 1, 'e': 1, 'k': -1})
+# >>> a['n'] > 0
+# False
+
 from collections import Counter
 def min_window_substring(s, t):    
     hm = Counter(t)
