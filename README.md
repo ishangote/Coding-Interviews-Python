@@ -1,3 +1,3 @@
-# Interviews
+# Coding Interview Prep
 
-Top Python Solutions for Most Common Coding Questions
+The repository stores solutions to coding problems from websites like Leetcode, InterviewBit, Pramp, etc.
