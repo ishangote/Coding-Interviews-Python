@@ -1,4 +1,4 @@
-# A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
+#  A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
 # Return a deep copy of the list.
 
 """
@@ -6,34 +6,25 @@
 1   2   3   4   5
 |_______^       |
     ^___________|
-
-
 Approach 1: O(n) Time O(n) space
 use hashmap to store [original:clone] map
 First Pass
 hm = {1:1', 2:2', 3:3', 4:4', 5:5'}
 Second Pass
 connect next pointers and random pointers
-
 Approach 2: O(n) Time O(1) space
-
 First Pass
 1   2   3   4   5
-
 1'  2'  3'  4'  5'
-
 Second Pass: Assign random pointers
 1   2   3   4   5
 | / | / | / | / |
 1'  2'  3'  4'  5'
-
 Third Pass (Restore second list)
 *
 1   2   3   4   5
 | / | / | / | / |
 1'  2'  3'  4'  5'
-
-
 """
 class Node:
     def __init__(self, val, next, random):
