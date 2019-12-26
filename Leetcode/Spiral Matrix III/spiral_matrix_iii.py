@@ -38,7 +38,7 @@ Output: [[1,4],[1,5],[2,5],[2,4],[2,3],[1,3],[0,3],[0,4],[0,5],[3,5],[3,4],[3,3]
 
 def spiral_matrix_iii(R, C, r0, c0):
     #          E        S       W       N
-    dirs = [(0, 1), (-1, 0), (0, -1), (1, 0)]
+    dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
     dir_idx = 0     #   1       2       3
     #Every EVEN(2, 4, 6, 8, ...) steps we change increment (1 1, 2 2, 3, 3, ...)
     steps, increment = 1, 1
@@ -50,8 +50,9 @@ def spiral_matrix_iii(R, C, r0, c0):
             r0 += dirs[dir_idx][0]
             c0 += dirs[dir_idx][1]
 
-            if r0 < R and r0 > -1 and c0 < C and c0 > -1:
+            if r0 >= 0 and r0 < R and c0 >=0 and c0 < C:
                 ans.append([r0, c0])
+
         # Very important changing direction using mod to stay in the bounds
         dir_idx = (dir_idx + 1) % 4
 
