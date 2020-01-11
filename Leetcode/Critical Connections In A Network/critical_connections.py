@@ -33,21 +33,53 @@ But only the current level of search knows it finds a cycle. How does the upper 
 After doing dfs on all nodes, all edges in cycles are discarded. So the remaining edges are critical connections.
 """
 from collections import defaultdict
-def make_graph(connections):
-    graph = defaultdict(list)
-    if not connections: return graph
-    for c in connections:
-        graph[c[0]].append(c[1])
-        graph[c[1]].append(c[0])
-    return graph
+import random
+class CriticalConnections:
+    def __init__(self, connections, n):
+        self.connections = set(map(tuple, (map(sorted, connections))))
+        self.n = n
+        self.graph = defaultdict(list)
+        self.rank = {}
+    
+    def make_graph(self):
+        for c in self.connections:
+            self.graph[c[0]].append(c[1])
+            self.graph[c[1]].append(c[0])
+        
+        for k in self.graph.keys():
+            self.rank[k] = -2
 
-def critical_connections(connections):
-    g = make_graph(connections)
-    rank = -2 * [n]
-    ans
+    def dfs(self, node, depth):
+        if self.rank[node] >= 0:
+            return self.rank[node]
 
-def dfs(node, depth, ans):
-    if rank[node] >= 0: return rank[node]
-    rank[node] = depth
-    min_back_depth = n
-    for neighbor in g[node]:
+        self.rank[node] = depth
+        min_back_depth = self.n
+
+        for nbr in self.graph[node]:
+            if self.rank[nbr] == depth - 1: continue
+            back_depth = self.dfs(nbr, depth + 1)
+            if back_depth <= depth:
+                self.connections.discard(tuple(sorted((node, nbr))))
+            min_back_depth = min(min_back_depth, back_depth)
+        
+        return min_back_depth
+
+    def critical_connections(self):
+        self.make_graph()
+        start_node = random.choice(list(self.graph.items()))[0]
+
+        self.dfs(start_node, 0)
+
+        return list(self.connections)
+
+import unittest
+class TestCriticalConnections(unittest.TestCase):
+    def test_generic(self):
+        c = CriticalConnections([[0,1],[1,2],[2,0],[1,3]], 4)
+        self.assertEqual(c.critical_connections(), [(1, 3)])
+
+        c1 = CriticalConnections([['a', 'b'], ['a', 'c'], ['b', 'c']], 3)
+        self.assertEqual(c.critical_connections(), [(1, 3)], None)
+
+if __name__ == "__main__": unittest.main()
