@@ -38,8 +38,7 @@ else: dp[i][j] = min(dp[i-1][j-1], dp[i][j-1], dp[i-1][j])
 """
 
 def edit_distance(str1, str2):
-    l1, l2 = len(str1), len(str2)
-    memo = [[0 for j in range(l2 + 1)] for i in range(l1 + 1)]
+    memo = [[0 for j in range(len(str2) + 1)] for i in range(len(str1) + 1)]
 
     for i in range(len(memo)):
         memo[i][0] = i
@@ -47,11 +46,11 @@ def edit_distance(str1, str2):
     for i in range(len(memo[0])):
         memo[0][i] = i
 
-    for i in range(1, l1 + 1):
-        for j in range(1, l2 + 1):
+    for i in range(1, len(memo)):
+        for j in range(1, len(memo[0])):
             memo[i][j] = 1 + min(memo[i - 1][j - 1], memo[i][j - 1], memo[i - 1][j]) if str1[i - 1] != str2[j - 1] else memo[i - 1][j - 1]
 
-    return memo[l1][l2]
+    return memo[len(str1)][len(str2)]
 
 import unittest
 class TestEditDistance(unittest.TestCase):
