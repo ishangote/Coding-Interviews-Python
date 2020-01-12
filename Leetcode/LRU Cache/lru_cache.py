@@ -6,65 +6,97 @@
 # The cache is initialized with a positive capacity.
 # Follow up:
 # Could you do both operations in O(1)
-from DLL_Class import *
-class LRUCache:
+class DLLNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+        self.prev = None
+        
+    def set_new_val(self, new_val):
+        self.val = new_val
+    
+    def get_val(self):
+        return self.val
+
+
+class DLL:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.hm = {}
-        self.dll = DLL()
-        self.size = 0
+        self.head = self.tail = None
     
-    def put(self, key, value):
-        if key in self.hm:
-            self.hm[key].value = value
-            self.update_node_position(self.hm[key])
+    def add_node(self, val):
+        if self.capacity == 0:
+            self.pop_head()
+            
+        if not self.head: 
+            self.head = self.tail = DLLNode(val)
         else:
-            self.size += 1
-            if self.size > self.capacity:
-                self.pop_lru()
+            self.tail.next = DLLNode(val)
+            self.tail.next.prev = self.tail
+            self.tail = self.tail.next
+            
+        self.capacity -= 1
+        return self.tail
+            
+    def pop_head(self):
+        if self.head == self.tail:
+            self.head = self.tail = None
 
-            node = DLL_Node(key, value)
-            self.hm[key] = node
-            self.dll.add_node(node)
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+            
+        self.capacity += 1
         
-        return self.get_current_lru()
+    def update_node(self, node, new_val):
+        if not node: return
+
+        node = self.make_node_tail(node)
+        if node.val != new_val: node.set_new_val(new_val)
+        
+    def make_node_tail(self, node):
+        if node == self.tail: return node
+        if node == self.head:
+            self.tail.next = self.head
+            self.head.prev = self.tail
+            
+            self.head = self.head.next
+            self.head.prev = None
+            
+            self.tail = self.tail.next
+            self.tail.next = None
+        
+            
+class LRUCache(object):
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.dll = DLL(capacity)
+        self.hm = {}
 
     def get(self, key):
-        if key not in self.hm: return
-        node = self.hm[key]
-        yield node.value
-        self.update_node_position(node)
-
-    def pop_lru(self):
-        key = self.dll.tail.key
-        del self.hm[key]
-        if self.dll.tail == self.dll.head: self.dll.head = self.dll.tail = None
-        else: 
-            self.dll.tail = self.dll.tail.prev
-            self.dll.tail.next = None
-        self.size -= 1
-        return self.get_current_lru()
-
-    def update_node_position(self, node):
-        if node == self.dll.head: return
-        elif node == self.dll.tail:
-            self.dll.tail.next = self.dll.head
-            self.dll.head.prev = self.dll.tail
-            self.dll.head = self.dll.tail
-            self.dll.tail = self.dll.tail.prev
-            self.dll.tail.next = None
-            self.dll.head.prev = None
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key in self.hm:
+            self.dll.make_node_tail(self.hm[key])
+            return self.hm[key].get_val()
+        return -1
+        
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        if key in self.hm: 
+            self.dll.update_node(node, value)
         else:
-            node.prev.next = node.next
-            node.next.prev = node.prev
-            node.prev = None
-            node.next = self.dll.head
-            self.dll.head.prev = node
-            self.dll.head = self.dll.head.prev
-        return self.get_current_lru()
-
-    def get_current_lru(self):
-        if self.dll.tail: return (self.dll.tail.key, self.dll.tail.value)
+            self.dll.add_node(value)
+            if self.dll.capacity == 0: del self.hm[key]
 
 import unittest
 class TestLRUCache(unittest.TestCase):
