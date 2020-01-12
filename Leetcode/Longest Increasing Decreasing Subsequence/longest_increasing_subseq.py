@@ -60,14 +60,18 @@ arr[j] < arr[i] : j = 0  i += 1
 
 """
 # O(n^2)
+
 def longest_increasing_subsequence_dp(arr):
     if not arr: return 0
-    
+
     memo = [1] * len(arr)
-    for i in range(1, len(arr)):
-        for j in range(i):
-            if arr[i] >= arr[j]: memo[i] = max(memo[i], memo[j] + 1)
     
+    for j in range(1, len(arr)):
+        for i in range(j):
+            #Non-decreasing hence >=
+            if arr[j] >= arr[i]:
+                memo[j] = max(memo[j], 1 + memo[i])
+
     return max(memo)
 
 import unittest
