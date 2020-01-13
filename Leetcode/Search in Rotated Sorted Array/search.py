@@ -15,69 +15,69 @@ input:  shiftArr = [9, 12, 17, 2, 4, 5], num = 2 # shiftArr is the
 output: 3
 
 [9, 12, 17, 2, 4, 5]
-               p
+            p
 Step 1: Find Pivot (Binary Search) -> O(logn)
         P property => arr[p - 1] > arr[p]
 Step 2: Find target (Binary Search) -> O(logn)
 
 Edge Cases to consider:
 [2] t = 2
-[1, 2, 3, 4, 5] -> shift = 0
 
-[5, 4, 3, 2, 1] -> shift = len(arr) - 1
+ 0  1   2   3   4       target = 11
+[8, 11, 15, 18, 21] -> shift = 0
+ L      M       R
+ L  R
+ M
+    LR
+    M
+
+
+ 
+ 0  1  2  3  4  5  6
+[8, 9, 2, 3, 4, 5, 6]
+ l        m        r
+ l  m  r
+       lrm
+
+ 0  1  2  3  4  5  6
+[5, 6, 8, 9, 2, 3, 4]
 """
 
 def shifted_search(nums, target):
-    if not nums: return -1
-    if len(nums) == 1: return 0 if nums[0] == target else -1
-    
-    pivot = get_pivot(nums, 0, len(nums) - 1)
-    
-    # if target is the smallest element
-    if nums[pivot] == target: return pivot
+    pivot = get_pivot(nums)
 
-    # if array is not rotated, search in the entire array
-    if pivot == 0: return get_target(nums, 0, len(nums) - 1, target)
-
-    # search on the right side
-    if target < nums[0]: return get_target(nums, pivot, len(nums) - 1, target)
+    if nums[pivot] <= target <= nums[-1]:
+        return binary_search(nums, target, pivot, len(nums) - 1)
     
-    # search on the left side
-    return get_target(nums, 0, pivot, target)
+    else:
+        return binary_search(nums, target, 0, pivot - 1)
 
-def get_pivot(nums, left, right):
-    if nums[left] < nums[right]:
-        return 0
-    
+def get_pivot(nums):
+    left, right = 0, len(nums) - 1
     while left <= right:
-        pivot = (left + right) // 2
-        if nums[pivot] > nums[pivot + 1]: return pivot + 1
-        else:
-            if nums[pivot] < nums[left]:
-                right = pivot - 1
-            else:
-                left = pivot + 1
-        
-def get_target(nums, left, right, target):
+        mid = (left + right) // 2
+        if nums[mid] < nums[mid - 1]: return mid
+    
+        if nums[mid] < nums[0]: right = mid - 1
+        else: left = mid + 1
+    
+    return 0
+
+def binary_search(nums, target, left, right):
     while left <= right:
-        pivot = (left + right) // 2
-        if nums[pivot] == target:
-            return pivot
-        else:
-            if target < nums[pivot]:
-                right = pivot - 1
-            else:
-                left = pivot + 1
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] > target: right = mid - 1
+        else: left = mid + 1
+    
     return -1
 
 import unittest
 class TestShiftedArraySearch(unittest.TestCase):
     def test_edge(self):
-        self.assertEqual(shifted_search([], 0), -1)
         self.assertEqual(shifted_search([2], 2), 0)
-        
-        self.assertEqual(shifted_search([2, 4, 5, 9, 12, 17], 4), 1)
-        self.assertEqual(shifted_search([17, 12, 9, 5, 4, 2], 4), 4)
+        self.assertEqual(shifted_search([2, 6, 8, 11], 6), 1)
 
     def test_generic(self):
         self.assertEqual(shifted_search([9, 12, 17, 2, 4, 5], 2), 3)
