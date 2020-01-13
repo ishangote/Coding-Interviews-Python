@@ -30,18 +30,20 @@ def word_search(board, word):
 
 def word_search_helper(board, word, row, col):
   if len(word) == 0: return True
+  if not 0 <= row < len(board) or not 0 <= col < len(board[0]): return False
+  if board[row][col] != word[0]: return False
 
-  if 0 <= row < len(board) and 0 <= col < len(board[0]):
-    if board[row][col] == word[0]:
-      temp_value = board[row][col]
-      board[row][col] = '#'
+  temp_value = board[row][col]
+  board[row][col] = '#'
 
-      return_flag =  word_search_helper(board, word[1:], row + 1, col) or word_search_helper(board, word[1:], row - 1, col) or word_search_helper(board, word[1:], row, col + 1) or word_search_helper(board, word[1:], row, col - 1)
+  return_flag = word_search_helper(board, word[1:], row + 1, col) or \
+                word_search_helper(board, word[1:], row - 1, col) or \
+                word_search_helper(board, word[1:], row, col + 1) or \
+                word_search_helper(board, word[1:], row, col - 1)
 
-      board[row][col] = temp_value
-      return return_flag
+  board[row][col] = temp_value
+  return return_flag
       
-  return False
 
 import unittest
 class TestWordSearch(unittest.TestCase):
