@@ -26,10 +26,10 @@ Edge Cases to consider:
  0  1   2   3   4       target = 11
 [8, 11, 15, 18, 21] -> shift = 0
  L      M       R
- L  R
- M
-    LR
-    M
+            L
+
+
+[2]
 
 
  
@@ -53,9 +53,12 @@ def shifted_search(nums, target):
         return binary_search(nums, target, 0, pivot - 1)
 
 def get_pivot(nums):
+    if nums[0] <= nums[-1]: return 0
     left, right = 0, len(nums) - 1
+
     while left <= right:
         mid = (left + right) // 2
+        
         if nums[mid] < nums[mid - 1]: return mid
     
         if nums[mid] < nums[0]: right = mid - 1
