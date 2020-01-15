@@ -53,7 +53,7 @@ def shifted_search(nums, target):
         return binary_search(nums, target, 0, pivot - 1)
 
 def get_pivot(nums):
-    if nums[0] <= nums[-1]: return 0
+    if nums[0] < nums[-1]: return 0
     left, right = 0, len(nums) - 1
 
     while left <= right:
