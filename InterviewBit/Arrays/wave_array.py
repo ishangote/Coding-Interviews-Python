@@ -13,7 +13,6 @@ So, in example case, you will return [2, 1, 4, 3]
 """
 
 def wave_array(arr):
-    if len(arr) == 1: return arr
     arr.sort()
     for i in range(1, len(arr), 2):
         arr[i], arr[i - 1] = arr[i - 1], arr[i]
