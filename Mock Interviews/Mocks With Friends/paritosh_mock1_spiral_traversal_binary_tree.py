@@ -23,31 +23,31 @@ s2 = []
 """
 
 class BinaryTreeNode:
-	def __init__(self, val):
-  	self.val = val
-    self.left = None
-    self.right = None
+    def __init__(self, val):
+  	    self.val = val
+        self.left = None
+        self.right = None
 
 def spiral_binary_tree(root):
-	if not root: return []
-  stack1, stack2 = [root], []
-  ans = []
-  while stack1 or stack2:
-    while stack1:
-      node = stack1.pop()
-      ans.append(node.val)
+    if not root: return []
+    stack1, stack2 = [root], []
+    ans = []
+    while stack1 or stack2:
+        while stack1:
+            node = stack1.pop()
+            ans.append(node.val)
 
-      if node.left: stack2.append(node.left)
-      if node.right: stack2.append(node.right)
+            if node.left: stack2.append(node.left)
+            if node.right: stack2.append(node.right)
 
-    while stack2:
-      node = stack2.pop()
-      ans.append(node.val)
+        while stack2:
+            node = stack2.pop()
+            ans.append(node.val)
 
-      if node.right: stack1.append(node.right)
-      if node.left: stack1.append(node.left)
+            if node.right: stack1.append(node.right)
+            if node.left: stack1.append(node.left)
       
-	return ans
+    return ans
 """
 TESTING:
 root = None -> []
