@@ -24,6 +24,38 @@ Explanation: There are a total of 2 courses to take.
              also have finished course 1. So it is impossible.
 """
 
+#Topological Sort Solution
+def course_schedule_topo(n, prerequisites):
+    in_degree = [0 for i in range(n)]
+    graph = defaultdict(set)
+    ans = []
+
+    """
+          i j
+        [[1,0]]
+        To take course 1 you should have finished course 0.
+                 j   i
+        graph = {0: {1}}
+    """
+
+    for i, j in prerequisites:
+        graph[j].add(i)
+        in_degree[i] += 1
+
+    stack = [vertex for vertex in range(n) if in_degree[vertex] == 0]
+
+    while stack:
+        vertex = stack.pop()
+        ans.append(vertex)
+        for adjacent in graph[vertex]:
+            in_degree[adjacent] -= 1
+            if in_degree[adjacent] == 0: stack.append(adjacent)
+
+    for vertex in range(n):
+        if in_degree[vertex] > 0: return False
+        
+    return True
+
 from has_cycle_graph import *
 def course_schedule(prerequisites):
     g = Graph()
@@ -44,7 +76,13 @@ class TestCourseSchedule(unittest.TestCase):
         self.assertEqual(course_schedule(p1), True)
         self.assertEqual(course_schedule(p2), True)
 
+        self.assertEqual(course_schedule_topo(2, p1), True)
+        self.assertEqual(course_schedule_topo(4, p2), True)
+
         self.assertEqual(course_schedule(p3), False)
         self.assertEqual(course_schedule(p4), False)
+
+        self.assertEqual(course_schedule_topo(2, p3), False)
+        self.assertEqual(course_schedule_topo(4, p4), False)
 
 if __name__ == '__main__': unittest.main()
