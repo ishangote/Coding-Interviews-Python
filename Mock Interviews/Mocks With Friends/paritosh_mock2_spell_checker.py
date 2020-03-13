@@ -129,14 +129,11 @@ if __name__  == "__main__": unittest.main()
 
 """
 Feedback:
-  
 research assitant, teaching assitant -->poor intro, no mention of what you want or are looking for	
 
 Document or word?
 Not taking examples quickly instead of asking questions in air --> Red flag
-
 assuming without asking ---> BIG red flag
-
 quick followup, hasty requirement gathering 
 
 so ok ok, instead of "Ah, ..."
@@ -146,22 +143,13 @@ A> First we need some datastructure... going into implementation before defining
 
 What is API?
 It is a service --> not really
-
 It'll output, "sorry" --> 
-
 Went with some preprocessing logic without consulting the interviewer -> wasted time
-
 correctly-spelled words -> call it dictionary
-
 No brute force solution explained -> direclty went into data structures
-
 Lot of silence instead of speaking out
-
 Very poor understanding of basic data strucutres like sets and tries
-
 Don't use the word contract too much: say "function signature" for functions
-
 Can you tell me about software deve process?
-
 respononsible
 """
