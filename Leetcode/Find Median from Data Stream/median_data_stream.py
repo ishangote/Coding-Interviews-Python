@@ -27,31 +27,26 @@ If 99% of all integer numbers from the stream are between 0 and 100, how would y
 import heapq
 class MedianFinder:
     def __init__(self):
-        self.median = -float('inf')
         self.max_heap = []
         self.min_heap = []
 
     def add_input(self, input):
-        # Add input to Min Heap
-        if input >= self.median:
-            if len(self.min_heap) == 1 + len(self.max_heap):
-                num = heapq.heappop(self.min_heap)
-                heapq.heappush(self.max_heap, -num)
-            
-            heapq.heappush(self.min_heap, input)
+        if not self.min_heap or input >= self.min_heap[0]: heapq.heappush(self.min_heap, input)
+        else: heapq.heappush(self.max_heap, -input)
 
-        # Add input to Max Heap
-        else:
-            if len(self.max_heap) == len(self.min_heap):
-                num = -heapq.heappop(self.max_heap)
-                heapq.heappush(self.min_heap, num)
+        # Balance Heaps
+        if len(self.min_heap) - len(self.max_heap) == 2:
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
 
-            heapq.heappush(self.max_heap, -input)
-
-        self.median = (self.min_heap[0] + -self.max_heap[0]) / 2 if (len(self.min_heap) + len(self.max_heap)) % 2 == 0 else self.min_heap[0]
+        elif len(self.max_heap) - len(self.min_heap) == 1:
+            heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
 
     def find_median(self):
-        return self.median
+        #Even Case
+        if len(self.min_heap) == len(self.max_heap):
+            return (self.min_heap[0] - self.max_heap[0]) / 2
+        else:
+            return self.min_heap[0]
 
 import unittest
 class TestMedianDataStream(unittest.TestCase):
@@ -70,4 +65,5 @@ class TestMedianDataStream(unittest.TestCase):
         self.assertEqual(median_finder.find_median(), 2)
         median_finder.add_input(5)
         self.assertEqual(median_finder.find_median(), 2)
+        
 if __name__ == "__main__": unittest.main()
