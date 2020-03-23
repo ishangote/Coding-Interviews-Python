@@ -1,0 +1,310 @@
+Design a dictionary app:
+
+IPC
+Inter Process Communication
+
+RPC
+Remote Process Communication
+
+SOAP is a type of RPC
+Let us serialize the message to XML
+Then send over wire
+Then deserialize to get the message
+
+REST is a type of RPC
+Let us serialize the message to JSON
+Then send over wire
+Then deserialize to get the message
+
+python process running your script is Client
+import dictapp(client library)
+
+API - string GetMeaning(string word)
+
+http://10.1.1.4:80/v3/get/meaning/pizza
+http://10.1.1.4:80/v3/put/meaning/pizza/<json serialized message atypeofbread>
+
+200 - OK
+400 - Client fail
+500 - Server fail
+
+http://127.0.0.1:80/v3/get/meaning/pizza
+
+gRPC is a tyepe RPC
+Let us serialize the message to ProtoBuffer
+Then send over wire
+Then deserialize to get the message
+
+TLS (Transport Layer Security)
+
+HTTPS is a TLS implementation of HTTP
+https://10.1.1.4:80/v3/get/meaning/pizza
+
+https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/
+https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/
+
+
+Design a dictonary application:
+
+1. Design Client Library (APIs)
+2. Design Server Code (Backend Services code)
+
+Web Service API:    string GetMeaning(string word)
+                    Bool AddWord(string word, string meaning)
+
+
+GetMeaning("pizza")
+
+Client1
+10.3.3.16
+
+http://10.1.1.5:5000/v3/get/meaning/pizza
+
+
+http://10.3.3.16:80/v3/?meaning/pizza/atypeofbread
+
+
+CAP theorem only applies to stateful services:
+CAP:
+Consistency
+
+Availability
+
+(Network) Partition Tolerance
+- a server machine is down
+- a server machine is not reachable by the network
+
+
+1. 1 WebServer:
+    Pros:
+        - Availability
+        - Consistency
+    Cons:
+        - PT could not maintained
+
+2. 6 WebServers:
+    With Stateless service
+    Pros:
+        - Availability
+        - More Partition Tolerance
+        - Consistency
+
+2. 6 WebServers:
+    With Stateful service
+    Pros:
+        - Availability
+        - More Partition Tolerance
+    Cons:
+        - Consistency cannot maintained
+
+3. 6 WebServers:
+    With Stateful service
+    With response only after matching state/data with other instances
+    Pros:
+        - Consistency
+        - More Partition Tolerance
+    Cons:
+        - Availability
+
+Client1
+10.3.3.16
+
+http://dictsvc.com:80/v3/get/meaning/pizza
+
+DNS
+10.2.3.23
+.
+.
+
+DNS
+10.1.1.3
+dictsvc.com -> 10.1.1.4
+
+http://10.1.1.4:80/v3/get/meaning/pizza
+
+LoadBalancer (SLB)
+10.1.1.4
+
+http://10.1.1.10:5000/v3/get/meaning/pizza
+
+DictSvc1    DictSvc2    DictSvc3            DictSvc4     DictSvc5       DictSvc6
+TCP:5000    TCP:5000    TCP:5000            TCP:5000     TCP:5000       TCP:5000
+
+RedisDB API v12
+int AddEntry(string entry)
+
+Client:
+import redis
+var redisClient1 = new RedisDBClient(connectionString)
+redisClient1.AddEntry(dataisthis)
+
+Network:
+http://127.0.0.1:6379/v11/put/table5/row11/dataisthis
+
+Server:
+# /put/table5/row11/{data}
+int AddEntryToDb(string data)
+{
+    # do some ops
+    return exit_code
+}
+
+Redis1      Redis2      Redis3              Redis4       Redis5         Redis6
+TCP:6379    TCP:6379    TCP:6379            TCP:6379     TCP:6379       TCP:6379
+
+
+            config.json                                 config.json
+
+{                                                       {
+    db: MongoDB1                                          db: MongoDB2
+}                                                       }
+
+Shard1      Shard1      Shard1              Shard2       Shard2         Shard2
+a-o         a-o         a-o                 p-z          p-z            p-z   
+
+Replica11(P) Replica12(S) Replica13(s)      Replica21(S) Replica22(P)   Replica23(S)
+R/W         R/O         R/O                 R/O          R/W            R/O
+
+WebServer1  WebServer2  WebServer3          WebServer4   WebServer5     WebServer6
+10.1.1.5    10.1.1.6    10.1.1.7            10.1.1.8     10.1.1.9       10.1.1.10
+
+Replica1        Replica2
+Active          Passive
+R/W             R/O
+
+MongoDB1        MongoDB2
+TCP:27017       TCP:27017
+
+DataServer1     DataServer2
+10.1.2.14       10.1.2.16
+
+Shard1          Shard2
+
+MongoDB1        MongoDB2
+TCP:27017       TCP:27017
+
+C:\ProgramFiles\MongoDb\mongo.exe
+
+Memory:
+MongoDbSvc
+mongo.py
+variables 
+state
+garbage collection
+
+Disk:
+Persistent
+Data
+C:\MyDb\meaning.db
+
+DataServer1     DataServer2
+10.1.2.14       10.1.2.16
+
+RAID0 1, 3
+
+MongoDB API v11
+int AddEntry(string entry)
+
+Client:
+var mdb1 = new MongoDBClient(connectionString)
+mdb1.AddEntry(dataisthis)
+
+Network:
+http://10.1.2.14:27017/v11/put/table5/row11/dataisthis
+
+Server:
+# /put/table5/row11/{data}
+int AddEntryToDb(string data)
+{
+    # do some ops
+    return exit_code
+}
+
+Design a dictionary app:
+
+IPC
+Inter Process Communication
+
+RPC
+Remote Process Communication
+
+SOAP is a type of RPC
+Let us serialize the message to XML
+Then send over wire
+Then deserialize to get the message
+
+REST is a type of RPC
+Let us serialize the message to JSON
+Then send over wire
+Then deserialize to get the message
+
+python process running your script is Client
+import dictapp(client library)
+
+API - string GetMeaning(string word)
+
+http://10.1.1.4:80/v3/get/meaning/pizza
+http://10.1.1.4:80/v3/put/meaning/pizza/<json serialized message atypeofbread>
+
+200 - OK
+400 - Client fail
+500 - Server fail
+
+http://127.0.0.1:80/v3/get/meaning/pizza
+
+
+
+gRPC is a type RPC
+Let us serialize the message to ProtoBuffer
+Then send over wire
+Then deserialize to get the message
+
+Design a dictionary service:
+
+Web Service API:    string GetMeaning(string word)
+                    int AddWord(string word, string meaning)
+
+                    byte[] GetWiki(string word)
+                    int AddWord(string word, byte[] wiki)
+
+GetMeaning("pizza")
+
+Client1
+10.3.3.16
+
+http://dictsvc.com:80/v3/get/meaning/pizza
+
+DNS
+10.2.3.23
+
+http://10.1.1.4:80/v3/get/meaning/pizza
+
+LoadBalancer (SLB)
+10.1.1.4
+
+http://10.1.1.10:5000/v3/get/meaning/pizza
+
+Replica1(P) Replica2(S) Replica3(s)         Replica1(S)  Replica2(P)    Replica3(S)
+R/W         R/O         R/O                 R/O          R/W            R/O
+
+Shard1      Shard1      Shard1              Shard2       Shard2         Shard2
+a-p         a-p         a-p                 p-z          p-z            p-z                    
+
+DictSvc1    DictSvc2    DictSvc3            DictSvc4     DictSvc5       DictSvc6
+TCP:5000    TCP:5000    TCP:5000            TCP:5000     TCP:5000       TCP:5000
+
+Redis1      Redis2      Redis3              Redis4       Redis5         Redis6
+TCP:6379    TCP:6379    TCP:6379            TCP:6379     TCP:6379       TCP:6379
+
+WebServer1  WebServer2  WebServer3          WebServer4   WebServer5     WebServer6
+10.1.1.5    10.1.1.6    10.1.1.7            10.1.1.8     10.1.1.9       10.1.1.10
+
+Replica1        Replica2
+Active          Passive
+R/W             R/O
+
+MongoDB1        MongoDB2
+TCP:27017       TCP:27017
+
+DataServer1     DataServer2
+10.1.2.14       10.1.2.16
