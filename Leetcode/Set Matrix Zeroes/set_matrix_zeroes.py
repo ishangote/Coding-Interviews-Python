@@ -78,12 +78,16 @@ Mark [i][0]  = [0][j] if 0
 """
 def set_matrix_zero(matrix):
     #The all() method returns True when all elements in the given iterable are true. If not, it returns False.
+
+    if not matrix or not matrix[0]: return
+
     first_row_zero_flag = not all(matrix[0])
     first_col_zero_flag = False
 
     for row in matrix:
-        if row[0] == 0: first_col_zero_flag = True
-        break
+        if row[0] == 0: 
+          first_col_zero_flag = True
+          break
     
     for row in range(1, len(matrix)):
         for col in range(1, len(matrix[0])):
@@ -107,7 +111,8 @@ def set_matrix_zero(matrix):
 import unittest
 class TestSetMatrixZeroes(unittest.TestCase):
     def test_generic(self):
-        self.assertEqual(set_matrix_zero([[1,1,1], [1,0,1], [1,1,1]]), [[1,0,1], [0,0,0], [1,0,1]])
-        self.assertEqual(set_matrix_zero([[0,1,2,0], [3,4,5,2], [1,3,1,5]]), [[0,0,0,0], [0,4,5,0], [0,3,1,0]])
+      self.assertEqual(set_matrix_zero([[1],[0]]), [[0],[0]])
+      self.assertEqual(set_matrix_zero([[1,1,1], [1,0,1], [1,1,1]]), [[1,0,1], [0,0,0], [1,0,1]])
+      self.assertEqual(set_matrix_zero([[0,1,2,0], [3,4,5,2], [1,3,1,5]]), [[0,0,0,0], [0,4,5,0], [0,3,1,0]])
 
 if __name__ == "__main__": unittest.main()
