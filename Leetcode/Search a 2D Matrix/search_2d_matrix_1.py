@@ -97,4 +97,8 @@ class TestSearch2DMatrix1(unittest.TestCase):
 
         self.assertEqual(search_2d_matrix_optimized(matrix, 3), True)
         self.assertEqual(search_2d_matrix_optimized(matrix, 13), False)
+        self.assertEqual(search_2d_matrix_optimized([[1]], 2), False)
+        self.assertEqual(search_2d_matrix_optimized([[-10,-8,-6,-4,-3],[0,2,3,4,5],[8,9,10,10,12]], 0), True)
+
+        
 if __name__ == "__main__": unittest.main()
