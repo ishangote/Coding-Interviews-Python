@@ -69,7 +69,7 @@ def get_row(matrix, target):
             return mid
         if matrix[mid][0] > target: hi = mid - 1
         else: lo = mid + 1
-    return False
+    return -1
 
 def binary_search(matrix, row, target):
     lo, hi = 0, len(matrix[0]) - 1
