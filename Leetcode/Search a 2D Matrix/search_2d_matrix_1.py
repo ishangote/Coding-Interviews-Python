@@ -38,6 +38,8 @@ def search_2d_matrix_approach1(matrix, target):
             return False
     return False
 
+# ------------------------------------------ #
+
 def search_2d_matrix(matrix, target):
     #Binary Search Approach O(ln(m*n))
     if not matrix or target is None: return False
@@ -55,6 +57,33 @@ def search_2d_matrix(matrix, target):
         else: right = mid - 1
 
     return False
+
+# ------------------------------------------ #
+
+def get_row(matrix, target):
+    # Two Binary Search O(logn) + O(logm)
+    lo, hi = 0, len(matrix) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if matrix[mid][0] <= target <= matrix[mid][len(matrix[0]) - 1]:
+            return mid
+        if matrix[mid][0] > target: hi = mid - 1
+        else: lo = mid + 1
+    return False
+
+def binary_search(matrix, row, target):
+    lo, hi = 0, len(matrix[0]) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if matrix[row][mid] == target: return True
+        if matrix[row][mid] < target: lo = mid + 1
+        else: hi = mid - 1
+    return False
+
+def search_2d_matrix_optimized(matrix, target):
+    if len(matrix) == 0 or len(matrix[0]) == 0 or target is None: return False
+    row = get_row(matrix, target)
+    return binary_search(matrix, row, target)
 
 import unittest
 class TestSearch2DMatrix1(unittest.TestCase):
