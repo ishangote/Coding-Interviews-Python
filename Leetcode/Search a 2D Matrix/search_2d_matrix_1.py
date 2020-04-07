@@ -92,4 +92,9 @@ class TestSearch2DMatrix1(unittest.TestCase):
         self.assertEqual(search_2d_matrix_approach1(matrix, 3), True)
         self.assertEqual(search_2d_matrix_approach1(matrix, 13), False)
 
+        self.assertEqual(search_2d_matrix(matrix, 3), True)
+        self.assertEqual(search_2d_matrix(matrix, 13), False)
+
+        self.assertEqual(search_2d_matrix_optimized(matrix, 3), True)
+        self.assertEqual(search_2d_matrix_optimized(matrix, 13), False)
 if __name__ == "__main__": unittest.main()
