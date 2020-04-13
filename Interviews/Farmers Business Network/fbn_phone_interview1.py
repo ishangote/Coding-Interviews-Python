@@ -1,5 +1,10 @@
 """
-FBN Interview
+FBN Interview:
+Given an image and starting co-ordinates, (Do inplace)
+if starting co-ordinates outside shape then keep the shapes white everything else black, 
+else if starting co-ordinates inside shape, then shape painted as black everything else remains same,
+else if starting co-ordinates on boundry of shape, then do nothing
+else do nothing
 
 black: 1
 white: 0
@@ -25,7 +30,7 @@ Constraints:
 
 def color_image(img, x, y):
     if x >= 0 and x < len(img) and y >= 0 and y < len(img[0]) and img[x][y] == 0: 
-        img[x][y] = 0
+        img[x][y] = 1
         color_image(img, x - 1, y)  
         color_image(img, x + 1, y)  
         color_image(img, x, y - 1)  
