@@ -42,6 +42,15 @@ Edge Cases to consider:
  0  1  2  3  4  5  6
 [5, 6, 8, 9, 2, 3, 4]
 """
+def binary_search(nums, target, left, right):
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] > target: right = mid - 1
+        else: left = mid + 1
+    
+    return -1
 
 def shifted_search(nums, target):
     pivot = get_pivot(nums)
@@ -53,28 +62,15 @@ def shifted_search(nums, target):
         return binary_search(nums, target, 0, pivot - 1)
 
 def get_pivot(nums):
-    if nums[0] < nums[-1]: return 0
-    left, right = 0, len(nums) - 1
-
-    while left <= right:
-        mid = (left + right) // 2
-        
-        if nums[mid] < nums[mid - 1]: return mid
-    
-        if nums[mid] < nums[0]: right = mid - 1
-        else: left = mid + 1
-    
-    return 0
-
-def binary_search(nums, target, left, right):
-    while left <= right:
-        mid = (left + right) // 2
-        if nums[mid] == target:
-            return mid
-        if nums[mid] > target: right = mid - 1
-        else: left = mid + 1
-    
-    return -1
+    if not nums: return None
+    lo, hi = 0, len(nums) - 1
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if nums[mid] > nums[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo
 
 import unittest
 class TestShiftedArraySearch(unittest.TestCase):
