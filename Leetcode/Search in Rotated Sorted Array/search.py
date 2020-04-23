@@ -52,15 +52,6 @@ def binary_search(nums, target, left, right):
     
     return -1
 
-def shifted_search(nums, target):
-    pivot = get_pivot(nums)
-
-    if nums[pivot] <= target <= nums[-1]:
-        return binary_search(nums, target, pivot, len(nums) - 1)
-    
-    else:
-        return binary_search(nums, target, 0, pivot - 1)
-
 def get_pivot(nums):
     if not nums: return None
     lo, hi = 0, len(nums) - 1
@@ -71,6 +62,15 @@ def get_pivot(nums):
         else:
             hi = mid
     return lo
+
+def shifted_search(nums, target):
+    pivot = get_pivot(nums)
+
+    if nums[pivot] <= target <= nums[-1]:
+        return binary_search(nums, target, pivot, len(nums) - 1)
+    
+    else:
+        return binary_search(nums, target, 0, pivot - 1)
 
 import unittest
 class TestShiftedArraySearch(unittest.TestCase):
