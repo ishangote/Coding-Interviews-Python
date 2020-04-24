@@ -50,6 +50,7 @@ Abc123 ->
 """
 
 #==============================
+
 """
 Scenario: you work in a warehouse, about to ship pallets on a fleet of trucks to deliver to various farmers today.
 How can you load the pallets to use the minimum number of trucks, while not splitting farmers orders?
@@ -199,9 +200,10 @@ TRUCKS = [
     # SemiTruck('Spare Minivan', pallet_length=2),
 ]
 # total capacity: 216  (4 across each row), if you don't use the minivan "spare" truck.
+"""
 
 #================================================x=============================================#
-"""
+
 """
 Palindrome:
 
