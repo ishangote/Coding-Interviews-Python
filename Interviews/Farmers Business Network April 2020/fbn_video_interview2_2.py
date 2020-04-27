@@ -1,57 +1,4 @@
 """
-System Desing URL Shortner:
-
-https://www.example.com/article/asdasd -> https://bit.ly/abc123
-
-URL Shortener
-
-API:
-URLShorten(String url) -> String short_url
-
-Func shorten_url(Sting url) -> loads in map key(short_url) : val(long_url)
-
-			Client
-		 API -> URLShorten(long_url)
-
-
-WebServ	    WebServ	   WebServ
-
-Cache			Cache			Cache
-
-DB			DB			DB
-
-Client:API -> URLShorten(long_url)
-WebServ:
-
-Check if long_url exists
-Return short_url
-Else
-Call shorten_url(long_url)
-Store output in DB & cache
-
-“””
-Long = https://www.example.com/article/asdaje
-
-P1: shorten_url(l1) -> random_generator() -> ”abc123” -> storing if conflict -> call random again
-P2: shorten_url(l2) -> random_generator() -> ”abc123”
-
-Func check_url_exists(short_url) -> return True if exists else False
-Func shorten_url(long_url)
-Pseudo:
-Hm = {keys(short 6 digit alphanum): values(None, long_url)}
-return hm[]
-“””
-
-Func shorten_url(long_url):
-https://www.example.com/article/asdajesfhbjrhbfjhebfjhsdbfjahsdbfasd -> https://bit.ly/abc123
-
-6 -> alphanumeric characters 
-Abc123 -> 
-"""
-
-#==============================
-
-"""
 Scenario: you work in a warehouse, about to ship pallets on a fleet of trucks to deliver to various farmers today.
 How can you load the pallets to use the minimum number of trucks, while not splitting farmers orders?
 
@@ -75,13 +22,10 @@ How can you load the pallets to use the minimum number of trucks, while not spli
 {|----' ||     `-- |V| x x # # @ x                                       |    __
  '-------'=========" '---------------------------------------------------'  ---
 
-"""
-
 # Decide where to put each order for the minimum number of trucks.
 # constraint: Do not split a customer's order onto multiple trucks.
 # if we have time: create a loading map/printout function to fill the truck so that all a customer's pallets are next to each other. This makes it easy for delivery unloading.
 
-"""
 one row -> 4 pallets possible
 
           0.  1.  2.  3
@@ -105,29 +49,9 @@ Pseudo:
     
 3. return trucks
 
-
 Worst Case: n * mln(m)
-    
-    
-Orders = 
-10 -> done
-12
-20
-20
-6
-20 -> done
-10 done
-21
 
-21
-
-
-12
-23
-10
-20
-20
-25
+"""
 
 class ShippingOrder:
     def __init__(self, delivery_batch_id, number_of_pallets, customer_code):
@@ -200,81 +124,3 @@ TRUCKS = [
     # SemiTruck('Spare Minivan', pallet_length=2),
 ]
 # total capacity: 216  (4 across each row), if you don't use the minivan "spare" truck.
-"""
-
-#================================================x=============================================#
-
-"""
-Palindrome:
-
-bob
-A man, a plan, a canal... Panama!
-1331
-
-browser plugin  -->  stream  -->  palincheck
-simple text palindromes (characters, numbers)
-
-Deployment: very small docker, 128 MB RAM  $ <-- pal_check runs here
-
-bool pal_check(in: InStream):
-
-inStream.get()  -> char, EOF, raise StopIteration, etc.
-
-Input:
-in.get() -> A
-in.get() -> 
-in.get() -> m
-A man, a plan, a canal... Panama!
-
-tmp = [a, m, a, n, a, p,...]
-
-[b, a, a, a, a, b]			
-
-return tmp == tmp[::-1]
-
-alphanumeric -> Valid
-else
-
-def be_check(in):
-	tmp = []
-	while ch := in.get():
-		if ch.isalnum(): tmp.append(ch.lower())
-	
-	return tmp == tmp[::-1]
-	
-Palincoin --> stream --> palincheck
-	~1 GB
-
-		 superxlarge, 16 GB RAM  $$$   <-- be_check runs here
-
-bool pal_check(inStream in, outStream out):
-
-outStream.put(char) --> cloud storage  $0
-
-bool dispatch(outStream)  $$$$ --> invokes the BE node, converts outStream to inStream
-	bool be_check(inStream in)
-
-bool pal_check(inStream in, outStream out):
-
-A man, a plan, a canal... Panama!
-abba
-abab
-^
-
-def pal_check(in, out):
-    count = 0
-	tmp = []
-	while ch := in.get() and count < 10000:
-		if ch.isalnum():
-            tmp.append(ch.lower())
-            count += 1
-        out.put(ch)
-
-    if count < 10000: return tmp == tmp[::-1]
-
-	while ch := in.get():
-		if ch.isalnum():
-		out.put(ch)
-	
-	return dispatch(out)
-"""
