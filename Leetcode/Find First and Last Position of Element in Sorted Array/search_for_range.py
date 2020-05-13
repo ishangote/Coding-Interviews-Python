@@ -49,25 +49,27 @@ Approach 2: Modified Binary Search
 """
 
 def search_for_range(nums, target):
+    if not nums: return [-1, -1]
     ans = [-1, -1]
-    if not nums: return ans
-    i, j = 0, len(nums) - 1
     
-    while i < j:
-        mid = (i + j) // 2
-        if nums[mid] < target: i = mid + 1
-        else: j = mid
-
-    if nums[i] == target: ans[0] = i
-    else: return ans
-
-    j = len(nums) - 1
-    while i < j:
-        mid = (i + j) // 2 + 1 #Make mid biased to right
-        if nums[mid] > target: j = mid - 1
-        else: i = mid
-
-    ans[1] = j
+    lo, hi = 0, len(nums) - 1
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if nums[mid] < target: lo = mid + 1
+        else: hi = mid
+            
+    if nums[lo] != target: return [-1, -1]
+    ans[0] = lo
+    
+    hi = len(nums) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if nums[mid] == target:
+            lo = mid + 1
+        else: hi = mid - 1
+            
+    ans[1] = hi
+    
     return ans
 
 import unittest
