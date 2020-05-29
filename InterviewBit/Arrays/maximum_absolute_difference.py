@@ -20,8 +20,8 @@ f(1, 4) = f(4, 1) = |3 - (-4)| + |1 - 4| = 10
 f(2, 3) = f(3, 2) = |(-2) - 5| + |2 - 3| = 8
 f(2, 4) = f(4, 2) = |(-2) - (-4)| + |2 - 4| = 4
 f(3, 4) = f(4, 3) = |5 - (-4)| + |3 - 4| = 10
-"""
-#O(n) uses properties of absolute difference
+
+Solution =>
 
 # Case 1: A[i] > A[j] and i > j
 # |A[i] - A[j]| = A[i] - A[j]
@@ -43,20 +43,37 @@ f(3, 4) = f(4, 3) = |5 - (-4)| + |3 - 4| = 10
 # |i -j| = i - j
 # hence, f(i, j) = -(A[i] - i) + (A[j] - j)
 
-# case1 and case 2 output = abs((A[i] + i) - (A[j] + j)) = abs(-(A[i] + i) + (A[j] + j))
-# case2 and case 3 output = same
+C1 => (A[i] + i) - (A[j] + j)
+C2 => -(A[i] + i) + (A[j] + j)
+= abs((A[i] + i) - (A[j] + j))
 
+To find => 
+max_add = (A[i] + i)
+min_add = (A[j] + j) 
+
+OR
+
+C3 => (A[i] - i) - (A[j] - j)
+C4 => -(A[i] - i) + (A[j] - j)
+= abs((A[i] - i) - (A[j] - j))
+
+To find =>
+max_diff = (A[i] - i)
+min_diff = (A[j] - j)
+"""
+import sys
 def max_absolute_difference(nums):
-    max1, min1 = -2147483648, +2147483647
-    max2, min2 = -2147483648, +2147483647
-    for i in range(len(nums)):
-        max1 = max(max1, nums[i] + i)
-        min1 = min(min1, nums[i] + i)
-
-        max2 = max(max2, nums[i] - i)
-        min2 = min(min2, nums[i] - i)
+    max_add, min_add = -sys.maxsize, sys.maxsize
+    max_diff, min_diff = -sys.maxsize, sys.maxsize
     
-    return max(max1 - min1, max2 - min2)
+    for idx in range(len(nums)):
+        max_add = max(max_add, nums[idx] + idx)
+        min_add = min(min_add, nums[idx] + idx)
+        
+        max_diff = max(max_diff, nums[idx] - idx)
+        min_diff = min(min_diff, nums[idx] - idx)
+        
+    return max(max_add - min_add, max_diff - min_diff)
 
 import unittest
 class TestMaxAbsoluteDifference(unittest.TestCase):
