@@ -34,7 +34,7 @@ Important: when you concatenate keys, make sure to add the dot character between
 c and d the result key would be Key2.c.d.
 """
 #Iterative
-def flatten_nested_dict(input_dict):
+def flatten_nested_dict_iter(input_dict):
     ans = {}
     stack = [("", input_dict)]
 
@@ -77,12 +77,12 @@ def flatten_nested_dict_recur(input_dict):
 import unittest
 class TestFlattenDictionary(unittest.TestCase):
     def test_pramp_iter(self):
-        self.assertEqual(flatten_nested_dict({"Key1":"1","Key2":{"a":"2","b":"3","c":{"d":"3","e":"1"}}}), {"Key1":"1","Key2.a":"2","Key2.b":"3","Key2.c.d":"3","Key2.c.e":"1"})
-        self.assertEqual(flatten_nested_dict({"Key":{"a":"2","b":"3"}}), {"Key.a":"2","Key.b":"3"})
-        self.assertEqual(flatten_nested_dict({"Key1":"1","Key2":{"a":"2","b":"3","c":{"d":"3","e":{"f":"4"}}}}), {"Key1":"1","Key2.a":"2","Key2.b":"3","Key2.c.d":"3","Key2.c.e.f":"4"})
-        self.assertEqual(flatten_nested_dict({"":{"a":"1"},"b":"3"}), {"a":"1","b":"3"})
-        self.assertEqual(flatten_nested_dict({"a":"1"}), {"a":"1"})
-        self.assertEqual(flatten_nested_dict({"a":{"b":{"c":{"d":{"e":{"f":{"":"awesome"}}}}}}}), {"a.b.c.d.e.f":"awesome"})
+        self.assertEqual(flatten_nested_dict_iter({"Key1":"1","Key2":{"a":"2","b":"3","c":{"d":"3","e":"1"}}}), {"Key1":"1","Key2.a":"2","Key2.b":"3","Key2.c.d":"3","Key2.c.e":"1"})
+        self.assertEqual(flatten_nested_dict_iter({"Key":{"a":"2","b":"3"}}), {"Key.a":"2","Key.b":"3"})
+        self.assertEqual(flatten_nested_dict_iter({"Key1":"1","Key2":{"a":"2","b":"3","c":{"d":"3","e":{"f":"4"}}}}), {"Key1":"1","Key2.a":"2","Key2.b":"3","Key2.c.d":"3","Key2.c.e.f":"4"})
+        self.assertEqual(flatten_nested_dict_iter({"":{"a":"1"},"b":"3"}), {"a":"1","b":"3"})
+        self.assertEqual(flatten_nested_dict_iter({"a":"1"}), {"a":"1"})
+        self.assertEqual(flatten_nested_dict_iter({"a":{"b":{"c":{"d":{"e":{"f":{"":"awesome"}}}}}}}), {"a.b.c.d.e.f":"awesome"})
     
     def test_pramp_iter(self):
         self.assertEqual(flatten_nested_dict_recur({"Key1":"1","Key2":{"a":"2","b":"3","c":{"d":"3","e":"1"}}}), {"Key1":"1","Key2.a":"2","Key2.b":"3","Key2.c.d":"3","Key2.c.e":"1"})
