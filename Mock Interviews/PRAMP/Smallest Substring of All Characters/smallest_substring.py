@@ -10,27 +10,40 @@ Explanation: Check image in folder
 """
 import sys
 def get_shortest_unique_substring(arr, s):
-  unique_chars_count = 0
+  is_valid_flag = 0
+  lo = 0
   st, end = 0, sys.maxsize
-  left = 0
-  
-  chars_count_map = {}
+
+  #is_valid_dict maintains the valid count of chars in t
+  is_valid_dict = {}
+  #chars_count maintains the count of chars in the current substring
+  chars_count = {}
   for ch in arr:
-    chars_count_map[ch] = 0
-    
-  for right, right_val in enumerate(s):
-    if right_val not in chars_count_map: continue
-    if chars_count_map[right_val] == 0: unique_chars_count += 1
-    chars_count_map[right_val] += 1
-    
-    while unique_chars_count == len(arr):
-      if end - st > right - left: st, end = left, right
-      if s[left] in chars_count_map:
-        chars_count_map[s[left]] -= 1
-        if chars_count_map[s[left]] == 0: unique_chars_count -= 1
-      
-      left += 1
-      
+    chars_count[ch] = 0
+    if ch not in is_valid_dict: 
+      is_valid_dict[ch] = 1  
+    else: 
+      is_valid_dict[ch] += 1
+
+  for hi, hi_val in enumerate(s):
+    if hi_val not in chars_count: continue
+    chars_count[hi_val] += 1
+
+    #if count of current char is <= required valid count of current char update flag
+    if chars_count[hi_val] <= is_valid_dict[hi_val]:
+      is_valid_flag += 1
+
+    while is_valid_flag == len(arr):
+      if end - st > hi - lo:
+        st, end = lo, hi
+      lo_val = s[lo]
+      if lo_val in chars_count:
+        chars_count[lo_val] -= 1
+        if chars_count[lo_val] < is_valid_dict[lo_val]: 
+          is_valid_flag -= 1
+
+      lo +=1
+
   return s[st : end + 1] if end - st != sys.maxsize else ""
 
 import unittest
