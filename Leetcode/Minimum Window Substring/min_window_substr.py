@@ -90,7 +90,6 @@ st, end = 0, inf
 # False
 import sys
 def min_window_substring(s, t):
-    if s == t: return s
     is_valid_flag = 0
     lo = 0
     st, end = 0, sys.maxsize
@@ -131,6 +130,7 @@ import unittest
 class TestMinWindowSubstring(unittest.TestCase):
     def test_edge(self):
         self.assertEqual(min_window_substring("abcde", "klm"), "")
+        self.assertEqual(min_window_substring("abcde", "abcde"), "abcde")
     def test_generic(self):
         self.assertEqual(min_window_substring("ADOBECODEBANC", "ABC"), "BANC")
         self.assertEqual(min_window_substring("ADOBECODEBAANC", "AABC"), "BAANC")
