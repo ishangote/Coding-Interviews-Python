@@ -95,7 +95,9 @@ def min_window_substring(s, t):
     lo = 0
     st, end = 0, sys.maxsize
 
+    #is_valid_dict maintains the valid count of chars in t
     is_valid_dict = {}
+    #chars_count maintains the count of chars in the current substring
     chars_count = {}
     for ch in t:
         chars_count[ch] = 0
@@ -108,6 +110,7 @@ def min_window_substring(s, t):
         if hi_val not in chars_count: continue
         chars_count[hi_val] += 1
 
+        #if count of current char is <= required valid count of current char update flag
         if chars_count[hi_val] <= is_valid_dict[hi_val]:
             is_valid_flag += 1
 
