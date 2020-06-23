@@ -16,66 +16,57 @@ Output: ["eat","oath"]
 """
 
 class TrieNode:
-    def __init__(self, char):
-        self.char = char
+    def __init__(self, val):
+        self.val = val
+        self.is_word = False
         self.children = {}
-        self.word_end = False
 
-def create_trie(words):
-    if not words: return None
-    root = node = TrieNode('')
+class Trie:
+    def __init__(self):
+        self.root = TrieNode('')
 
-    for word in words:
-        for char in word:
-            if char in node.children:
-                node.freq += 1
-                node = node.children[char]
-            else:
-                new_node = TrieNode(char)
-                new_node.freq = 1
+    def insert_word(self, word):
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode(ch)
+            node = node.children[ch]
 
-                node.children[char] = new_node
-                node = new_node
-        
-        node.word_end = True
-    return root
+        node.is_word = True
 
-def word_search_ii(board, words):
-    root = create_trie(words)
-
-    ans = set()
-
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            dfs(board, root, i, j, "", ans)
-    
-    return ans
-
-
-def dfs(board, node, i, j, path, ans):
-    if node.word_end == True: 
+def search_words(board, i, j, node, path, ans):
+    if node.is_word:
         ans.add(path)
-        node.word_end = False
-
-    if i < 0 or i > len(board) - 1 or j < 0 or j > len(board[0]) - 1: return
+        node.is_word = False
+    
+    if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]): return
 
     tmp = board[i][j]
-
-    if tmp not in node.children: return
-
-    node = node.children[tmp]
+    node = node.children.get(tmp)
+    if not node: return
 
     board[i][j] = '#'
-    dfs(board, node.children[tmp], i + 1, j, path + tmp, ans)
-    dfs(board, node.children[tmp], i - 1, j, path + tmp, ans)
-    dfs(board, node.children[tmp], i, j + 1, path + tmp, ans)
-    dfs(board, node.children[tmp], i, j - 1, path + tmp, ans)
+    search_words(board, i + 1, j, node, path + tmp, ans)
+    search_words(board, i - 1, j, node, path + tmp, ans)
+    search_words(board, i, j + 1, node, path + tmp, ans)
+    search_words(board, i, j - 1, node, path + tmp, ans)
     board[i][j] = tmp
-
+    
+def word_search_ii(board, words):
+    trie = Trie()
+    for word in words:
+        trie.insert_word(word)
+    
+    ans = set()
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            search_words(board, i, j, trie.root, "", ans)
+    
+    return ans
 
 import unittest
 class TestWordSearchII(unittest.TestCase):
     def test_generic(self):
-        self.assertEqual(word_search_ii([['o','a','a','n'], ['e','t','a','e'], ['i','h','k','r'], ['i','f','l','v']], ["oath","pea","eat","rain"]), ["eat","oath"])
+        self.assertEqual(word_search_ii([['o','a','a','n'], ['e','t','a','e'], ['i','h','k','r'], ['i','f','l','v']], ["oath","pea","eat","rain"]), {"eat","oath"})
 
 if __name__ == "__main__": unittest.main()
