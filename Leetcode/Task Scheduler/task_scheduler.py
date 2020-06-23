@@ -11,4 +11,5 @@ Explanation: A -> B -> idle -> A -> B -> idle -> A -> B.
 """
 
 def task_scheduler(tasks):
-    
+
+
