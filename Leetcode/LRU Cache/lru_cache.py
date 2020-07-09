@@ -6,112 +6,128 @@
 # The cache is initialized with a positive capacity.
 # Follow up:
 # Could you do both operations in O(1)
+
+"""
+Design:
+
+              MRU   dll     LRU
+put           h     1       t
+put           h   2   1     t
+get 1         h   1   2     t
+put 3         h   3   1     t   
+get 2         -1
+put 4         h   4   3     t
+
+
+delete from tail
+add from head
+
+"""
 class DLLNode:
-    def __init__(self, val):
+    def __init__(self, key, val):
+        #key required to store as a parameter to object for deletion from hm later
+        self.key = key
         self.val = val
         self.next = None
         self.prev = None
         
-    def set_new_val(self, new_val):
-        self.val = new_val
-    
-    def get_val(self):
-        return self.val
-
-
+    def set_node_val(self, val):
+        self.val = val
+        
 class DLL:
-    def __init__(self, capacity):
+    def __init__(self):
+        self.size = 0
+        #head.next is MRU and tail.prev is LRU
+        self.head = DLLNode(None, "head")
+        self.tail = DLLNode(None, "tail")    
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        
+    def move_node_to_head(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        
+        node.prev = self.head
+        node.next = self.head.next
+        node.next.prev = node
+        self.head.next = node
+        
+
+    def delete_node(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+        del_val = node.val
+        del node        
+
+        self.size -= 1
+
+        #Returns value of deleted node to delete from hm later
+        return del_val
+
+    def add_heads_next(self, key, val):
+        node = DLLNode(key, val)
+        tmp = self.head.next
+        self.head.next = node
+        node.prev = self.head
+        node.next = tmp
+        tmp.prev = node
+        
+        self.size += 1
+        
+        return node
+
+    def print_list(self):
+        cur = self.head.next
+        ans = []
+        while cur != self.tail:
+            ans.append(cur.val)
+            cur = cur.next
+        return ans
+
+        
+class LRUCache:
+    def __init__(self, capacity: int):
         self.capacity = capacity
-        self.head = self.tail = None
-    
-    def add_node(self, val):
-        if self.capacity == 0:
-            self.pop_head()
-            
-        if not self.head: 
-            self.head = self.tail = DLLNode(val)
-        else:
-            self.tail.next = DLLNode(val)
-            self.tail.next.prev = self.tail
-            self.tail = self.tail.next
-            
-        self.capacity -= 1
-        return self.tail
-            
-    def pop_head(self):
-        if self.head == self.tail:
-            self.head = self.tail = None
-
-        else:
-            self.head = self.head.next
-            self.head.prev = None
-            
-        self.capacity += 1
-        
-    def update_node(self, node, new_val):
-        if not node: return
-
-        node = self.make_node_tail(node)
-        if node.val != new_val: node.set_new_val(new_val)
-        
-    def make_node_tail(self, node):
-        if node == self.tail: return node
-        if node == self.head:
-            self.tail.next = self.head
-            self.head.prev = self.tail
-            
-            self.head = self.head.next
-            self.head.prev = None
-            
-            self.tail = self.tail.next
-            self.tail.next = None
-        
-            
-class LRUCache(object):
-
-    def __init__(self, capacity):
-        """
-        :type capacity: int
-        """
-        self.dll = DLL(capacity)
+        self.dll = DLL()
         self.hm = {}
 
-    def get(self, key):
-        """
-        :type key: int
-        :rtype: int
-        """
+    def get(self, key: int) -> int:
+        if key not in self.hm: return -1 
+        #Make node MRU
+        self.dll.move_node_to_head(self.hm[key])
+        return self.hm[key].val
+    
+    def put(self, key: int, value: int) -> None:
         if key in self.hm:
-            self.dll.make_node_tail(self.hm[key])
-            return self.hm[key].get_val()
-        return -1
-        
-    def put(self, key, value):
-        """
-        :type key: int
-        :type value: int
-        :rtype: None
-        """
-        if key in self.hm: 
-            self.dll.update_node(node, value)
-        else:
-            self.dll.add_node(value)
-            if self.dll.capacity == 0: del self.hm[key]
+            self.dll.delete_node(self.hm[key])
+            del self.hm[key]
+
+        if self.dll.size == self.capacity:
+            #key required here
+            del self.hm[self.dll.tail.prev.key]
+            self.dll.delete_node(self.dll.tail.prev)
+            
+        self.hm[key] = self.dll.add_heads_next(key, value)
+
+    def print_lru(self):
+        return self.dll.print_list()
 
 import unittest
 class TestLRUCache(unittest.TestCase):
     def test_lru_cache_generic(self):
-        lru = LRUCache(3)
-        self.assertEqual(list(lru.get(2)), [])
-        self.assertEqual(lru.put(1, 1), (1, 1))
-        self.assertEqual(list(lru.get(1)), [1])
-        self.assertEqual(lru.put(2, 2), (1, 1))
-        self.assertEqual(lru.put(3, 3), (1, 1))
-        self.assertEqual(lru.put(4, 4), (2, 2))
-        self.assertEqual(list(lru.get(2)), [2])
-        self.assertEqual(lru.put(2, 18), (3, 3))
-        self.assertEqual(list(lru.get(2)), [18])
-        self.assertEqual(list(lru.get(11)), [])
-        self.assertEqual(list(lru.get(3)), [3])
+        lru = LRUCache(2)
+        self.assertEqual(lru.put(1, 1), None)
+        self.assertEqual(lru.put(2, 2), None)
+        self.assertEqual(lru.get(1), 1)
+        self.assertEqual(lru.put(3, 3), None)
+        self.assertEqual(lru.get(2), -1)
+        self.assertEqual(lru.put(4, 4), None)
+        self.assertEqual(lru.get(1), -1)
+        self.assertEqual(lru.get(3), 3)
+        self.assertEqual(lru.get(4), 4)
+
+        self.assertEqual(lru.print_lru(), [4, 3])
+
 
 if __name__ == "__main__": unittest.main()
