@@ -24,7 +24,7 @@ def longest_palindromic_substring(input_string):
 
         # Return the string =>
         if len(longest_palin) < len(odd_palin): longest_palin = odd_palin
-        elif len(longest_palin) < len(even_palin): longest_palin = even_palin
+        if len(longest_palin) < len(even_palin): longest_palin = even_palin
 
         # Return the max length =>    
         # max_length = max(max_length, max_even_len, max_odd_len)
@@ -54,5 +54,6 @@ class TestLongestPalindromicSubString(unittest.TestCase):
     def test_long_string(self):
         # self.assertEqual(longest_palindromic_substring("banana"), 5)
         self.assertEqual(longest_palindromic_substring("banana"), "anana")
+        self.assertEqual(longest_palindromic_substring("bb"), "bb")
 
 if __name__ == "__main__":unittest.main()
