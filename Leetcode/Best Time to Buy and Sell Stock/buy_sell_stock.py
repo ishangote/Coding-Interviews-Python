@@ -13,7 +13,20 @@ Example 2:
 Input: [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
+
+Brute Force:
+Find max(stocks[j] - stocks[i]) for all i, j where j > i
+
 """
+#Brute Force
+def buy_sell_stock1(stocks):
+    ans = 0
+    for i in range(len(stocks)):
+        for j in range(i + 1, len(stocks)):
+            if stocks[j] - stocks[i] > ans: ans = stocks[j] - stocks[i]
+    
+    return ans
+
 import sys
 def buy_sell_stock(stocks):
     max_profit = 0
@@ -31,4 +44,6 @@ class TestBestTimeToBuyAndSellStocks(unittest.TestCase):
         self.assertEqual(buy_sell_stock([7,1,5,3,6,4]), 5)
         self.assertEqual(buy_sell_stock([7,6,4,3,1]), 0)
 
+        self.assertEqual(buy_sell_stock1([7,1,5,3,6,4]), 5)
+        self.assertEqual(buy_sell_stock1([7,6,4,3,1]), 0)
 if __name__ == "__main__": unittest.main()
