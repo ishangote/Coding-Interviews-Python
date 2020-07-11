@@ -48,6 +48,7 @@ q.pop()
 q = [(1, 0), (2, 1)]
 
 To keep track of one generation appendleft (-1, -1) after each generation
+Have to return ans - 1 for the same reason. 
 """
 
 
