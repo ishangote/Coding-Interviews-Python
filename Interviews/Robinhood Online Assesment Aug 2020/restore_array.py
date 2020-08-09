@@ -1,5 +1,6 @@
 """
 REF: https://github.com/aman-a-agarwal/coding/blob/10fff53f1832ad4dec1d041fd604141a23be064f/Arrays/restoreArray.py
+SOLUTION NOT WORKING
 
 pairs = 
 [[5, 3], [1, 5], [7, 3], [4, 6], [2, 1], [2, 4]]
