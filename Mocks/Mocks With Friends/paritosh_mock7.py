@@ -10,7 +10,6 @@ exchange_rate = 2, initial_full_bottles = 5
 total_num = 11
 
 exgr =  3  init_bots = 2 -> return 2
-
 exgr =  3  init_bots = 10
 
 drink = 10
@@ -68,3 +67,30 @@ Input    Expected    Actual
 (2  1)     1           1
 (2, 5)     8           8
 """
+
+# REF: Water Bottles Leetcode
+def exchange(empty_bottles, exchange_rate):
+    if exchange_rate > empty_bottles: return False
+    full_bottles = empty_bottles // exchange_rate
+    empty_bottles = empty_bottles % exchange_rate
+    return [full_bottles, empty_bottles]
+
+
+def num_water_bottles(initial_full_bottles, exchange_rate):
+    ans = initial_full_bottles
+    empty_bottles = initial_full_bottles
+
+    while True:
+        excg = exchange(empty_bottles, exchange_rate)
+        if not excg: return ans
+        full_bottles, empty_bottles = excg[0], excg[1]
+        ans += full_bottles
+        empty_bottles += full_bottles
+
+import unittest
+class TestWaterBottles(unittest.TestCase):
+    def test_generic(self):
+        self.assertEqual(num_water_bottles(9, 3), 13)
+        self.assertEqual(num_water_bottles(13, 3), 19)
+
+if __name__ == "__main__": unittest.main()
