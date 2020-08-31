@@ -52,24 +52,26 @@ def meeting_rooms_ii(intervals):
 #Solution with heap
 import heapq
 def meeting_rooms_ii_heap(intervals):
-    intervals.sort(key = lambda x:x[0])
-    heap = []
-
-    for interval in intervals:
-        if heap and interval[0] >= heap[0]:
-            # Pop and return the smallest item from the heap, and also push the new item.
-            heapq.heapreplace(heap, interval[1])
-
-        else:
-            heapq.heappush(heap, interval[1])
+    intervals.sort(key = lambda x: x[0])
+    latest_end_times = []
     
-    return len(heap)
+    for intr in intervals:
+        if latest_end_times and intr[0] >= latest_end_times[0]:
+            # Pop and return the smallest item from the heap, and also push the new item.
+            heapq.heapreplace(latest_end_times, intr[1])
+            
+        else:
+            heapq.heappush(latest_end_times, intr[1])
+            
+    return len(latest_end_times)
 
 #-------------------------------------------------------------
 #TESTING...
 
 import unittest
 class TestMeetingRoomsII(unittest.TestCase):
+    def test_edge(self):
+        self.assertEqual(meeting_rooms_ii_heap([]), 0)
 
     def test_one_meeting(self):
         self.assertEqual(meeting_rooms_ii([[1, 13]]), 1)
@@ -79,11 +81,11 @@ class TestMeetingRoomsII(unittest.TestCase):
         self.assertEqual(meeting_rooms_ii([[0, 30], [5, 10], [15, 20]]), 2)
         self.assertEqual(meeting_rooms_ii([[7, 10], [2, 4]]), 1)
         self.assertEqual(meeting_rooms_ii([[13, 15], [1, 13]]), 1)
-        self.assertEqual(meeting_rooms_ii([[1, 4], [3, 7], [7, 15], [20, 25]]), 3)
+        self.assertEqual(meeting_rooms_ii([[1, 4], [3, 7], [7, 15], [20, 25]]), 2)
 
         self.assertEqual(meeting_rooms_ii_heap([[0, 30], [5, 10], [15, 20]]), 2)
         self.assertEqual(meeting_rooms_ii_heap([[7, 10], [2, 4]]), 1)
         self.assertEqual(meeting_rooms_ii_heap([[13, 15], [1, 13]]), 1)
-        self.assertEqual(meeting_rooms_ii_heap([[1, 4], [3, 7], [7, 15], [20, 25]]), 3)
+        self.assertEqual(meeting_rooms_ii_heap([[1, 4], [3, 7], [7, 15], [20, 25]]), 2)
 
 if __name__ == "__main__": unittest.main()
