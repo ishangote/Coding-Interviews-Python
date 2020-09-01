@@ -7,6 +7,8 @@ Output:
 [["ate","eat","tea"], ["nat","tan"], ["bat"]]
 
 """
+# Time: O(NKlogK) where N is number of words in strs and K is length of the longest word in strs
+# Space: O(NK)
 from collections import defaultdict
 def group_anagrams(strs):
     anagrams = defaultdict(list)
