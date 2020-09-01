@@ -52,35 +52,58 @@ class Node:
         self.next = None
         self.random = None
 
+# Approach 1:
+# Time: O(n) where n is the number of nodes in the linked list
+# Space: O(n)
+def clone_list1(head):
+    if not head: return None
+    copy_nodes = {}
+    # First Pass:
+    cur = head
+    while cur:
+        copy_nodes[cur] = Node(cur.val, None, None)
+        cur = cur.next
+
+    # Second Pass
+    cur = head
+    while cur:
+        copy_nodes[cur].next = copy_nodes[cur.next] if cur.next else None
+        copy_nodes[cur].random = copy_nodes[curr.random] if cur.random else None
+        cur = cur.next
+
+    return copy_nodes[head]
+
+# Approach 2:
+# Time: O(n)
+# Space: O(1)
 def clone_list(head):
     if not head: return None
-
-    #First Pass
-    runner = head
-    while runner:
-        tmp = Node(runner.val, runner.next, None)
-        runner.next = tmp
-        runner = runner.next.next
-
-    #Second Pass
-    runner = head
-    while runner:
-        if runner.random: runner.next.random = runner.random.next
-        runner = runner.next.next
-
-    #Third Pass
-    runner1 = head  #For original list
-    runner2 = head.next #For clone list
-    head2 = head.next
-
-    while runner1:
-        runner1.next = runner1.next.next
-        runner1 = runner1.next
-
-        if runner2.next != None: runner2.next = runner1.next
-        runner2 = runner2.next
-
-    return head2
+        
+    # First Pass
+    cur = head
+    while cur:
+        tmp = cur.next
+        cur.next = Node(cur.val, tmp, None)
+        cur = tmp
+        
+    # Second Pass
+    cur = head
+    while cur:
+        cur.next.random = cur.random.next if cur.random else None
+        cur = cur.next.next
+    
+    # Third Pass
+    cur = head
+    copy_head = copy_cur = head.next
+    
+    while cur:
+        cur.next = cur.next.next
+        cur = cur.next
+        
+        copy_cur.next = copy_cur.next.next if copy_cur.next else None
+        copy_cur = copy_cur.next
+        
+    return copy_head
 
 import unittest
 class TestRandomLinkedList(unittest.TestCase):
