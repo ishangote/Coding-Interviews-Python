@@ -13,11 +13,45 @@ double findMedian() - Return the median of all elements so far.
  
 
 Example:
-addNum(1)
-addNum(2)
-findMedian() -> 1.5
-addNum(3) 
-findMedian() -> 2
+2 -> 2
+3 -> 2.5
+4 -> 3
+4 -> 3.5
+1 -> 3
+-1 -> 2.5
+
+Maintaining two buckets =>
+ 
+[2]     []      ->  2
+ ^
+[2]     [3]     ->  2.5
+
+[2, 3]  [4]     ->  3
+
+[2, 3]  [4, 4]  -> 3.5
+
+[1, 2, 3]   [4, 4]  -> 3
+
+[-1, 1, 2]  [3, 4, 4] -> 2.5
+
+left_bucket => to return maximum of the smaller numbers behind mid point. Hence naturally max heap 
+right_bucket => to return minimum of the larger numbers after mid point. Hence naturally min heap
+
+if len(left_bucket) != len(right_bucket): median = left_bucket.max
+else: median = left_bucket.max + right_bucket.min / 2
+
+Example:
+[12]        []
+[-1, 12]    []
+[-1]    [12]
+
+How to add?
+if left_bucket empty or input <= left_bucket.max: add input to left_bucket
+else add input to right_bucket
+
+Balance:
+if len(left_bucket) - len(right_bucket) == 2: heappop from left_bucket and heappush to right_bucket
+elif len(left_bucket) - len(right_bucket) == -1: heappop from right_bucket and heappush to left_bucket
  
 
 Follow up:
