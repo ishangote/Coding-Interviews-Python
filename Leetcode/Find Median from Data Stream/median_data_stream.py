@@ -27,26 +27,22 @@ If 99% of all integer numbers from the stream are between 0 and 100, how would y
 import heapq
 class MedianFinder:
     def __init__(self):
-        self.max_heap = []
-        self.min_heap = []
+        self.left_bucket, self.right_bucket = [], []
 
     def add_input(self, input):
-        if not self.min_heap or input >= self.min_heap[0]: heapq.heappush(self.min_heap, input)
-        else: heapq.heappush(self.max_heap, -input)
-
-        # Balance Heaps
-        if len(self.min_heap) - len(self.max_heap) == 2:
-            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
-
-        elif len(self.max_heap) - len(self.min_heap) == 1:
-            heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+        if not self.left_bucket or input <= -self.left_bucket[0]:
+            heapq.heappush(self.left_bucket, -input)
+        else:
+            heapq.heappush(self.right_bucket, input)
+            
+        if len(self.left_bucket) - len(self.right_bucket) == 2:
+            heapq.heappush(self.right_bucket, -heapq.heappop(self.left_bucket))
+        
+        elif len(self.left_bucket) - len(self.right_bucket) == -1:
+            heapq.heappush(self.left_bucket, -heapq.heappop(self.right_bucket))
 
     def find_median(self):
-        #Even Case
-        if len(self.min_heap) == len(self.max_heap):
-            return (self.min_heap[0] - self.max_heap[0]) / 2
-        else:
-            return self.min_heap[0]
+        return -self.left_bucket[0] if len(self.left_bucket) != len(self.right_bucket) else (-self.left_bucket[0] + self.right_bucket[0]) / 2
 
 import unittest
 class TestMedianDataStream(unittest.TestCase):
