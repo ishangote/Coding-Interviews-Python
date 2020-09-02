@@ -85,44 +85,36 @@ queue []
 from collections import defaultdict
 from collections import deque
 
-def word_ladder(begin, end, words):
-    if end not in words or not end or not begin or not words: return None
-
-    hm = defaultdict(list)
-    for w in words:
-        for i in range(len(w)):
-            hm[w[:i] + '*' + w[i + 1:]].append(w)
-
-    #Output:
-
-    q = deque([(begin, 0)])
+def word_ladder(beginWord, endWord, wordList):
+    combinations = defaultdict(list)
+    for word in wordList:
+        for i in range(len(word)):
+            combinations[word[:i] + '*' + word[i + 1:]].append(word)
+            
+    queue = deque([[beginWord, 1]])
     visited = set()
-    visited.add(begin)
-
-    while q:
-        w, level = q.popleft()
-        for i in range(len(w)):
-            new_w = w[:i] + '*' + w[i + 1:]
-            for word in hm[new_w]:
-                if word not in visited:
-                    if word == end: return level + 1
-                    visited.add(word)
-                    q.append((word, level + 1))
-            hm[new_w] = []
-
+    
+    while queue:
+        word, trans_length = queue.pop()
+        visited.add(word)
+        if word == endWord: return trans_length
+        for i in range(len(word)):
+            comb = word[: i] + '*' + word[i + 1:]
+            for new_word in combinations[comb]:
+                if new_word not in visited:
+                    queue.appendleft([new_word, trans_length + 1])
+                    
+            combinations[comb] = []
+                        
     return 0
 
 import unittest
 class TestWordLadder(unittest.TestCase):
-    def test_word_ladder_invalid_input(self):
-        self.assertEqual(word_ladder('', 'cog', ["hot","dot","dog","lot","log","cog"]), None)
-        self.assertEqual(word_ladder('hit', 'cog', []), None)
-
     def test_word_ladder(self):
-        self.assertEqual(word_ladder("hit", "cog", ["hot","dot","dog","lot","log","cog"]), 4)
-        self.assertEqual(word_ladder("bit", "dog", ["but","put","big","pot","pog","dog","lot"]), 5)
-        self.assertEqual(word_ladder("no", "go", ["to"]), None)
-        self.assertEqual(word_ladder("bit", "pog", ["but","put","big","pot","pog","pig","dog","lot"]), 3)
-        self.assertEqual(word_ladder("aa", "bb", ["ab","bb"]), 2)
+        self.assertEqual(word_ladder("hit", "cog", ["hot","dot","dog","lot","log","cog"]), 5)
+        self.assertEqual(word_ladder("bit", "dog", ["but","put","big","pot","pog","dog","lot"]), 6)
+        self.assertEqual(word_ladder("no", "go", ["to"]), 0)
+        self.assertEqual(word_ladder("bit", "pog", ["but","put","big","pot","pog","pig","dog","lot"]), 4)
+        self.assertEqual(word_ladder("aa", "bb", ["ab","bb"]), 3)
 
 if __name__ == "__main__": unittest.main()
