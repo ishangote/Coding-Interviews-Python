@@ -20,5 +20,5 @@ pieces = [[1, 5, 5], [3, 2], [8]]
 return False
 """
 
+
 def reconstruct_array(arr, pieces):
-    
