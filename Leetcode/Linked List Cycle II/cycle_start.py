@@ -15,28 +15,25 @@ class SLL:
         self.next = None
 
 def cycle_start(head):
-    if not head: return None
-    
-    sp, fp = head, head
-    while fp and fp.next:
-        sp = sp.next
-        fp = fp.next.next
+    slow = fast = head
+    while fast and fast.next and fast.next.next:
+        slow, fast = slow.next, fast.next.next
+        if slow == fast:
+            break
+    #Do not use if slow != fast test for 1-> None
+    if not fast or not fast.next or not fast.next.next: return None
 
-        if sp == fp: break
-
-    # Not cyclic
-    if sp != fp : return None
+    slow = head
+    while slow != fast:
+        slow, fast = slow.next, fast.next
     
-    sp = head
-    while sp != fp:
-        sp = sp.next
-        fp = fp.next
-    return sp
+    return slow
 
 import unittest
 class TestCylceStart(unittest.TestCase):
     def test_none_head(self):
         self.assertEqual(cycle_start(None), None)
+        self.assertEqual(cycle_start(SLL(1)), None)
 
     def test_not_a_cycle(self):
         head = SLL(1)
