@@ -110,7 +110,6 @@ import unittest
 class TestLongestSubstringWithoutRepeatingCharacters(unittest.TestCase):
     def test_empty_input(self):
         self.assertEqual(lengthOfLongestSubstring(''), 0)
-        self.assertEqual(lengthOfLongestSubstring_optimized(''), 0)
 
     def test_longest_substring_generic(self):
         self.assertEqual(lengthOfLongestSubstring("abcabcbb"), 3)
