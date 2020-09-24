@@ -1,140 +1,127 @@
 """
-Substring => Contiguous
+Questions:
+1. Example: s = 'xaab' t = 'aab' => return 'aab' not 'ab'
+2. Clarification about substring => contiguous
+3. Case sensitive? Yes 'a' and 'A' not same
 
-ms = "aaat"
-ch= "t"
+Example:
+T = ABA
+    0 1 2 3 4 5 6 7 8 9
+S = X A B X T A M A B Y
+      i
+              j
+    
+#Checks if all chars in T or not
+check_valid(X) -> False
+check_valid(XA) -> False
+check_valid(XABX) -> False
+check_valid(XABXT) -> False
+check_valid(XABXTA) -> True  -> record temp ans
 
-Approach 1: Brute Force O(n^2)
+Brute Force: 
+Time: O(n^3)
+Space: O(len(T))
 
-0 1 2 3
-a a a t
+Sliding Window:
 
-substrings possible: 
-left = 0 => a
-            aa
-            aaa
-            aaat
-     = 1 => a
-            aa
-            aat
-     = 2 => a
-            at
-     
-     = 3 => t
+T = ABA
+    0 1 2 3 4 5 6 7 8 9
+S = X A B B T A M A B Y
+    i
+    j
 
-keep check of the best length substring
+t_chars = {
+A: 2
+B: 1
+}
 
-Approach 2: Sliding Window
-t = abc
-s =
-0 1 2 3 4 5 6 7 8 9 10
-a b d b a n b c d d d
+cur_substr_chars = {
+A: 0
+B: 0
+}
 
-unique_chars_count = 0
-chars_count_map = {a: 0, b: 0, c: 0}
-l, r = 0, 0
-st, end = 0, inf
+valid_char_count = 0
 
-s =
-0 1 2 3 4 5 6 7 8 9 10
-a b d b a n b c d d d
+    0 1 2 3 4 5 6 7 8 9
+S = X A B B T A M A B Y
+    i
+              j
 
-unique_chars_count = 1
-chars_count_map = {a: 1, b: 0, c: 0}
-l, r = 0, 0
-st, end = 0, inf
+t_chars = {
+A: 2
+B: 1
+}
 
-s =
-0 1 2 3 4 5 6 7 8 9 10
-a b d b a n b c d d d
-l r
-unique_chars_count = 2
-chars_count_map = {a: 1, b: 1, c: 0}
-l, r = 0, 1
-st, end = 0, inf
+cur_substr_chars = {
+A: 1
+B: 2
+}
 
-s =
-0 1 2 3 4 5 6 7 8 9 10
-a b d b a n b c d d d
-l   r
-unique_chars_count = 2
-chars_count_map = {a: 1, b: 1, c: 0}
-l, r = 0, 1
-st, end = 0, inf
+valid_char_count = 3
 
-s =
-0 1 2 3 4 5 6 7 8 9 10
-a b d b a n b c d d d
-l     r
-unique_chars_count = 2
-chars_count_map = {a: 1, b: 2, c: 0}
-l, r = 0, 1
-st, end = 0, inf
+    0 1 2 3 4 5 6 7 8 9
+S = X A B B T A M A B Y
+      i
+              j
 
-...
+t_chars = {
+A: 2
+B: 1
+}
 
+cur_substr_chars = {
+A: 1
+B: 2
+}
+
+valid_char_count = 3
+ 
 """
-#Example of Counter
-# >>> a = Counter(t)
-# >>> a
-# Counter({'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 1})
-
-
-# Counter({'a': 2, 'b': 1, 'c': 1, 'd': 1, 'e': 1})
-# >>> a['k'] -= 1
-# >>> a
-# Counter({'a': 2, 'b': 1, 'c': 1, 'd': 1, 'e': 1, 'k': -1})        Very important it adds chars by itself
-
-# Counter({'a': 2, 'b': 1, 'c': 1, 'd': 1, 'e': 1, 'k': -1})
-# >>> a['n'] > 0
-# False
 import sys
-def min_window_substring(s, t):
-    is_valid_flag = 0
-    lo = 0
-    st, end = 0, sys.maxsize
+from collections import Counter
 
-    #is_valid_dict maintains the valid count of chars in t
-    is_valid_dict = {}
-    #chars_count maintains the count of chars in the current substring
-    chars_count = {}
-    for ch in t:
-        chars_count[ch] = 0
-        if ch not in is_valid_dict: 
-            is_valid_dict[ch] = 1  
-        else: 
-            is_valid_dict[ch] += 1
-
+def minWindow(s, t):
+    t_chars = Counter(t)
+    valid_char_count = 0
+    cur_substr_chars = {}
+    
+    st, lo, end = 0, 0, sys.maxsize
+    
+    for tchar in t_chars: cur_substr_chars[tchar] = 0
+    
     for hi, hi_val in enumerate(s):
-        if hi_val not in chars_count: continue
-        chars_count[hi_val] += 1
-
-        #if count of current char is <= required valid count of current char update flag
-        if chars_count[hi_val] <= is_valid_dict[hi_val]:
-            is_valid_flag += 1
-
-        while is_valid_flag == len(t):
+        if hi_val not in t_chars: continue
+        cur_substr_chars[hi_val] += 1
+        
+        if cur_substr_chars[hi_val] <= t_chars[hi_val]: valid_char_count += 1
+        
+        while valid_char_count == len(t):
             if end - st > hi - lo:
                 st, end = lo, hi
+            
             lo_val = s[lo]
-            if lo_val in chars_count:
-                chars_count[lo_val] -= 1
-                if chars_count[lo_val] < is_valid_dict[lo_val]: 
-                    is_valid_flag -= 1
-
-            lo +=1
-
+            if lo_val in t_chars:
+                cur_substr_chars[lo_val] -= 1
+                if cur_substr_chars[lo_val] < t_chars[lo_val]: valid_char_count -= 1
+            
+            lo += 1
+    
     return s[st : end + 1] if end - st != sys.maxsize else ""
+
+"""
+Time: O(s + t)
+Space: O(s + t)
+"""
 
 import unittest
 class TestMinWindowSubstring(unittest.TestCase):
     def test_edge(self):
-        self.assertEqual(min_window_substring("abcde", "klm"), "")
-        self.assertEqual(min_window_substring("abcde", "abcde"), "abcde")
+        self.assertEqual(minWindow("abcde", "klm"), "")
+        self.assertEqual(minWindow("abcde", "abcde"), "abcde")
     def test_generic(self):
-        self.assertEqual(min_window_substring("ADOBECODEBANC", "ABC"), "BANC")
-        self.assertEqual(min_window_substring("ADOBECODEBAANC", "AABC"), "BAANC")
-        self.assertEqual(min_window_substring("ABA", "ABA"), "ABA")
-        self.assertEqual(min_window_substring("azjskfzts", "sz"), "zjs")
+        self.assertEqual(minWindow("ADOBECODEBANC", "ABC"), "BANC")
+        self.assertEqual(minWindow("ADOBECODEBAANC", "AABC"), "BAANC")
+        self.assertEqual(minWindow("ABA", "ABA"), "ABA")
+        self.assertEqual(minWindow("azjskfzts", "sz"), "zjs")
 
 if __name__ == "__main__": unittest.main()
