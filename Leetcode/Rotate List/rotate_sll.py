@@ -1,42 +1,69 @@
 """
-Approach 1:
-h                   t
-1 -> 2 -> 3 -> 4 -> 5   k = 2
-          ^    nh
-          r
+Questions:
+1. Rotate clockwise and circular? -> yes
+2. what if k negative? -> no
+3. k > len(linked list)? -> Can be
+4. Is it sll? -> yes
+5. k == 0? -> can be
 
-               h
-1 -> 2 -> 3    4 -> 5
-^                   |
-|___________________|
+Examples:
+0 -> 1 -> 2 -> None, k = 4
+l = 3
+k %= l = 1
 
+one roatation =>
+2 -> 0 -> 1 -> None
+
+--------------------------
+
+1 -> 2 -> 3 -> 4 -> 5 -> NULL, k = 2
+h                    
+          nt    
+               nh
+                    t
+          
+l = 5 (length)
+new tail (nt) = (l - k)th node
+detach
 """
 class SLL:
     def __init__(self, val):
         self.val = val
         self.next = None
 
-def rotate_sll(head, k):
-    if not head or not head.next or k == 0: return head
-    
+def get_sll_length(head):
     tail, length = head, 1
+    
     while tail.next:
         tail = tail.next
         length += 1
     
+    return tail, length
+
+def get_new_tail(head, end):
+    cur = head
+    for itr in range(end):
+        cur = cur.next
+    return cur
+
+def rotate_sll(head, k):
+    if not head or not head.next or k == 0: return head
+    
+    # Calculate length
+    tail, length = get_sll_length(head)
     k %= length
+    #To solve test case (4)
     if k == 0: return head
     
-    runner = head
-    for itr in range(length - k - 1):
-        runner = runner.next
+    #Find new head
+    new_tail = get_new_tail(head, length - k - 1)
     
-    new_head = runner.next
-    runner.next = None
+    #Detach
+    new_head = new_tail.next
+    new_tail.next = None
     tail.next = head
-    head = new_head
-
-    return head
+    
+    return new_head       
 
 import unittest
 class TestRotateSinglyLinkedList(unittest.TestCase):
