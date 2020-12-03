@@ -1,49 +1,80 @@
+# Say you have an array for which the ith element is the price of a given stock on day i.
+# If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+# Note that you cannot sell a stock before you buy one.
 """
-Say you have an array for which the ith element is the price of a given stock on day i.
-If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
-Note that you cannot sell a stock before you buy one.
+Questions:
+1. Descending nums => profit negative? No 0
+2. Are there duplicates in nums? Yes
 
-Example 1:
-Input: [7,1,5,3,6,4]
-Output: 5
-Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
-             Not 7-1 = 6, as selling price needs to be larger than buying price.
+Examples:
+ 0  1  2  3  4  5
+[7, 1, 5, 3, 6, 4]
 
-Example 2:
-Input: [7,6,4,3,1]
-Output: 0
-Explanation: In this case, no transaction is done, i.e. max profit = 0.
+all pairs: (buy, sell)
+(7, 1)
+(7, 5)
+(7, 3)
+...
+(1, 5)
+(1, 3)
+(1, 6) -> 5
+...
 
-Brute Force:
-Find max(stocks[j] - stocks[i]) for all i, j where j > i
+Time: O(n^2)
+Space: O(1)
+
+---------------------------
+
+ 0  1  2  3  4  5
+[7, 2, 5, 1, 6, 0]
+                  ^
+minimize buy, maximize sell
+    
+min_buy = 0
+max_profit = 5
+
+ 0  1  2  3
+[2, 5, 1, 3]
+          i
+min_buy = 1
+max_profit = 3
+
+Pseudo:
+if nums[i] > min_buy:
+    max_profit = max(max_profit, nums[i] - min_buy)
+else:
+    min_buy = nums[i]
+
+Time: O(n)
+Space: O(1)
 
 """
 #Brute Force
-def buy_sell_stock1(stocks):
+def buy_sell_stock_naive(prices):
     ans = 0
-    for i in range(len(stocks)):
-        for j in range(i + 1, len(stocks)):
-            if stocks[j] - stocks[i] > ans: ans = stocks[j] - stocks[i]
+    for i in range(len(prices)):
+        for j in range(i + 1, len(prices)):
+            if prices[j] - prices[i] > ans: ans = prices[j] - prices[i]
     
     return ans
 
 import sys
-def buy_sell_stock(stocks):
+def buy_sell_stock(prices):
+    if len(prices) <= 1: return 0
     max_profit = 0
-    min_cost = sys.maxsize
-
-    for cost in stocks:
-        if cost < min_cost: min_cost = cost
-        elif cost - min_cost > max_profit: max_profit = cost - min_cost
-
+    min_buy = sys.maxsize
+    
+    for idx in range(len(prices)):
+        if prices[idx] > min_buy:
+            max_profit = max(max_profit, prices[idx] - min_buy)
+        else:
+            min_buy = prices[idx]
+    
     return max_profit
 
-import unittest
-class TestBestTimeToBuyAndSellStocks(unittest.TestCase):
-    def test_generic(self):
-        self.assertEqual(buy_sell_stock([7,1,5,3,6,4]), 5)
-        self.assertEqual(buy_sell_stock([7,6,4,3,1]), 0)
-
-        self.assertEqual(buy_sell_stock1([7,1,5,3,6,4]), 5)
-        self.assertEqual(buy_sell_stock1([7,6,4,3,1]), 0)
-if __name__ == "__main__": unittest.main()
+if __name__ == "__main__":
+    # number of elements 
+    n = int(input("Enter number of stocks: ")) 
+    # Below line read inputs from user using map() function  
+    prices = list(map(int, input("Enter the prices for stocks : ").strip().split()))
+    print("Max profit: " + str(buy_sell_stock(prices)))
