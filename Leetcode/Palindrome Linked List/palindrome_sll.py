@@ -1,66 +1,83 @@
 # Return True if SLL is Palindorm else False => O(n) space
-
 """
+Questions:
+1. Is input a singly linked list? Yes
+2. If head == None? return True
+3. If head.next == None? return True
+4. Can input be manipulated inplace? Yes
 
-1 -> 2 -> 3 -> 2-> 1 -> null       True
-          ^
-                   ^
+Examples:
+Even Case
+1 -> 2 -> 2 -> 1
+              i
+length = 4
+iterate (length // 2) times and store on stack
+start iterating immediately 
+stack = []
+if not stack: return True
 
-1 -> 2 -> 3 -> 3 -> 2-> 1 -> null     True
-               ^
-                              ^
+Odd case
+1 -> 2 -> 3 -> 2 -> 1
+length = 5
+start iterating from mid + 1 
+stack = []
+if not stack: return True
 
+Time: O(n + n) ~ O(n) where n is number of nodes
+Space: O(n)
 
-1 -> 2 -> 3 -> 1 -> null
-^
-^
+-----------------------------
+Find mid => 
+Even case
+1 -> 2 -> 2 -> 1 -> None
+          s  
+                    f 
+                    
+Reverse second half and compare
+
+1 -> 2   1 -> 2 -> None
+l1       l2
+
+                    
+Odd case
+1 -> 2 -> 3    1 -> 2 -> None
+l1             l2   
+
+Time: ~O(n)
+Space: O(1)
 """
-import unittest
-class SLLNode:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+from sll import make_list
+def are_equal_lists(l1, l2):
+    while l2:
+        if l2.val != l1.val: return False
+        l1 = l1.next
+        l2 = l2.next
+    return True
 
-def palindrome_sll(sll_head):
-    if not sll_head: return None
+def reverse_sll(head):
+    prev, cur = None, head
+    while cur:
+        tmp = cur.next
+        cur.next = prev
+        prev = cur
+        cur = tmp
+    return prev
 
-    stack = []
-    slow_pointer = fast_pointer = sll_head
-
-    while fast_pointer != None and fast_pointer.next != None:
-        stack.append(slow_pointer.data)
-        slow_pointer = slow_pointer.next
-        fast_pointer = fast_pointer.next.next  
-
-    #Odd Length SLL Case:
-    if fast_pointer: slow_pointer = slow_pointer.next
+def get_mid(head):
+    slow, fast = head, head
+    while fast and fast.next: 
+        slow, fast = slow.next, fast.next.next
+    if not fast: return slow
+    return slow.next
     
-    while slow_pointer != None:
-        if slow_pointer.data == stack[-1]: stack.pop()
-        slow_pointer = slow_pointer.next
-    
-    return len(stack) == 0   
+def is_palindrome(head):
+    if not head or not head.next: return True
+    mid = get_mid(head)
+    second_half = reverse_sll(mid)
+    return are_equal_lists(head, second_half)
 
-class TestPalindromeSinglyLinkedList(unittest.TestCase):
-    def test_none_input(self):
-        self.assertEqual(palindrome_sll(None), None)
-    
-    def test_one_input(self):
-        self.assertEqual(palindrome_sll(SLLNode(2)), True)
-
-    def test_false_examples(self):
-        a, b, c, d= SLLNode(1), SLLNode(2), SLLNode(3), SLLNode(1)
-        a.next, b.next, c.next = b, c, d
-        self.assertEqual(palindrome_sll(a), False)
-
-    def test_true_examples(self):
-        a, b, c, d= SLLNode(1), SLLNode(2), SLLNode(2), SLLNode(1)
-        a.next, b.next, c.next = b, c, d
-        self.assertEqual(palindrome_sll(a), True)
-
-        a, b, c, d, e= SLLNode(1), SLLNode(2), SLLNode(3), SLLNode(2), SLLNode(1)
-        a.next, b.next, c.next, d.next = b, c, d, e
-        self.assertEqual(palindrome_sll(a), True)
-
-
-if __name__ == "__main__": unittest.main()
+if __name__ == "__main__":
+    n = int(input("Enter number of nodes: ")) 
+    nums = list(map(int, input("Enter the values: ").strip().split()))
+    ll = make_list(nums)
+    print("Is Palindrome? " + str(is_palindrome(ll)))
