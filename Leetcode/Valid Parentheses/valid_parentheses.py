@@ -1,13 +1,73 @@
 # Given a string including character: {}[]() return true if it is valid
 
 """
-Valid: {}, (){}, {()}, ...
-Invlaid: {, (}, ]()[, ...
+Questions:
+1. Is empty string valid? len(input) >= 1
+2. Does input have any other char? No 
 
-# { [ } ]
+Examples:
+
+Input:
+"("
+Output:
+False
+
+Input:
+")"
+Output:
+False
+
+Input:
+"(}"
+Output:
+False
+
+Input:
+")("
+Output:
+False
+
+Input:
+")("
+Output:
+False
+
+Input:
+"({[]})"
+Output:
+True
+
+
+Input:
+"()[{}]"
+Output:
+True
+
+----------------
+
+Input:
+"()[{}]"
       ^
-hm = {")": "(", "}": "{", "]": "["}
-stack = ['{', '[' ]
+stack = None => True
+
+Input:
+"[}{]"
+  ^
+stack =
+[
+
+Pseudo:
+isValid(str:input) -> True/False
+    stack = []
+    for each char in input:
+        if char in ")}]":
+            if stack top not corresponding open bracket: return False
+            else pop stack
+        else:
+            stack push char
+
+Time: O(n)
+Space: O(n)
 
 """
 import unittest
