@@ -1,4 +1,8 @@
-# Given a string including character: {}[]() return true if it is valid
+# Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+# An input string is valid if:
+# 1. Open brackets must be closed by the same type of brackets.
+# 2. Open brackets must be closed in the correct order.
 
 """
 Questions:
@@ -42,8 +46,6 @@ Input:
 "()[{}]"
 Output:
 True
-
-----------------
 
 Input:
 "()[{}]"
@@ -95,5 +97,3 @@ if __name__ == "__main__":
         print(str(is_valid_parenthesis(s)))
     except:
         print("Invalid input")
-
-    
