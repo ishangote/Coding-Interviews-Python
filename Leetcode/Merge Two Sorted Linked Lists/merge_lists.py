@@ -1,9 +1,21 @@
 """
+Questions:
+1. Singly linked lists? Yes
+2. l1 Null? return l2 , l2 Null? return l1, l1 & l2 Null? return Null
+3. list vals real nums? Yes
 
-3 -> 6 -> 8 -> 13 -> 15 -> None
-1 -> 8 -> 10-> 13 -> None
+Examples:
+             l1
+-1 -> 2 -> 7
+                    l2
+-2 -> 1 -> 3 -> 5 -> 8
 
+dummy -> -2 -> -1 -> 1 -> 2 -> 3 -> 5 -> 7 -> 8
 
+Time: O(n + m)
+n => number of nodes in l1
+m => number of nodes in l2
+Space: O(1)
 """            
 from sll import make_list, print_list, SLLNode
 def merge_lists(l1, l2):
