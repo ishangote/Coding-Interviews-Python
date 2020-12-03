@@ -4,59 +4,37 @@
 1 -> 8 -> 10-> 13 -> None
 
 
-"""
-
-import unittest
-class SSLNode:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-
+"""            
+from sll import make_list, print_list, SLLNode
 def merge_lists(l1, l2):
-    dummy = SSLNode(-1111)
-    curr_tail = dummy
-    
+    dummy = cur = SLLNode("dummy")
+        
     while l1 and l2:
-        if l1.data <= l2.data:
-            curr_tail.next = l1
+        if l1.val <= l2.val:
+            cur.next = l1
             l1 = l1.next
         else:
-            curr_tail.next = l2
+            cur.next = l2
             l2 = l2.next
-
-        curr_tail = curr_tail.next
-
-    curr_tail.next = l1 if l1 else l2
-
-    if dummy.next:
-        return dummy.next.data
-    else: return None
+        cur = cur.next
+        
+    cur.next = l1 if l1 else l2
     
+    return dummy.next
 
-class TestMergeTwoSLL(unittest.TestCase):
-    def test_none_lists(self):
-        self.assertEqual(merge_lists(None, None), None)
+if __name__ == "__main__":
+    # number of elements 
+    n = int(input("Enter number of nodes in l1: ")) 
+    # Below line read inputs from user using map() function  
+    nums1 = list(map(int, input("Enter the numbers : ").strip().split()))
+    print(nums1)
+    l1 = make_list(nums1)
 
-    def test_l1_none(self):
-        l2 = SSLNode(-2)
-        l2.next = SSLNode(2)
-        l2.next.next = SSLNode(3)
-        self.assertEqual(merge_lists(None, l2), -2)
-    
-    def test_l2_none(self):
-        l1 = SSLNode(-1)
-        l1.next = SSLNode(2)
-        l1.next.next = SSLNode(6)
-        self.assertEqual(merge_lists(l1, None), -1)
+    # number of elements 
+    m = int(input("\nEnter number of nodes in l2: ")) 
+    # Below line read inputs from user using map() function  
+    nums2 = list(map(int, input("Enter the numbers : ").strip().split()))
+    print(nums2)
+    l2 = make_list(nums2)
 
-    def test_merge_lists(self):
-        l1 = SSLNode(-1)
-        l1.next = SSLNode(2)
-        l1.next.next = SSLNode(6)
-        l2 = SSLNode(-2)
-        l2.next = SSLNode(2)
-        l2.next.next = SSLNode(3)
-
-        self.assertEqual(merge_lists(l1, l2), -2)
-
-if __name__ == '__main__': unittest.main()
+    print("Merged Lists: " + str(print_list(merge_lists(l1, l2))))
