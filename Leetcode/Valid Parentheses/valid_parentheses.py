@@ -41,7 +41,6 @@ Input:
 Output:
 True
 
-
 Input:
 "()[{}]"
 Output:
