@@ -52,7 +52,6 @@ class DLL:
         node.next.prev = node
         self.head.next = node
         
-
     def delete_node(self, node):
         node.prev.next = node.next
         node.next.prev = node.prev
@@ -81,10 +80,9 @@ class DLL:
         cur = self.head.next
         ans = []
         while cur != self.tail:
-            ans.append(cur.val)
+            ans.append((cur.key, cur.val))
             cur = cur.next
         return ans
-
         
 class LRUCache:
     def __init__(self, capacity: int):
@@ -96,6 +94,7 @@ class LRUCache:
         if key not in self.hm: return -1 
         #Make node MRU
         self.dll.move_node_to_head(self.hm[key])
+        self.get_cur_state("get", key, None)
         return self.hm[key].val
     
     def put(self, key: int, value: int) -> None:
@@ -109,25 +108,40 @@ class LRUCache:
             self.dll.delete_node(self.dll.tail.prev)
             
         self.hm[key] = self.dll.add_heads_next(key, value)
+        self.get_cur_state("put", key, value)
 
-    def print_lru(self):
-        return self.dll.print_list()
+    def get_cur_state(self, operation, key, value):
+        if not value:
+            print("Current state of LRU cache after operation " + operation + '(' + str(key) + ')')
+        else:
+            print("Current state of LRU cache after operation " + operation + '(' + str(key) + ', '+ str(value) + ')')
+            
+        print("LRU Hash Map:")
+        for key, val in self.hm.items():
+            print(str(key) + " : " + str(val) + str(val.val))
+        print("LRU DLL:")
+        print(self.dll.print_list())
+        
+        print("\n")
 
-import unittest
-class TestLRUCache(unittest.TestCase):
-    def test_lru_cache_generic(self):
-        lru = LRUCache(2)
-        self.assertEqual(lru.put(1, 1), None)
-        self.assertEqual(lru.put(2, 2), None)
-        self.assertEqual(lru.get(1), 1)
-        self.assertEqual(lru.put(3, 3), None)
-        self.assertEqual(lru.get(2), -1)
-        self.assertEqual(lru.put(4, 4), None)
-        self.assertEqual(lru.get(1), -1)
-        self.assertEqual(lru.get(3), 3)
-        self.assertEqual(lru.get(4), 4)
+if __name__ == "__main__":
+    print("...LRU CACHE...")
+    cap = int(input("Enter capacity > 0: "))
+    lru = LRUCache(cap)
+    end = False
+    while not end:
+        print("Enter operation: ")
+        op = int(input("1:put\t2:get\t3:end\n"))
+        if op == 1:
+            key = int(input("Enter key: "))
+            value = int(input("Enter value: "))
+            lru.put(key, value)
 
-        self.assertEqual(lru.print_lru(), [4, 3])
-
-
-if __name__ == "__main__": unittest.main()
+        elif op == 2:
+            key = int(input("Enter key: "))
+            lru.get(key)
+        
+        else:
+            end = True
+    
+    print("...END...")
