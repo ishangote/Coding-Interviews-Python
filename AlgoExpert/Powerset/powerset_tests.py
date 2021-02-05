@@ -1,5 +1,5 @@
 import unittest
-from powerset import powerset_iterative
+from powerset import powerset_iterative, powerset_recursive
 
 class TestPowerset(unittest.TestCase):
     def setUp(self):
@@ -8,5 +8,9 @@ class TestPowerset(unittest.TestCase):
     def test_iterative(self):
         for test in self.tests:
             self.assertListEqual(test["ans"], powerset_iterative(test["nums"]))
+    
+    def test_recursive(self):
+        for test in self.tests:
+            self.assertListEqual(test["ans"], powerset_recursive(test["nums"]))
     
 if __name__ == "__main__": unittest.main()

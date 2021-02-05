@@ -36,9 +36,6 @@ def powerset_iterative(nums):
         powerset.extend(subsets_containing_num)
 
     return powerset
-
-
-
 """
 Time: O(2^n * n)
 Space: O(2^n * n)
@@ -55,3 +52,32 @@ How? ->
 Each subset has on average n/2 numbers => O(2^n * n/2) ~ O(2^n * n)
 
 """
+
+"""
+Recursive Thought Process:
+P([1, 2, 3, ..., x]) = P(1, 2, 3, 4, .. x - 1) + [x]
+
+Examples:
+nums = [1, 2, 3]
+P([1, 2, 3]) = 
+	P([1, 2]) + [3]
+	       = P([1]) + [2]
+			      = P([]) + [1]
+				  		= [[]]
+
+"""
+# Recursive Solution
+# Assuming input nums is mutable
+def powerset_recursive(nums):
+    if not nums: return [[]]
+    num = nums.pop()
+
+    powerset = powerset_recursive(nums)
+
+    subsets_containing_num = []
+    for subset in powerset:
+        subsets_containing_num.append(subset + [num])
+    
+    powerset.extend(subsets_containing_num)
+        
+    return powerset
