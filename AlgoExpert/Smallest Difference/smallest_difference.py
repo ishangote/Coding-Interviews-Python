@@ -50,22 +50,26 @@ abs diff = 2
 ans = [26, 28]
 
 """
-def smallest_difference_optim(arr1, arr2):
-    arr1.sort()
-    arr2.sort()
-
-    min_diff = sys.maxsize
-    ans = []
-    i, j = 0, 0
-    while i < len(arr1) and j < len(arr2):
-        if abs(arr1[i] - arr2[j]) < min_diff:
-            min_diff = abs(arr1[i] - arr2[j])
-            ans = [arr1[i], arr2[j]]
-        
-        if arr1[i] <= arr2[j]: i += 1
-        else: j += 1
-    
-    return ans
+import sys
+def smallest_difference_optim(arrayOne, arrayTwo):
+    arrayOne.sort()
+	arrayTwo.sort()
+	
+	min_diff = sys.maxsize
+	i, j = 0, 0
+	ans = []
+	while i < len(arrayOne) and j < len(arrayTwo):
+		diff = abs(arrayOne[i] - arrayTwo[j])
+		if diff == 0: return [arrayOne[i], arrayTwo[j]]
+		
+		if diff < min_diff: 
+			min_diff = diff
+			ans = [arrayOne[i], arrayTwo[j]]
+		
+		if arrayOne[i] < arrayTwo[j]: i += 1
+		else: j += 1
+			
+	return ans
 
 """
 Time: O(n + m)
