@@ -11,9 +11,6 @@ preorder =
      i
 
 root = 10
-
-  
-
 """
 class BSTNode:
     def __init__(self, value, left, right):
