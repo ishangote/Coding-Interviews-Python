@@ -99,6 +99,7 @@ class TestRemoveNthElemnet(unittest.TestCase):
         head1 = self.create_list([1])
         head2 = self.create_list([1, 2])
         head3 = self.create_list([1, 2, 3])
+        head4 = self.create_list([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         self.assertEqual(self.print_node_vals(one_pass_remove_nth(head, 2)), [1, 2, 3, 5])
 
@@ -115,5 +116,7 @@ class TestRemoveNthElemnet(unittest.TestCase):
 
         self.assertEqual(self.print_node_vals(one_pass_remove_nth(head3, 1)), [1, 2])
         self.assertEqual(self.print_node_vals(two_pass_remove_nth(head1, 1)), [])
+
+        self.assertEqual(self.print_node_vals(one_pass_remove_nth(head4, 10)), [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 if __name__ == "__main__": unittest.main()
