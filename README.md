@@ -8,16 +8,6 @@
 
 > This section focuses on critical code snippets with syntax that can be easily forgotten under pressure during interviews. By memorizing these minimal yet essential patterns, you can avoid small syntactic mistakes and speed up implementation during coding challenges.
 
-#### Unit Testing in Python3
-
-```
-import unittest
-
-class TestSomething(unittest.TestCase):
-    def test_some_function(self):
-        self.assertEqual(some_function(input), expected_output)
-```
-
 #### Custom Sorting Intervals:
 
 ```
@@ -28,6 +18,51 @@ def custom_sort(intervals):
 sorted_intervals = custom_sort([[7, 10], [2, 4]])
 print(sorted_intervals)
 # Output: [[2, 4], [7, 10]]
+```
+
+#### Zip Method
+
+```
+list1 = [1, 2, 3]
+list2 = ['a', 'b', 'c']
+zipped = zip(list1, list2)
+print(list(zipped))  # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
+
+
+list1 = ["cat", "dog", "dog"]
+my_string = "abb"
+zipped = zip(list1, my_string)
+print(list(zipped))  # Output: [("cat", 'a'), ("dog", 'b'), ("dog", 'c')]
+
+
+list1 = [1, 2, 3]
+list2 = ['a', 'b']
+zipped = zip(list1, list2)
+print(list(zipped))  # Output: [(1, 'a'), (2, 'b')]
+
+
+tuple1 = (1, 2, 3)
+tuple2 = ('a', 'b', 'c')
+zipped = zip(tuple1, tuple2)
+print(list(zipped))  # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
+```
+
+#### Counter Module
+
+```
+from collections import Counter
+
+my_list = [1, 2, 3, 2, 1, 4, 5, 1]
+counter = Counter(my_list)
+print(counter)  # Output: Counter({1: 3, 2: 2, 3: 1, 4: 1, 5: 1})
+
+my_string = "hello world"
+counter = Counter(my_string)
+print(counter)  # Output: Counter({'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1, 'r': 1, 'd': 1})
+
+my_tuple = (1, 2, 3, 1, 2)
+counter = Counter(my_tuple)
+print(counter)  # Output: Counter({1: 2, 2: 2, 3: 1})
 ```
 
 #### Definition of Binary Tree Node
@@ -57,4 +92,14 @@ class DLLNode:
         self.prev = None
         self.next = None
         self.value = value
+```
+
+#### Unit Testing in Python3
+
+```
+import unittest
+
+class TestSomething(unittest.TestCase):
+    def test_some_function(self):
+        self.assertEqual(some_function(input), expected_output)
 ```
