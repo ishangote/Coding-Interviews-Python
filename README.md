@@ -8,6 +8,14 @@
 
 > This section focuses on critical code snippets with syntax that can be easily forgotten under pressure during interviews. By memorizing these minimal yet essential patterns, you can avoid small syntactic mistakes and speed up implementation during coding challenges.
 
+#### `ord()` Function
+
+The ord() function converts a character into its numeric ASCII value. For example, `ord('a')` returns `97`.
+
+#### `chr()` Function
+
+The `chr()` function converts numeric value back to a character, returning the letter.
+
 #### Custom Sorting Intervals:
 
 ```
