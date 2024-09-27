@@ -8,6 +8,94 @@
 
 > This section focuses on critical code snippets with syntax that can be easily forgotten under pressure during interviews. By memorizing these minimal yet essential patterns, you can avoid small syntactic mistakes and speed up implementation during coding challenges.
 
+#### f-strings
+
+F-strings provide a way to format strings using embedded expressions, introduced in Python 3.6.
+
+```
+# Syntax:
+
+f"some text {expression}"
+```
+
+```
+# Basic Example:
+
+name = "Alice"
+age = 30
+greeting = f"My name is {name} and I am {age} years old."
+# Output: "My name is Alice and I am 30 years old."
+```
+
+```
+# Formatting Numbers:
+
+pi = 3.14159
+formatted_pi = f"Pi to 2 decimal places: {pi:.2f}"
+# Output: "Pi to 2 decimal places: 3.14"
+```
+
+```
+# Padding
+
+h = 5
+m = 7
+time = f"{h}:{m:02d}"
+# Output: "5:07"
+
+Breakdown of :02d:
+0: Pads the number with leading zeros if it's less than 2 digits.
+2: Specifies the total width (2 digits).
+d: Stands for decimal, ensuring the value is treated as an integer.
+```
+
+#### `heapq` Module
+
+```
+import heapq
+
+# Basic min-heap operations
+heap = []
+heapq.heappush(heap, 10)
+heapq.heappush(heap, 1)
+heapq.heappush(heap, 5)
+smallest = heapq.heappop(heap)  # Pops the smallest
+
+# Convert list to heap
+data = [10, 5, 7, 9, 3]
+heapq.heapify(data)
+
+# Find n largest/smallest elements
+largest = heapq.nlargest(3, data)
+smallest = heapq.nsmallest(2, data)
+
+# Max-heap simulation (store negatives)
+max_heap = []
+heapq.heappush(max_heap, -10)
+largest = -heapq.heappop(max_heap)
+
+# Merge sorted lists
+merged = list(heapq.merge([1, 4, 7], [2, 5, 6], [3, 8, 9]))
+
+# Priority queue (push with priority)
+priority_queue = []
+heapq.heappush(priority_queue, (2, "low"))
+heapq.heappush(priority_queue, (1, "high"))
+task = heapq.heappop(priority_queue)
+```
+
+#### `bin()` Function
+
+The `bin()` function converts an integer to its binary representation as a **string**.
+
+```
+# Convert integer to binary
+bin_rep = bin(10)  # '0b1010'
+
+# Convert Back to Integer:
+integer = int('1010', 2)  # 10
+```
+
 #### `ord()` Function
 
 The ord() function converts a character into its numeric ASCII value. For example, `ord('a')` returns `97`.
