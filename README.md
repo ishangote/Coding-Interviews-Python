@@ -8,6 +8,121 @@
 
 > This section focuses on critical code snippets with syntax that can be easily forgotten under pressure during interviews. By memorizing these minimal yet essential patterns, you can avoid small syntactic mistakes and speed up implementation during coding challenges.
 
+#### Binary Numbers
+
+```
+0       0000
+
+1       0001
+
+          * (MSB)
+2       0010
+3       0011
+
+         *
+4       0100
+5       0101
+6       0110
+7       0111
+
+        *
+8       1000
+9       1001
+...
+
+Note:
+- Most significant bit shifts at numbers [1, 2, 4, 8, 16, 32...]
+- The remaining bits to the right repeat with the above offsets
+```
+
+#### Intrinsic String Methods:
+
+- `isalnum()`: Returns True if all characters are alphanumeric (letters and digits).
+
+```
+"abc123".isalnum() # True
+```
+
+- `isalpha()`: Returns True if all characters are alphabetic (letters only).
+
+```
+"abc".isalpha() # True
+```
+
+- `isdigit()`: Returns True if all characters are digits.
+
+```
+"123".isdigit() # True
+```
+
+- `islower()`: Returns True if all cased characters are lowercase.
+
+```
+"abc".islower() # True
+```
+
+- `lower()`: Converts a character or string to lowercase.
+
+```
+'A'.lower()  # 'a'
+```
+
+- `isupper()`: Returns True if all cased characters are uppercase.
+
+```
+"ABC".isupper() # True
+```
+
+- `upper()`: Converts a character or string to uppercase.
+
+```
+'a'.upper()  # 'A'
+```
+
+- `istitle()`: Returns True if the string follows title case (first letter of each word is capitalized).
+
+```
+"Hello World".istitle() # True
+```
+
+- `isspace()`: Returns True if all characters are whitespace.
+
+```
+" ".isspace() # True
+```
+
+- `isdecimal()`: Returns True if all characters are decimal characters (0-9, used in digit-based numbers).
+
+```
+"123".isdecimal() # True
+```
+
+- `isnumeric()`: Returns True if all characters are numeric (includes digits and characters like fractions).
+
+```
+"½".isnumeric()  # True
+```
+
+- `isascii()`: Returns True if all characters are ASCII (in the range of 0-127).
+
+```
+"abc123".isascii()  # True
+```
+
+#### `string` Module
+
+`import string`
+
+- `string.ascii_letters`: Concatenation of lowercase and uppercase letters. ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+- `string.ascii_lowercase`: Lowercase letters ('abcdefghijklmnopqrstuvwxyz').
+- `string.ascii_uppercase`: Uppercase letters ('ABCDEFGHIJKLMNOPQRSTUVWXYZ').
+- `string.digits`: The digits '0123456789'.
+- `string.hexdigits`: Hexadecimal digits ('0123456789abcdefABCDEF').
+- `string.octdigits`: Octal digits ('01234567').
+- `string.punctuation`: String of punctuation characters.
+- `string.printable`: Combination of digits, letters, punctuation, and whitespace.
+- `string.whitespace`: Characters considered as whitespace.
+
 #### f-strings
 
 F-strings provide a way to format strings using embedded expressions, introduced in Python 3.6.
