@@ -49,10 +49,16 @@ Note:
 "abc".isalpha() # True
 ```
 
-- `isdigit()`: Returns True if all characters are digits.
+- `isdigit()`: Returns True if all characters are digits. (Works only for positive numbers)
 
 ```
 "123".isdigit() # True
+```
+
+- `strip("-").isdigit()`: Returns True if all characters are digits (Works for both positive and negative numbers)
+
+```
+"-4".strip("-").isdigit() # True
 ```
 
 - `islower()`: Returns True if all cased characters are lowercase.
