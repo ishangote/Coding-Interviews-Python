@@ -260,6 +260,20 @@ The ord() function converts a character into its numeric ASCII value. For exampl
 
 The `chr()` function converts numeric value back to a character, returning the letter.
 
+#### Most Frequent Key Based on Value in Python Dictionary (Shorthand)
+
+1. Single Most Frequent Key
+
+```
+most_frequent_key = max(my_dict, key=my_dict.get)
+```
+
+2. All Keys with Maximum Value
+
+```
+most_frequent_keys = [k for k, v in my_dict.items() if v == max(my_dict.values())]
+```
+
 #### Custom Sorting Intervals:
 
 ```
