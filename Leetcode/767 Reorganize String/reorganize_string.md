@@ -26,6 +26,70 @@ Input: s = "aaab"
 Output: ""
 ```
 
+## Brute Force (Backtracking) Solution
+
+```
+* Explore all possibilities
+
+Input:
+s = "aaabc"
+
+count_map = {
+    a: 3
+    b: 1
+    c: 1
+}
+res = []
+
+
+res = [a]
+count_map = {
+    a: 2
+    b: 1
+    c: 1
+}
+prev = a
+
+
+res = [a, b]
+count_map = {
+    a: 2
+    b: 0
+    c: 1
+}
+prev = b
+
+
+res = [a, b, a]
+count_map = {
+    a: 1
+    b: 0
+    c: 1
+}
+prev = a
+
+
+res = [a, b, a, c]
+count_map = {
+    a: 1
+    b: 0
+    c: 0
+}
+prev = c
+
+
+res = [a, b, a, c, a]   * res complete break
+count_map = {
+    a: 1
+    b: 0
+    c: 0
+}
+prev = a
+
+Output:
+"abaca"
+```
+
 ## Hash Map Solution
 
 ```

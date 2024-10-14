@@ -3,6 +3,41 @@ from collections import Counter
 import heapq
 
 
+def backtrack(char_count, res, previous, STRING_LENGTH):
+    if len(res) == STRING_LENGTH:
+        return
+
+    for char in char_count:
+        if char != previous and char_count[char] > 0:
+            res.append(char)
+            previous = char
+            char_count[char] -= 1
+            backtrack(char_count, res, previous, STRING_LENGTH)
+
+            if len(res) == STRING_LENGTH:
+                return
+
+            res.pop()
+            char_count[char] += 1
+
+    pass
+
+
+# Time: O(n!), where n => length of input string
+# Space: O(n)
+def reorganize_string_backtrack(input_string):
+    char_count = Counter(input_string)
+    STRING_LENGTH = len(input_string)
+    previous, res = None, []
+
+    backtrack(char_count, res, previous, STRING_LENGTH)
+
+    return "".join(res) if res else ""
+
+
+# ------------------------------------------------------ #
+
+
 def get_max_frequent_char(char_count, previous):
     if previous:
         return max(
@@ -81,6 +116,10 @@ class TestReorganizeString(unittest.TestCase):
     def test_reorganize_string_heap(self):
         self.assertEqual(reorganize_string_heap("aaabc"), "abaca")
         self.assertEqual(reorganize_string_heap("aaab"), "")
+
+    def test_reorganize_string_backtracking(self):
+        self.assertEqual(reorganize_string_backtrack("aaabc"), "abaca")
+        self.assertEqual(reorganize_string_backtrack("aaab"), "")
 
 
 if __name__ == "__main__":
