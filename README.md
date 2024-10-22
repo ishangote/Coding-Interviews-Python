@@ -286,6 +286,40 @@ print(sorted_intervals)
 # Output: [[2, 4], [7, 10]]
 ```
 
+#### Summary of Monotonic Stack Behavior:
+
+```
+Problem             Traversal Direction     Stack
+Next Greater	    Left to Right           Decreasing
+Previous Greater	Right to Left           Decreasing
+Next Smaller	    Left to Right           Increasing
+Previous Smaller	Right to Left           Increasing
+```
+
+#### Subarrays vs Subsequences
+
+- Subarray: Contiguous portion of an array.
+
+  - Example: [1, 2, 3] → [1], [1, 2], [2, 3], etc.
+  - Count: n \* (n + 1) / 2.
+
+- Subsequence: Sequence from the array by deleting any number of elements while maintaining order.
+
+  - Example: [1, 2, 3] → [1], [2], [1, 3], etc.
+  - Count: 2^n.
+
+```
+def compute_subarrays(nums):
+    return [nums[i:j+1] for i in range(len(nums)) for j in range(i, len(nums))]
+
+------------------------------------------------
+
+from itertools import combinations
+def compute_subsequences(nums):
+    return [list(comb) for i in range(len(nums)+1) for comb in combinations(nums, i)]
+
+```
+
 #### Zip Method
 
 ```
