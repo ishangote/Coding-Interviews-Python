@@ -1,0 +1,50 @@
+import unittest
+
+
+class BTNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+
+def inorder_helper(node, lo, hi, res):
+    if not node:
+        return
+
+    inorder_helper(node.left, lo, hi, res)
+
+    if lo <= node.value <= hi:
+        res[0] += node.value
+
+    inorder_helper(node.right, lo, hi, res)
+
+
+# Time: O(n), where n => number of nodes in BST
+# Space: O(n)
+def range_sum_of_bst(root, lo, hi):
+    res = [0]
+    inorder_helper(root, lo, hi, res)
+    return res[0]
+
+
+class TestRangeSumOfBst(unittest.TestCase):
+    def test_range_sum_of_bst(self):
+        root = BTNode(10)
+
+        root.left = BTNode(5)
+        root.right = BTNode(15)
+
+        root.left.left = BTNode(3)
+        root.left.right = BTNode(7)
+        root.right.left = BTNode(13)
+        root.right.right = BTNode(18)
+
+        root.left.left.left = BTNode(1)
+        root.left.right.left = BTNode(6)
+
+        self.assertEqual(range_sum_of_bst(root, 6, 10), 23)
+
+
+if __name__ == "__main__":
+    unittest.main()
