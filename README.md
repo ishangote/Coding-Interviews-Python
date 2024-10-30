@@ -347,6 +347,24 @@ zipped = zip(tuple1, tuple2)
 print(list(zipped))  # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
 ```
 
+#### Random Library in Python
+
+```
+import random
+
+# Selecting a Random Element from a List:
+random_item = random.choice(my_list)
+
+# Generating a Random Integer Between Two Values (Inclusive):
+random_int = random.randint(a, b)
+
+# Shuffling a List in Place:
+random.shuffle(my_list)
+
+# Generating a Random Float Between 0 and 1:
+random_float = random.random()
+```
+
 #### Counter Module
 
 ```
