@@ -1,48 +1,49 @@
-"""
-Given the root of a binary tree, collect a tree's nodes as if you were doing this:
+import unittest
 
-- Collect all the leaf nodes.
-- Remove all the leaf nodes.
-- Repeat until the tree is empty.
 
-        1 (2)
-      /  \
- (1) 2    3 (0)
-    / \
-(0)4   5 (0)
+class BTNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
 
-heights = {
-    0: [4, 5, 3 ],
-    1: [2]
-    2: [1]
-}
 
-Input: root = [1,2,3,4,5]
-Output: [[4,5,3],[2],[1]]
+def recursive_helper(node, leaf_nodes):
+    if not node:
+        return None
 
-Explanation:
-[[3,5,4],[2],[1]] and [[3,4,5],[2],[1]] are also considered correct answers since per each level it does not matter 
-the order on which elements are returned.
-"""
-from collections import defaultdict
+    if not node.left and not node.right:
+        leaf_nodes.append(node.value)
+        return None
 
-def get_heights(node, heights):
-    if not node: return -1
+    node.left = recursive_helper(node.left, leaf_nodes)
+    node.right = recursive_helper(node.right, leaf_nodes)
+    return node
 
-    node_height = 1 + max(get_heights(node.left, heights), get_heights(node.right, heights))
-    
-    heights[node_height].append(node.value)
-    return node_height
 
-def find_leaves(root):
-    if not root: return []
-    heights = defaultdict(list)
-    result = []
+# Time: O(n), where n => number of nodes in BT
+# Space: O(n)
+def find_leaves_simulation(root):
+    res = []
 
-    get_heights(root, heights)
+    while root:
+        leaf_nodes = []
+        root = recursive_helper(root, leaf_nodes)
+        res.append(leaf_nodes)
 
-    max_height = max(heights.keys())
-    for itr in range(0, max_height + 1):
-        result.append(heights[itr])
-    
-    return result
+    return res
+
+
+class TestFindLeavesOfBinaryTree(unittest.TestCase):
+    def test_find_leaves_simulation(self):
+        root = BTNode(1)
+        root.left = BTNode(2)
+        root.right = BTNode(3)
+        root.left.left = BTNode(4)
+        root.left.right = BTNode(5)
+
+        self.assertListEqual(find_leaves_simulation(root), [[4, 5, 3], [2], [1]])
+
+
+if __name__ == "__main__":
+    unittest.main()
