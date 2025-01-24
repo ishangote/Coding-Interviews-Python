@@ -347,6 +347,20 @@ zipped = zip(tuple1, tuple2)
 print(list(zipped))  # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
 ```
 
+#### Check for Overlapping Intervals
+
+Two intervals overlap if:
+
+1. The start of one interval is less than the end of the other.
+2. This condition needs to be true for both intervals.
+
+Condition: Two intervals `[start1, end1)` and `[start2, end2)` overlap if: `start1 < end2 and start2 < end1`
+
+```
+def is_overlapping(current, given):
+    return current[0] < given[1] and given[0] < current[1]
+```
+
 #### Random Library in Python
 
 ```
