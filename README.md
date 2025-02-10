@@ -274,6 +274,39 @@ most_frequent_key = max(my_dict, key=my_dict.get)
 most_frequent_keys = [k for k, v in my_dict.items() if v == max(my_dict.values())]
 ```
 
+#### Python 3 Division Operators
+
+1. True Division (/): Always returns a float, even for integer operands.
+
+```
+Example:
+print(5 / 2) # 2.5
+print(-5 / 2) # -2.5 (No rounding towards 0)
+```
+
+2. Floor Division (//): Rounds down (towards negative infinity).
+
+```
+Example:
+print(5 // 2) # 2
+print(-5 // 2) # -3 (Not -2)
+```
+
+3. `math.ceil` Rounding Towards positive infinity
+
+```
+math.ceil(5 / 2)  # Output: 3
+math.ceil(-5 / 2)  # Output: -2
+```
+
+4. Rounding Towards Zero: Use int() to truncate instead of floor rounding.
+
+```
+Example:
+print(int(5 / 2)) # 2
+print(int(-5 / 2)) # -2
+```
+
 #### Custom Sorting Intervals:
 
 ```
@@ -289,11 +322,13 @@ print(sorted_intervals)
 #### Summary of Monotonic Stack Behavior:
 
 ```
-Problem             Traversal Direction     Stack
-Next Greater	    Left to Right           Decreasing
-Previous Greater	Right to Left           Decreasing
-Next Smaller	    Left to Right           Increasing
-Previous Smaller	Right to Left           Increasing
+
+Problem          |  Traversal Direction  |   Stack
+-------------------------------------------------------
+Next Greater     |  Left to Right        |   Decreasing
+Previous Greater |  Right to Left        |   Decreasing
+Next Smaller     |  Left to Right        |   Increasing
+Previous Smaller |  Right to Left        |   Increasing
 ```
 
 #### Subarrays vs Subsequences
@@ -312,12 +347,11 @@ Previous Smaller	Right to Left           Increasing
 def compute_subarrays(nums):
     return [nums[i:j+1] for i in range(len(nums)) for j in range(i, len(nums))]
 
-------------------------------------------------
+-----------------------------------------------------------------------------
 
 from itertools import combinations
 def compute_subsequences(nums):
     return [list(comb) for i in range(len(nums)+1) for comb in combinations(nums, i)]
-
 ```
 
 #### Zip Method
@@ -326,26 +360,43 @@ def compute_subsequences(nums):
 list1 = [1, 2, 3]
 list2 = ['a', 'b', 'c']
 zipped = zip(list1, list2)
-print(list(zipped))  # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
-
+print(list(zipped)) # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
 
 list1 = ["cat", "dog", "dog"]
 my_string = "abb"
 zipped = zip(list1, my_string)
-print(list(zipped))  # Output: [("cat", 'a'), ("dog", 'b'), ("dog", 'c')]
-
+print(list(zipped)) # Output: [("cat", 'a'), ("dog", 'b'), ("dog", 'c')]
 
 list1 = [1, 2, 3]
 list2 = ['a', 'b']
 zipped = zip(list1, list2)
-print(list(zipped))  # Output: [(1, 'a'), (2, 'b')]
-
+print(list(zipped)) # Output: [(1, 'a'), (2, 'b')]
 
 tuple1 = (1, 2, 3)
 tuple2 = ('a', 'b', 'c')
 zipped = zip(tuple1, tuple2)
-print(list(zipped))  # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
+print(list(zipped)) # Output: [(1, 'a'), (2, 'b'), (3, 'c')]
 ```
+
+#### Character Frequency Counting Using a Fixed-Size Array
+
+When dealing with problems where characters are strictly lowercase ('a'-'z') or strictly uppercase ('A'-'Z'), we can efficiently count occurrences using a fixed-size array of length 26.
+
+```
+# Lowercase Letters ('a'-'z'):
+counts = [0] * 26
+for char in s:
+    counts[ord(char) - ord('a')] += 1
+```
+
+```
+# Uppercase Letters ('A'-'Z')
+counts = [0] * 26
+for char in s:
+    counts[ord(char) - ord('A')] += 1
+```
+
+This technique ensures O(1) space and O(n) time complexity, making it optimal for frequency-based string problems
 
 #### Check for Overlapping Intervals
 
@@ -386,15 +437,35 @@ from collections import Counter
 
 my_list = [1, 2, 3, 2, 1, 4, 5, 1]
 counter = Counter(my_list)
-print(counter)  # Output: Counter({1: 3, 2: 2, 3: 1, 4: 1, 5: 1})
+=> Counter({1: 3, 2: 2, 3: 1, 4: 1, 5: 1})
 
 my_string = "hello world"
 counter = Counter(my_string)
-print(counter)  # Output: Counter({'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1, 'r': 1, 'd': 1})
+=> Counter({'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1, 'r': 1, 'd': 1})
 
 my_tuple = (1, 2, 3, 1, 2)
 counter = Counter(my_tuple)
-print(counter)  # Output: Counter({1: 2, 2: 2, 3: 1})
+=> Counter({1: 2, 2: 2, 3: 1})
+```
+
+#### SortedList in Python (`sortedcontainers` Library)
+
+SortedList is a dynamically sorted list that maintains order automatically and supports fast insertions, deletions, and lookups.
+
+Key Operations & Time Complexity
+
+- Insert (`add`): `O(log n)`
+- Delete (`remove`): `O(log n)`
+- Indexing (`sl[i]`): `O(1)`
+
+```
+from sortedcontainers import SortedList
+
+> sl = SortedList([5, 3, 8, 1])
+> sl.add(4) # Inserts 4 in sorted order
+> sl.remove(3) # Removes 3
+> print(sl[0]) # Output: 1 (smallest)
+> print(sl[-1]) # Output: 8 (largest)
 ```
 
 #### Definition of Binary Tree Node
