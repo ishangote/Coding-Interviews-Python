@@ -408,8 +408,17 @@ Two intervals overlap if:
 Condition: Two intervals `[start1, end1)` and `[start2, end2)` overlap if: `start1 < end2 and start2 < end1`
 
 ```
+# This assumes that intervals are half-open: [start, end), meaning end is not included in the interval.
+
 def is_overlapping(current, given):
     return current[0] < given[1] and given[0] < current[1]
+```
+
+```
+# This assumes that intervals are fully closed: [start, end], meaning end is included.
+
+def is_overlapping(current, given):
+    return current[0] <= given[1] and given[0] <= current[1]
 ```
 
 #### Random Library in Python
@@ -486,6 +495,28 @@ class SLLNode:
         self.next = None
         self.value = value
 ```
+
+**Hashing SLLNode for Use in a Dictionary**
+
+To store SLLNode objects as keys in a hash map (dictionary), you need to define both the `__hash__` and `__eq__` methods:
+
+`__hash__`: Determines the hash value of an object. It should return a unique value based on the object's identity (e.g., id(self)).
+
+```
+def __hash__(self):
+    return id(self)  # Hash by object identity
+```
+
+`__eq__`: Defines the equality comparison between two SLLNode objects. This method is called when comparing nodes to check if they are structurally the same (i.e., same value).
+
+```
+def __eq__(self, other):
+    if not isinstance(other, SLLNode):
+        return False
+    return self.value == other.value  # Compare values
+```
+
+These methods enable proper usage of SLLNode as dictionary keys, allowing for efficient key-based lookups and proper comparisons.
 
 #### Definition of Doubly Linked List Node
 
