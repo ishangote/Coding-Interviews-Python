@@ -64,4 +64,5 @@ s =                          a b d d a
                     a b d d a         a b d d a
                         ^ *             ^ *         => remove 'b' or remove 'd' to check if the remaining is palindrome
 
+* once a character is deleted, we need to check both cases if they are palindromes
 ```

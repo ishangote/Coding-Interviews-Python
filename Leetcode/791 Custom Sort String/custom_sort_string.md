@@ -33,37 +33,45 @@ Explanation: The characters "b", "c", and "a" from order dictate the order for t
 Following the order of appearance in order, "b", "c", and "a" from s should be arranged as "b", "c", "a". "d" can be placed at any position since it's not in order. The output "bcad" correctly follows this rule. Other arrangements like "dbca" or "bcda" would also be valid, as long as "b", "c", "a" maintain their order.
 ```
 
-## Solution
+## **Custom Sort String Implementation Summary**
 
-```
-Example Walkthrough
+### **Approach**
 
-Input:
-order = "bcafg" and s = "abcd"
+The problem requires sorting string `s` based on the order specified in `order`, while keeping the relative order of characters **not in `order`** unchanged.
 
-1. Populate Heap: Traverse s and push characters that exist in order into a min-heap with their priority indices:
-min_heap = [(0, 'b'), (1, 'c'), (2, 'a')]
+---
 
-2. Build Result: Characters not in order are directly appended to the result:
-    - res = "d"  # 'd' is not in order, so we append it immediately.
-    - Next, pop characters from min_heap and add them to res in sorted order:
-        res = "dbca"  # final result
-```
+### **Design**
 
-## Time Complexity Analysis
+1. **Frequency Count (`Counter`)**:
 
-- Building the Min Heap: For each character in input_string:
+   - Count occurrences of each character in `s`.
+   - This helps efficiently construct the sorted string.
 
-  - Checking if the character is in order is O(m), where 𝑚 is the length of order. Since order can have up to 26 characters, this check can be considered O(1) in practice.
-  - If the character is in order, finding its index with order.index(char) takes O(m) time.
-  - Adding to the heap takes O(logn) time, where n is the number of characters in input_string.
+2. **Constructing Result String (`res`)**:
+   - **Step 1**: Append characters from `order` based on their frequency in `s` and remove them from the counter.
+   - **Step 2**: Append remaining characters from `s` in their original order.
 
-- Building the Result:
-  - Popping all characters from the heap and appending them to the result takes O(nlogn) in the worst case, if all characters are in order.
+---
 
-Overall, building the heap takes O(n\*m), where n is the length of input_string and m is the length of order. Since order is limited to 26 characters, we can approximate this to O(n) in practice.
+### **Complexity Analysis**
 
-## Approach Summary
+- **Time Complexity**:
+  - `O(n + m)`, where `n = len(s)` and `m = len(order)`.
+  - `O(n)` to build the frequency map.
+  - `O(m)` to process characters in `order`.
+  - `O(n)` to append remaining characters.
+  - **Overall: O(n + m)**
+- **Space Complexity**:
+  - `O(n)`, storing frequency map and result string.
 
-1. Min Heap: To prioritize characters in s according to their order in order, use a min-heap to store characters in s with their corresponding index in order.
-2. Build the Result: Add characters from the heap in order of priority, followed by characters that don’t appear in order.
+---
+
+### **Key Steps**
+
+1. **Build frequency count of `s`** → `O(n)`.
+2. **Append characters from `order`** (if present in `s`) → `O(m)`.
+3. **Append remaining characters** in `s`'s original order → `O(n)`.
+4. **Return final result string**.
+
+---

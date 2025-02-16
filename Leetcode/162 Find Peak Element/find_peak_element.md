@@ -160,6 +160,11 @@ l == h => return l
 Output: 2
 ```
 
+## Key Condition to Remember
+
+1. If `nums[mid] < nums[mid + 1]`, move right (`lo = mid + 1`) → A peak exists on the right side.
+2. Otherwise, move left (`hi = mid`) → A peak exists on the left or at mid.
+
 ## References
 
 - https://leetcode.com/problems/find-peak-element/editorial/

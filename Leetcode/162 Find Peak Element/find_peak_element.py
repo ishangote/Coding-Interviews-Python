@@ -23,7 +23,6 @@ def find_peak_element_binary_search(nums):
 
         if nums[mid] < nums[mid + 1]:
             lo = mid + 1
-
         else:
             hi = mid
 

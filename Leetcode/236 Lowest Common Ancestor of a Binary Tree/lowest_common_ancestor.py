@@ -20,9 +20,6 @@ def lowest_common_ancestor(root, node1, node2):
     left = lowest_common_ancestor(root.left, node1, node2)
     right = lowest_common_ancestor(root.right, node1, node2)
 
-    if not left and not right:
-        return None
-
     if left and right:
         return root
 

@@ -41,6 +41,7 @@ class TestBasicCalculatorII(unittest.TestCase):
         self.assertEqual(basic_calculator_ii(" 21 -4 * 3  +12"), 21)
         self.assertEqual(basic_calculator_ii("14-3/2"), 13)
         self.assertEqual(basic_calculator_ii("21-4*3*12"), -123)
+        self.assertEqual(basic_calculator_ii("3 - 10 * 2 + 4 / 2"), -15)
 
 
 if __name__ == "__main__":

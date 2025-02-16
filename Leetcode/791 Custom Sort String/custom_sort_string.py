@@ -1,29 +1,28 @@
 import unittest
-import heapq
+from collections import Counter
 
 
-# Time: O(nlogn), where n => length of s
+# Time: O(n + m), where n => length of input_string, m => length of order
 # Space: O(n)
 def custom_sort_string(order, input_string):
-    res = []
-    min_heap = []
+    char_count = Counter(input_string)
+    res = ""
 
-    for char in input_string:
-        if char not in order:
-            res.append(char)
+    for ch in order:
+        if ch not in char_count:
+            continue
+        res += char_count[ch] * ch
+        del char_count[ch]
 
-        else:
-            heapq.heappush(min_heap, (order.index(char), char))
+    for ch in char_count:
+        res += char_count[ch] * ch
 
-    while min_heap:
-        res.append(heapq.heappop(min_heap)[1])
-
-    return "".join(res)
+    return res
 
 
 class TestCustomSortString(unittest.TestCase):
     def test_custom_sort_string(self):
-        self.assertEqual(custom_sort_string("bcafg", "abcd"), "dbca")
+        self.assertEqual(custom_sort_string("bcafg", "abcd"), "bcad")
         self.assertEqual(custom_sort_string("bcafg", "xyz"), "xyz")
         self.assertEqual(custom_sort_string("bcafg", "gfacb"), "bcafg")
 

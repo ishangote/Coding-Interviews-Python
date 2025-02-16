@@ -26,7 +26,30 @@ Output: 9973
 Explanation: No swap.
 ```
 
-## Solution
+## Two Pass Solution
+
+```
+Input
+digits =
+ 0. 1. 2. 3
+[9, 5, 3, 6]
+ ^
+right_max =
+[0, 3, 3, 3]         <- stores maximum number index to the right for each idx
+
+
+digits =
+ 0. 1. 2. 3
+[9, 5, 3, 6]
+    ^                <- check if there exists a max number to the right, swap
+    swap
+
+Output:
+[9, 6, 3, 5]
+
+```
+
+## One Pass Solution
 
 ```
 Input:
@@ -88,4 +111,5 @@ Approach
 
 ## References
 
-- https://leetcode.com/problems/maximum-swap/solutions/5922945/beats-100-00-step-by-step-breakdown/
+- Two Pass: https://www.youtube.com/watch?v=4FZtJ8420m8&ab_channel=NeetCodeIO
+- One Pass: https://leetcode.com/problems/maximum-swap/solutions/5922945/beats-100-00-step-by-step-breakdown/
