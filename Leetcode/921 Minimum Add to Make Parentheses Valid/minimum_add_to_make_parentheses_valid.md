@@ -39,52 +39,25 @@ Output: 3
 
 ```
 Input:
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
+ 0 1 2 3 4 5 6 7 8 9
+[( a ) b ) c ( d ) )]
+                   ^
 
-open_count = 0
-close_count = 0
+balance = 0
+res = 2
 
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
-^
-open_count = 1
+Output:
+2
 
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
-  ^
-open_count = 0
 
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
-    ^
-open_count = 0
-res = 1          * no open count but encountered a closed bracket => increment result
+Input:
+ 0 1 2 3 4 5 6 7 8
+[( a ( b ( c ) d )]
+                   ^
 
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
-      ^
-open_count = 0
-res = 2          * no open count but encountered a closed bracket => increment result
+balance = 1
+res = 1
 
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
-        ^
-open_count = 1
-res = 2          * no open count but encountered a closed bracket => increment result
-
-s =
-0 1 2 3 4 5
-( ) ) ) ( (
-          ^
-open_count = 2
-res = 2          * no open count but encountered a closed bracket => increment result
-
-res = 2 + 2 (open_count)
+Output:
+1
 ```

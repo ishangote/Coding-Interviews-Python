@@ -35,7 +35,7 @@ def maximum_swap_one_pass(num):
             if larger_digit in last_occurrence and last_occurrence[larger_digit] > idx:
                 larger_idx = last_occurrence[larger_digit]
 
-                num_digits[idx], num_digits[last_occurrence[larger_digit]] = (
+                num_digits[idx], num_digits[larger_idx] = (
                     num_digits[larger_idx],
                     num_digits[idx],
                 )

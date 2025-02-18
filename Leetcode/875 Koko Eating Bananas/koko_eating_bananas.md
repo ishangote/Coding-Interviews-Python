@@ -41,6 +41,13 @@ Output: 23
 
 ## Binary Search Solution
 
+> Binary Search Problem Type: Threshold (Smallest x where f(x) == True)
+>
+> - `while` Condition: `while lo < hi`
+> - `f(mid) == True`: `hi = mid`
+> - `f(mid) == False`: `lo = mid + 1`
+> - return: `lo`
+
 ```
 Input:
 h = 8

@@ -6,7 +6,7 @@ import unittest
 
 
 # Time: O(n), where n => length of heights
-# Space: O(1)
+# Space: O(n)
 def buildings_with_ocean_view(heights):
     stack = []
 

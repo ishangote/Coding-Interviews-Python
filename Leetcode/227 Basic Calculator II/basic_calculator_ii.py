@@ -4,16 +4,17 @@ import unittest
 # Time: O(n), where n => length of expr
 # Space: O(n)
 def basic_calculator_ii(expr):
+    # Remove whitespaces
     expr = "".join(expr.split())
 
     last_sign, cur_num = "+", 0
     stack = []
 
     for idx, char in enumerate(expr):
-        if char.isnumeric():
+        if char.isdigit():
             cur_num = cur_num * 10 + int(char)
 
-        if not char.isnumeric() or idx == len(expr) - 1:
+        if not char.isdigit() or idx == len(expr) - 1:
             if last_sign == "+":
                 stack.append(cur_num)
 
@@ -26,9 +27,6 @@ def basic_calculator_ii(expr):
             elif last_sign == "/":
                 # Note: -3 // 2 = -2 and int(-3 / 2) = -1
                 stack.append(int(stack.pop() / cur_num))
-
-            else:
-                pass
 
             last_sign = char
             cur_num = 0

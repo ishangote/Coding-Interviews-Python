@@ -319,6 +319,24 @@ print(sorted_intervals)
 # Output: [[2, 4], [7, 10]]
 ```
 
+#### Binary Search Decision Table
+
+| Problem Type                                  | `while` Condition | `mid` Conditions     | Actions        | Return Value |
+| --------------------------------------------- | ----------------- | -------------------- | -------------- | ------------ |
+|                                               |                   |                      |                |              |
+| Exact Value Search                            | `while lo <= hi`  | `arr[mid] == target` | `return mid`   | `mid`        |
+|                                               |                   | `arr[mid] > target`  | `hi = mid - 1` |              |
+|                                               |                   | `arr[mid] < target`  | `lo = mid + 1` |              |
+|                                               |                   |                      |                |              |
+| First Occurrence                              | `while lo < hi`   | arr[mid] >= target   | `hi = mid`     | `lo`         |
+|                                               |                   | arr[mid] < target    | lo = mid + 1   |              |
+|                                               |                   |                      |                |              |
+| Last Occurence                                | `while lo < hi`   | arr[mid] > target    | `hi = mid`     | `hi`         |
+|                                               |                   | arr[mid] <= target   | `lo = mid + 1` |              |
+|                                               |                   |                      |                |              |
+| Threshold (Smallest `x` where `f(x) == True`) | `while lo < hi`   | `f(mid) == True`     | `hi = mid`     | `lo`         |
+|                                               |                   | `f(mid) == False`    | `lo = mid + 1` |              |
+
 #### Summary of Monotonic Stack Behavior:
 
 ```

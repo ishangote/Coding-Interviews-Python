@@ -94,3 +94,7 @@ distance = (ord(s1[idx + 1]) - ord(s1[idx]) + 26) % 26
 
 * Utilize hashmap to store tuple of distances as keys
 ```
+
+## References
+
+- https://www.youtube.com/watch?v=g_CWHtPSQmQ&t=554s&ab_channel=CrackingFAANG
