@@ -62,74 +62,19 @@ Output: [[2, 4]]
 
 ## Optimized Solution
 
-```
-Example 1
+1. Handle Empty Input:
 
-Input:
-lower = 0
-upper = 99
-nums =
+- If nums is empty, return `[[lower, upper]]` since the entire range is missing.
 
- 0  1  2  3   4
-[0, 1, 3, 50, 75]
-    ^
-       *
-   [2, 2]
+2. Check Missing Range Before the First Element:
 
+- If lower is less than `nums[0]`, add `[lower, nums[0] - 1]` to the result.
 
-0  1  2  3   4
-[0, 1, 3, 50, 75]
-       ^
-          *
-      [4, 49]
+3. Find Missing Ranges Between Consecutive Elements:
 
+- Iterate through nums and check if there is a gap between `nums[i-1]` and `nums[i]`.
+- If the difference is more than 1, append the missing range `[nums[i-1] + 1, nums[i] - 1]`.
 
-0  1  2   3   4
-[0, 1, 3, 50, 75]
-          ^
-              *
-        [51, 74]
+4. Check Missing Range After the Last Element:
 
-Add [76, 99] since the last number is 75 which is less than upper
-```
-
-```
-Example 2
-
-lower = -3
-upper = 8
-nums =
- 0  1  2  3  4
-[1, 2, 3, 5, 7]
-    ^
- *
-res = []
-
-
- 0  1  2  3  4
-[1, 2, 3, 5, 7]
-       ^
-    *
-res = []
-
-
- 0  1  2  3  4
-[1, 2, 3, 5, 7]
-          ^
-       *
-res = [[4, 4]]
-
-
- 0  1  2  3  4
-[1, 2, 3, 5, 7]
-             ^
-          *
-res = [[4, 4], [6, 6]]
-
-
- 0  1  2  3  4
-[1, 2, 3, 5, 7]
-                ^
-             *
-res = [[4, 4], [6, 6], [8, 8], [-1, 0]] * Add out of bound missing ranges
-```
+- If upper is greater than `nums[-1]`, append `[nums[-1] + 1, upper]` to the result.

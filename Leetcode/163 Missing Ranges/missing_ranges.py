@@ -15,7 +15,6 @@ def missing_ranges(nums, lower, upper):
     for idx in range(1, len(nums)):
         if nums[idx] - nums[idx - 1] == 1:
             continue
-
         res.append(
             [nums[idx - 1] + 1, nums[idx] - 1],
         )

@@ -1,5 +1,7 @@
 # 314. Binary Tree Vertical Order Traversal
 
+> If multiple nodes are in the same row and column, they should be ordered from left to right.
+
 ## Problem Statement
 
 > Given the root of a binary tree, return the vertical order traversal of its nodes' values. (i.e., from top to bottom, column by column).
