@@ -33,7 +33,7 @@ def insert_in_sorted_circular_sll(node, target):
 
         cur = cur.next
 
-        # Full circle reached without insertion; insert at the end
+        # Case 3: Full circle reached without insertion; insert at the end
         if cur == node:
             insert_node.next = cur.next
             cur.next = insert_node

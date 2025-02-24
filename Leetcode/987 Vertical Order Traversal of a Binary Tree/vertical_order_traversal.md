@@ -1,5 +1,7 @@
 # 987. Vertical Order Traversal of a Binary Tree
 
+> If multiple nodes exist in the same row and column, they should be sorted by their values.
+
 ## Problem Statement
 
 > Given the root of a binary tree, calculate the vertical order traversal of the binary tree.

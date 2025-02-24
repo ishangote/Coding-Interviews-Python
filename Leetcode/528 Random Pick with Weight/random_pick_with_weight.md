@@ -78,8 +78,8 @@ weights = [2, 1, 4]
 
    w0     w1       w2
 ********||||xxxxxxxxxxxxxxxx
----------------------------------
-0   1   2   3   4   5   6   7   8
+----------------------------
+0   1   2   3   4   5   6   7
 
 => pick random number between [0, 7)
 
@@ -104,11 +104,14 @@ weights = [2, 1, 4]
 prefix_ = [2, 3, 7]
 sums
 
+pick = 4
+
 * We can use binary search to find index smallest index that satisfies:
 pick < self.prefix_sums[lo]
 ```
 
 ## References
 
+- https://youtu.be/fWS0TCcr-lE?si=Z-m8qpBz_J6EoKcm
 - https://leetcode.com/problems/random-pick-with-weight/editorial/
 - https://en.wikipedia.org/wiki/Prefix_sum

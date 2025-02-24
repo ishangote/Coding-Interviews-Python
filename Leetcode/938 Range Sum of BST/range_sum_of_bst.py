@@ -8,23 +8,24 @@ class BTNode:
         self.right = None
 
 
-def inorder_helper(node, lo, hi, res):
+def recursive_helper(node, lo, hi, res):
     if not node:
         return
-
-    inorder_helper(node.left, lo, hi, res)
 
     if lo <= node.value <= hi:
         res[0] += node.value
 
-    inorder_helper(node.right, lo, hi, res)
+    if lo < node.value:
+        recursive_helper(node.left, lo, hi, res)
+    if node.value < hi:
+        recursive_helper(node.right, lo, hi, res)
 
 
 # Time: O(n), where n => number of nodes in BST
 # Space: O(n)
 def range_sum_of_bst(root, lo, hi):
     res = [0]
-    inorder_helper(root, lo, hi, res)
+    recursive_helper(root, lo, hi, res)
     return res[0]
 
 

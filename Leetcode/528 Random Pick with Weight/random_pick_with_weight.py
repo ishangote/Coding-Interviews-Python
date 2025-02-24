@@ -20,22 +20,25 @@ class RandomPickWithWeight:
             if pick < prefix_sum:
                 return idx
 
-    # Time: O(logn), where n => length of weights
-    # Space: O(1)
-    def pick_index_binary_search(self):
-        pick = random.randint(0, self.prefix_sums[-1] - 1)
-
+    def binary_search_helper(self, pick):
         lo, hi = 0, len(self.prefix_sums) - 1
 
         while lo < hi:
             mid = (lo + hi) // 2
 
-            if pick < self.prefix_sums[mid]:
+            if self.prefix_sums[mid] > pick:
                 hi = mid
-            else:
+            elif self.prefix_sums[mid] <= pick:
                 lo = mid + 1
 
         return lo
+
+    # Time: O(logn), where n => length of weights
+    # Space: O(1)
+    def pick_index_binary_search(self):
+        pick = random.randint(0, self.prefix_sums[-1] - 1)
+
+        return self.binary_search_helper(pick)
 
 
 class TestRandomPickWithWeight(unittest.TestCase):

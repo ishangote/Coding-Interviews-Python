@@ -57,3 +57,7 @@ Inorder traversal = [1, 3, 4, 6, 7, 8, 10, 11, 12, 15, 18]
                            * Iterate from left to right and add to res
 
 ```
+
+## References
+
+- https://www.youtube.com/watch?v=uLVG45n4Sbg&ab_channel=NeetCodeIO

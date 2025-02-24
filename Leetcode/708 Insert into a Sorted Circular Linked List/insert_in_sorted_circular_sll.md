@@ -43,34 +43,100 @@ Output: [1,0]
 ## Solution
 
 ```
-Key Observations
-- Inserting in Empty List: If the list is empty, create a node that points to itself and return it.
-- Normal Insertion: Traverse until we find a position cur such that cur.val <= insertVal <= cur.next.val.
-- Edge Cases with Min/Max Values:
-  - If insertVal is smaller than the smallest value or larger than the largest value, insert it at the boundary where values loop around.
-  - If all values in the list are identical, any insertion position is valid.
+
+CASE 1: Normal Case => cur.value <= target <= cur.next.value
+
+Input:
+insert(4)
+      __________________________
+     v                          |
+     2 -> 5 -> 6 -> 9 -> 20 -> 35
+                    *
+                    head
+Output:
+      ______________________________
+     v                              |
+     2 -> 4 -> 5 -> 6 -> 9 -> 20 -> 35
+                         *
+                         head
 ```
 
 ```
-Example Walkthroughs
-Case 1
-Input: head = [1, 2, 2, 5], insertVal = 3
-Inserting between nodes with values 2 and 5 gives: [1, 2, 2, 3, 5].
+CASE 2: insertVal is smaller than the smallest value OR larger than the largest value =>
 
-Case 2
-Input: head = [2, 2, 2, 2], insertVal = 2
-Insert anywhere results in: [2, 2, 2, 2, 2].
+- when we reach the largest number i.e cur.value > cur.next.value
+- check if target >= cur.value OR target <= cur.next.value
+- add node after cur
 
-Edge Cases:
-- Insert smaller than all values:
-     - Input: head = [1, 2, 2, 5], insertVal = 0
-     - Result: [0, 1, 2, 2, 5]
+Input:
+insert(1)
+      __________________________
+     v                          |
+     2 -> 5 -> 6 -> 9 -> 20 -> 35
+                    *
+                    head
+Output:
+    ______________________________
+   v                              |
+   1 -> 2 -> 5 -> 6 -> 9 -> 20 -> 35
+                       *
+                       head
 
-- Insert larger than all values:
-     - Input: head = [1, 2, 2, 5], insertVal = 6
-     - Result: [1, 2, 2, 5, 6]
+                       OR
+
+Input:
+insert(40)
+      __________________________
+     v                          |
+     2 -> 5 -> 6 -> 9 -> 20 -> 35
+                    *
+                    head
+Output:
+      _______________________________
+     v                               |
+     2 -> 5 -> 6 -> 9 -> 20 -> 35 -> 40
+                    *
+                    head
 ```
 
-## Approach Summary
+```
+CASE 3: Univalued List =>
+- if we reach head again
+- no above condition matched => insert after head
 
-To insert a new value into a sorted circular linked list, start by considering the list’s structure and find the correct spot for insertion. If the list is empty, initialize it with a single node. Otherwise, traverse the list to find a position where the new value fits in sorted order, either between two nodes or at the start/end if it’s the smallest or largest. Return the head after insertion. This solution leverages a two-pointer approach to find the appropriate position.
+Input:
+insert(0)
+      ______________
+     v              |
+     2 -> 2 -> 2 -> 2
+          *
+          head
+
+Output:
+      ___________________
+     v                   |
+     2 -> 2 -> 0 -> 2 -> 2
+          *
+          head
+
+               OR
+
+Input:
+insert(9)
+      ______________
+     v              |
+     2 -> 2 -> 2 -> 2
+          *
+          head
+
+Output:
+      ___________________
+     v                   |
+     2 -> 2 -> 9 -> 2 -> 2
+          *
+          head
+```
+
+## References
+
+- https://www.youtube.com/watch?v=XN9OsmP2YTk&ab_channel=CrackingFAANG

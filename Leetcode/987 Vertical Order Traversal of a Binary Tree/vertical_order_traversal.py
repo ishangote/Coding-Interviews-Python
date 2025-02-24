@@ -1,5 +1,6 @@
 import unittest
-from collections import defaultdict
+import sys
+from collections import defaultdict, deque
 
 
 class BTNode:
@@ -7,6 +8,9 @@ class BTNode:
         self.value = value
         self.left = None
         self.right = None
+
+
+# --------------------------------------------------------------- #
 
 
 def recursive_helper(node, row, col, nodes):
@@ -37,6 +41,34 @@ def vertical_order_traversal(root):
     return list(res.values())
 
 
+# --------------------------------------------------------------- #
+
+
+# Time: O(k•(n/k)log(n/k)) ~ O(n•log(n/k)), where k => number of columns, n => number of nodes
+# Space: O(n)
+def vertical_order_traversal_optimized(root):
+    if not root:
+        return []
+
+    queue = deque([(0, root)])
+    distance_map = defaultdict(list)
+    min_column, max_column = sys.maxsize, -sys.maxsize
+
+    while queue:
+        dist, node = queue.pop()
+        distance_map[dist].append(node.value)
+        min_column = min(min_column, dist)
+        max_column = max(max_column, dist)
+
+        if node.left:
+            queue.appendleft((dist - 1, node.left))
+
+        if node.right:
+            queue.appendleft((dist + 1, node.right))
+
+    return [sorted(distance_map[dist]) for dist in range(min_column, max_column + 1)]
+
+
 class TestVerticalOrderTraversal(unittest.TestCase):
     def test_vertical_order_traversal(self):
         root = BTNode(1)
@@ -51,6 +83,21 @@ class TestVerticalOrderTraversal(unittest.TestCase):
 
         self.assertEqual(
             vertical_order_traversal(root), [[4], [2], [1, 5, 6], [3], [7]]
+        )
+
+    def test_vertical_order_traversal_optimized(self):
+        root = BTNode(1)
+        root.left = BTNode(2)
+        root.right = BTNode(3)
+
+        root.left.left = BTNode(4)
+        root.left.right = BTNode(5)
+
+        root.right.left = BTNode(6)
+        root.right.right = BTNode(7)
+
+        self.assertEqual(
+            vertical_order_traversal_optimized(root), [[4], [2], [1, 5, 6], [3], [7]]
         )
 
 
