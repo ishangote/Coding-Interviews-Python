@@ -54,15 +54,59 @@ Space: O(n)
 
 ## Reservoir Sampling Solution
 
-For this problem, we can use a variation of Reservoir Sampling because we only need one sample from a known list of indices that match the target. Here's the approach:
+#### How It Works
 
-Iterate through the array and keep track of each index where nums[i] == target.
-Select the target index with equal probability by adjusting the selection process as we find new matches.
-For each matching index, with a probability of (1 / count of matches so far), we replace the previously selected index. This way, each index has an equal chance of being the result.
+1. Initialize the Solution Class:
+
+   - Store the given nums array.
+
+2. Implement the pick(target) Method:
+   - Iterate through nums and find all indices where nums[i] == target.
+   - Use Reservoir Sampling to randomly select one of these indices while ensuring equal probability.
+
+#### Correctness
+
+1. Iterate through nums, tracking indices where nums[i] == target.
+2. Use Reservoir Sampling:
+   - When the first occurrence is found, store it.
+   - When the second occurrence is found, replace the stored index with a probability of `1/2`
+   - When the third occurrence is found, replace with probability `1/3`, and so on.
+   - This ensures that each index with target is selected with equal probability.
+
+Consider `nums = [1, 2, 3, 3, 3]`, and we call `pick(3)`. The goal is to randomly pick one of the indices `{2, 3, 4}` with equal probability.
+
+Why Does This Work?
+
+- The first occurrence of `3 (index 2)` is always chosen initially.
+- The second occurrence of `3 (index 3)` has a `1/2` chance of replacing index 2.
+- The third occurrence of `3 (index 4)` has a `1/3` chance of replacing whatever is stored.
+- Thus, each index `{2, 3, 4}` has an equal probability of being picked in the end.
+- The key is that `random.randint(1, count)` generates a uniformly random number from 1 to count.
+- We check if the result is `1` —which happens with a probability of `1/count`.
+
+## Variation: Pick K Numbers [Reservoir Sampling Solution]
+
+#### How It Works
+
+1. Initialize Reservoir: The first `k` elements of `self.nums` are added to `res`.
+2. Replace with Probability: For each subsequent element at index idx:
+   - Generate a random index `pick_idx` in the range `[0, idx]`.
+   - If `pick_idx` is within the first `k` elements, replace `res[pick_idx]` with `self.nums[idx]`.
+
+#### Correctness
+
+- Every element has a `k / idx` chance of being included.
+- Elements in the reservoir are replaced with the correct probability.
+- Ensures uniform selection over the entire list.
+
+#### Edge Cases
+
+- You should handle edge case by checking if k > len(self.nums): return self.nums[:].
 
 ## Syntax
 
 - Selecting a Random Element from a List: `random_item = random.choice(my_list)`
+- Generating a Random Integer Between Two Values (Inclusive): `random_int = random.randint(a, b)`
 
 ## References
 
