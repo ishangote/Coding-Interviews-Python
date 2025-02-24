@@ -518,6 +518,8 @@ class SLLNode:
 
 To store SLLNode objects as keys in a hash map (dictionary), you need to define both the `__hash__` and `__eq__` methods:
 
+Note: The `__eq__` method is called a "dunder method" (short for "double underscore method") or "special method" in Python. More specifically, it is known as a "magic method" because it is automatically invoked by Python when using the == operator.
+
 `__hash__`: Determines the hash value of an object. It should return a unique value based on the object's identity (e.g., id(self)).
 
 ```

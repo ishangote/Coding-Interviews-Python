@@ -59,3 +59,11 @@ For this problem, we can use a variation of Reservoir Sampling because we only n
 Iterate through the array and keep track of each index where nums[i] == target.
 Select the target index with equal probability by adjusting the selection process as we find new matches.
 For each matching index, with a probability of (1 / count of matches so far), we replace the previously selected index. This way, each index has an equal chance of being the result.
+
+## Syntax
+
+- Selecting a Random Element from a List: `random_item = random.choice(my_list)`
+
+## References
+
+- https://www.youtube.com/watch?v=paCJBO-yi9Q&ab_channel=CodingwithMinmer
