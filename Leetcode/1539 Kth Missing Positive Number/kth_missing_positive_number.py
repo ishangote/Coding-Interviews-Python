@@ -17,9 +17,20 @@ def kth_missing_positive_number_linear_search(arr, k):
                 return num
 
 
-# TODO:
+# Time: O(logn), where n => length of arr
+# Space: O(1)
 def kth_missing_positive_number_binary_search(arr, k):
-    pass
+    lo, hi = 0, len(arr)
+
+    while lo < hi:
+        mid = (lo + hi) // 2
+
+        if arr[mid] - (mid + 1) >= k:
+            hi = mid
+        else:
+            lo = mid + 1
+
+    return lo + k
 
 
 class TestKthPositiveNumber(unittest.TestCase):
@@ -33,6 +44,18 @@ class TestKthPositiveNumber(unittest.TestCase):
         )
         self.assertEqual(
             kth_missing_positive_number_linear_search([1, 2, 3, 7, 9], 2), 5
+        )
+
+    def test_kth_missing_positive_number_binary_search(self):
+        self.assertEqual(
+            kth_missing_positive_number_binary_search([1, 2, 3, 4, 5], 2), 7
+        )
+        self.assertEqual(kth_missing_positive_number_binary_search([5, 6, 7, 8], 2), 2)
+        self.assertEqual(
+            kth_missing_positive_number_binary_search([1, 2, 3, 5, 9], 2), 6
+        )
+        self.assertEqual(
+            kth_missing_positive_number_binary_search([1, 2, 3, 7, 9], 2), 5
         )
 
 

@@ -64,11 +64,21 @@ missing_count = 2
 
 ## Binary Search Solution
 
-**TODO**
+1. Initialize the `lo` and `hi` pointers:
 
-```
+- `lo = 0` (left bound of the array)
+- `hi = len(arr)` (right bound of the array). This is crucial because by setting `hi = len(arr)`, we include the possibility that the Kth missing number is greater than the largest element in the array.
 
-```
+2. Binary Search Loop (`while lo < hi`):
+
+- The middle index mid is calculated as` (lo + hi) // 2`.
+- The difference between `arr[mid]` and its index is compared with `k`:
+- If `arr[mid] - (mid + 1)` is greater than or equal to `k`, we move the `hi` pointer to `mid` because the missing numbers up to this point include the Kth missing number.
+- Otherwise, we move the `lo` pointer to `mid + 1`, as the missing number lies after this point.
+
+3. Return the result:
+
+- The final result is `lo + k`, as `lo` represents the position where the Kth missing number is found in the sequence.
 
 ## References
 
