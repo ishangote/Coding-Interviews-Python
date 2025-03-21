@@ -50,23 +50,26 @@ def vertical_order_traversal_optimized(root):
     if not root:
         return []
 
-    queue = deque([(0, root)])
+    queue = deque([(0, 0, root)])
     distance_map = defaultdict(list)
     min_column, max_column = sys.maxsize, -sys.maxsize
 
     while queue:
-        dist, node = queue.pop()
-        distance_map[dist].append(node.value)
-        min_column = min(min_column, dist)
-        max_column = max(max_column, dist)
+        col, row, node = queue.pop()
+        distance_map[col].append((row, node.value))
+        min_column = min(min_column, col)
+        max_column = max(max_column, col)
 
         if node.left:
-            queue.appendleft((dist - 1, node.left))
+            queue.appendleft((col - 1, row + 1, node.left))
 
         if node.right:
-            queue.appendleft((dist + 1, node.right))
+            queue.appendleft((col + 1, row + 1, node.right))
 
-    return [sorted(distance_map[dist]) for dist in range(min_column, max_column + 1)]
+    return [
+        [value for _, value in sorted(distance_map[col])]
+        for col in range(min_column, max_column + 1)
+    ]
 
 
 class TestVerticalOrderTraversal(unittest.TestCase):

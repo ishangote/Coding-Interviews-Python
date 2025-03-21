@@ -15,8 +15,10 @@ def recursive_helper(node, lo, hi, res):
     if lo <= node.value <= hi:
         res[0] += node.value
 
+    # Move to the left as we might have smaller values than current
     if lo < node.value:
         recursive_helper(node.left, lo, hi, res)
+    # Move to the right as we might have larger values than current
     if node.value < hi:
         recursive_helper(node.right, lo, hi, res)
 

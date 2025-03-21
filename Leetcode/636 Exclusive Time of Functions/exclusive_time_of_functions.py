@@ -12,14 +12,19 @@ def exclusive_time_of_functions(n, logs):
         func_id, timestamp = int(func_id), int(timestamp)
 
         if operation == "start":
+            # Push a new record: [function_id, start_time, nested_time=0]
             stack.append([func_id, timestamp, 0])
-
         else:
+            # End of a function call: pop its record
             last_func_id, start_time, nested_time = stack.pop()
-            res[last_func_id] += (timestamp - start_time + 1) - nested_time
+            # Compute total time including nested calls
+            total_time = timestamp - start_time + 1
+            # Exclusive time is total time minus the time spent in nested calls
+            res[last_func_id] += total_time - nested_time
 
+            # If there is a caller function, add this function's total time to its nested time
             if stack:
-                stack[-1][2] += timestamp - start_time + 1
+                stack[-1][2] += total_time
 
     return res
 

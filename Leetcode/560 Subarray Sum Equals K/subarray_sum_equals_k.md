@@ -115,3 +115,9 @@ res = 2
 Output:
 2
 ```
+
+## Variations
+
+1. return T/F instead of count
+2. Non negative integers + return T/F -> use sliding window
+3. Non negative integers + return length of sub array -> use sliding window

@@ -3,7 +3,7 @@
 ## Problem Statement
 
 > On a single-threaded CPU, we execute a program containing n functions. Each function has a unique ID between 0 and n-1.
-
+>
 > Function calls are stored in a [call stack](https://en.wikipedia.org/wiki/Call_stack): when a function call starts, its ID is pushed onto the stack, and when a function call ends, its ID is popped off the stack. The function whose ID is at the top of the stack is the current function being executed. Each time a function starts or ends, we write a log with the ID, whether it started or ended, and the timestamp.
 >
 > You are given a list logs, where logs[i] represents the ith log message formatted as a string "{function_id}:{"start" | "end"}:{timestamp}". For example, "0:start:3" means a function call with function ID 0 started at the beginning of timestamp 3, and "1 : end : 2" means a function call with function ID 1 ended at the end of timestamp 2. Note that a function can be called multiple times, possibly recursively.
@@ -66,7 +66,48 @@ Function 0 resumes execution at the beginning of time 6 and executes for 2 units
 So function 0 spends 2 + 4 + 1 = 7 units of total time executing, and function 1 spends 1 unit of total time executing.
 ```
 
-## Solution
+## Stack Solution
+
+**Problem Recap**
+You’re given a list of logs that record when functions start and end on a single-threaded CPU. Functions can call other functions (even recursively), so the logs form a nested structure. The task is to compute the exclusive time for each function, meaning the time spent in the function itself excluding the time spent in its nested function calls.
+
+**Key Observations**
+
+- _Call Stack Behavior_: Since the program is executed on a single-threaded CPU, functions follow a call stack. The function that starts last is the one currently executing.
+- _Inclusive Timestamps_: The problem specifies that when a function ends, the timestamp is inclusive (i.e., if a function starts at time 3 and ends at time 3, it takes 1 time unit).
+- _Nested Time Accounting_: When a function calls another function, the time spent in the called function should not be counted toward the caller’s exclusive time.
+
+**Algorithm Walkthrough**
+
+1. Initialize:
+
+   - Create a result list res of size n (number of functions) with all values set to 0.
+   - Use a stack to simulate the function call stack.
+
+2. Process Each Log:
+
+- For a "start" log:
+
+  - Parse the function ID, the operation ("start"), and the timestamp.
+  - Push a record onto the stack. The record is a list containing:
+    - `func_id`: The function’s ID.
+    - `start_time`: The timestamp when the function started.
+    - `nested_time`: Initially set to 0; this will accumulate the total time taken by functions called within this function.
+
+- For an "end" log:
+  - Parse the function ID, the operation ("end"), and the timestamp.
+  - Pop the top record from the stack (this corresponds to the function that is ending).
+  - Compute the total time the function was active as:
+    `total_time=(timestamp−start_time+1)` (The +1 accounts for the inclusive timestamp.)
+  - The exclusive time for this function call is: `exclusive_time=total_time−nested_time`
+  - Add the computed exclusive time to `res[func_id]`.
+  - If there is still a function on the stack (i.e., the current function was nested inside another), add the entire total_time (including nested calls) to the nested_time of the function on top of the stack. This way, when that function eventually ends, it will subtract out the time spent in nested calls.
+
+3. Return the Result:
+
+   - After processing all logs, `res` will contain the exclusive time for each function, indexed by their IDs.
+
+**Example Walkthrough**
 
 ```
 Input:

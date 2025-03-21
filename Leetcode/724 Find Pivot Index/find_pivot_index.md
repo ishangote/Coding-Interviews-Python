@@ -48,7 +48,7 @@ Left sum = 0 (no elements to the left of index 0)
 Right sum = nums[1] + nums[2] = 1 + -1 = 0
 ```
 
-## Solution
+## Brute Force Solution
 
 ```
 Input:
@@ -67,4 +67,11 @@ right_sum = [28, 27, 20, 17, 11, 6]
                          *
 
 Output: 3
+```
+
+## Optimized Solution
+
+```
+* suffix_sum at any idx => total - prefix_sum - nums[idx]
+* Return index where prefix_sum == suffix_sum
 ```

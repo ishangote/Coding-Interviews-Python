@@ -150,6 +150,13 @@ Note:
 "abc123".isascii()  # True
 ```
 
+- `ljust`: Returns a left-justified version of the string in a field of a specified width. If the original string is shorter than the given width, it pads the string on the right with a specified fill character (default is a space).
+
+```
+> "hello".ljust(10)      # "hello     "
+> "42".ljust(5, '0')     # "42000"
+```
+
 #### `string` Module
 
 `import string`

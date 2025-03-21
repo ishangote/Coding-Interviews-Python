@@ -11,10 +11,14 @@ class SparseVector:
     # Space: O(1)
     def dotProduct(self, vec):
         res = 0
+        smaller_map, larger_map = self.index_map, vec.index_map
 
-        for idx, num in self.index_map.items():
-            if idx in vec.index_map:
-                res += num * vec.index_map[idx]
+        if len(self.index_map) > len(vec.index_map):
+            smaller_map, larger_map = vec.index_map, self.index_map
+
+        for idx, num in smaller_map.items():
+            if idx in larger_map:
+                res += num * larger_map[idx]
 
         return res
 

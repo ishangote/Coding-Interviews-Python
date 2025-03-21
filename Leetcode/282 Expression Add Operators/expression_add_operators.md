@@ -81,6 +81,8 @@ This works because digits are added one at a time, so we need to check right bef
 
 ## Approach 2
 
+![Approach 2](./approach_2.png)
+
 **1. How it works:**
 
 - Instead of constructing expressions digit by digit, it tries **all possible numbers** starting at idx.

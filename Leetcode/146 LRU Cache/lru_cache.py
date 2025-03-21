@@ -1,167 +1,118 @@
-# Design and implement a data structure for Least Recently Used (LRU) cache.
-# It should support the following operations: get and put.
-# get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
-# put(key, value) - Set or insert the value if the key is not already present.
-# When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
-# The cache is initialized with a positive capacity.
-# Follow up:
-# Could you do both operations in O(1)
-
-"""
-Design:
-
-              MRU   dll     LRU
-put           h     1       t
-put           h   2   1     t
-get 1         h   1   2     t
-put 3         h   3   1     t   
-get 2         -1
-put 4         h   4   3     t
-
-
-delete from tail
-add from head
-
-"""
+import unittest
 
 
 class DLLNode:
-    def __init__(self, key, val):
-        # key required to store as a parameter to object for deletion from hm later
+    def __init__(self, key, value):
+        # Store both key and value in the node
         self.key = key
-        self.val = val
+        self.value = value
         self.next = None
         self.prev = None
 
-    def set_node_val(self, val):
-        self.val = val
 
+class LRUCache:
+    # Space: O(capacity)
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = {}  # Maps key to its node in the linked list.
 
-class DLL:
-    def __init__(self):
-        self.size = 0
-        # head.next is MRU and tail.prev is LRU
-        self.head = DLLNode(None, "head")
-        self.tail = DLLNode(None, "tail")
+        # Create dummy head and tail nodes to avoid edge case checks.
+        self.head = DLLNode("DUMMY_HEAD", -1)
+        self.tail = DLLNode("DUMMY_TAIL", -1)
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def move_node_to_head(self, node):
+    # Time: O(1)
+    def _remove(self, node):
+        # Remove node from the doubly-linked list.
         node.prev.next = node.next
         node.next.prev = node.prev
 
+    # Time: O(1)
+    def _add(self, node):
+        # Add node right after the head (most recent position).
         node.prev = self.head
         node.next = self.head.next
-        node.next.prev = node
+        self.head.next.prev = node
         self.head.next = node
 
-    def delete_node(self, node):
-        node.prev.next = node.next
-        node.next.prev = node.prev
-
-        del_val = node.val
-        del node
-
-        self.size -= 1
-
-        # Returns value of deleted node to delete from hm later
-        return del_val
-
-    def add_heads_next(self, key, val):
-        node = DLLNode(key, val)
-        tmp = self.head.next
-        self.head.next = node
-        node.prev = self.head
-        node.next = tmp
-        tmp.prev = node
-
-        self.size += 1
-
-        return node
-
-    def print_list(self):
-        cur = self.head.next
-        ans = []
-        while cur != self.tail:
-            ans.append((cur.key, cur.val))
-            cur = cur.next
-        return ans
-
-
-class LRUCache:
-    def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.dll = DLL()
-        self.hm = {}
-
-    def get(self, key: int) -> int:
-        if key not in self.hm:
+    # Time O(1)
+    def get(self, key):
+        if key not in self.cache:
             return -1
-        # Make node MRU
-        self.dll.move_node_to_head(self.hm[key])
-        self.get_cur_state("get", key, None)
-        return self.hm[key].val
 
-    def put(self, key: int, value: int) -> None:
-        if key in self.hm:
-            self.dll.delete_node(self.hm[key])
-            del self.hm[key]
+        # Move node to the head (mark as recently used)
+        node = self.cache[key]
+        self._remove(node)
+        self._add(node)
 
-        if self.dll.size == self.capacity:
-            # key required here
-            del self.hm[self.dll.tail.prev.key]
-            self.dll.delete_node(self.dll.tail.prev)
+        return node.value
 
-        self.hm[key] = self.dll.add_heads_next(key, value)
-        self.get_cur_state("put", key, value)
-
-    def get_cur_state(self, operation, key, value):
-        if not value:
-            print(
-                "Current state of LRU cache after operation "
-                + operation
-                + "("
-                + str(key)
-                + ")"
-            )
+    # Time: O(1)
+    def put(self, key, value):
+        if key in self.cache:
+            node = self.cache[key]
+            node.value = value
+            self._remove(node)
+            self._add(node)
         else:
-            print(
-                "Current state of LRU cache after operation "
-                + operation
-                + "("
-                + str(key)
-                + ", "
-                + str(value)
-                + ")"
-            )
+            # If cache is at capacity, remove the LRU node from the tail
+            if len(self.cache) == self.capacity:
+                lru = self.tail.prev
+                self._remove(lru)
+                del self.cache[lru.key]
 
-        print("LRU Hash Map:")
-        for key, val in self.hm.items():
-            print(str(key) + " : " + str(val) + str(val.val))
-        print("LRU DLL:")
-        print(self.dll.print_list())
+            # Insert the new node at the head of the list
+            node = DLLNode(key, value)
+            self.cache[key] = node
+            self._add(node)
 
-        print("\n")
+
+class TestLRUCache(unittest.TestCase):
+    def test_get_and_put(self):
+        # Create a cache with capacity 2.
+        cache = LRUCache(2)
+
+        # Add two entries.
+        cache.put(1, 1)
+        cache.put(2, 2)
+        # Get key 1, which should be present.
+        self.assertEqual(cache.get(1), 1, "Expected value 1 for key 1")
+
+        # Add a new key; since capacity is 2, this should evict the least recently used key.
+        cache.put(3, 3)  # Key 2 should be evicted.
+        self.assertEqual(cache.get(2), -1, "Expected key 2 to be evicted")
+
+        # Adding another key should evict key 1.
+        cache.put(4, 4)  # Key 1 should be evicted.
+        self.assertEqual(cache.get(1), -1, "Expected key 1 to be evicted")
+        self.assertEqual(cache.get(3), 3, "Expected key 3 to be present")
+        self.assertEqual(cache.get(4), 4, "Expected key 4 to be present")
+
+    def test_update_existing_key(self):
+        # Create a cache with capacity 2.
+        cache = LRUCache(2)
+        cache.put(1, 1)
+        self.assertEqual(cache.get(1), 1, "Initial value for key 1 should be 1")
+
+        # Update the same key with a new value.
+        cache.put(1, 10)
+        self.assertEqual(cache.get(1), 10, "After update, value for key 1 should be 10")
+
+        # Fill the cache and update again.
+        cache.put(2, 2)
+        cache.put(1, 100)
+        self.assertEqual(
+            cache.get(1), 100, "After second update, value for key 1 should be 100"
+        )
+        self.assertEqual(cache.get(2), 2, "Key 2 should still be present")
+
+    def test_non_existent_key(self):
+        # Create a cache with capacity 2.
+        cache = LRUCache(2)
+        # Try to get a key that was never added.
+        self.assertEqual(cache.get(99), -1, "Non-existent key should return -1")
 
 
 if __name__ == "__main__":
-    print("...LRU CACHE...")
-    cap = int(input("Enter capacity > 0: "))
-    lru = LRUCache(cap)
-    end = False
-    while not end:
-        print("Enter operation: ")
-        op = int(input("1:put\t2:get\t3:end\n"))
-        if op == 1:
-            key = int(input("Enter key: "))
-            value = int(input("Enter value: "))
-            lru.put(key, value)
-
-        elif op == 2:
-            key = int(input("Enter key: "))
-            lru.get(key)
-
-        else:
-            end = True
-
-    print("...END...")
+    unittest.main()

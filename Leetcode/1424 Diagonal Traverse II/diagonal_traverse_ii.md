@@ -59,3 +59,26 @@ diagonal_elements =
     0: [1]
 }
 ```
+
+## BFS/Level Order Traversal Solution
+
+```
+Matrix:
+  1   3   6
+  2   5
+  4   7
+
+45° Rotation:
+       1
+    2     3
+ 4     5     6
+    7
+
+Steps:
+1. Push the bottom cell first (remember to check that the next row has a valid column index).
+2. Push the right cell second.
+```
+
+## References
+
+- https://www.youtube.com/watch?v=URiyTWfIxPo&t=3s&ab_channel=CodingwithMinmer
