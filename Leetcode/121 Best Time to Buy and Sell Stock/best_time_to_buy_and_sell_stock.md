@@ -69,3 +69,11 @@ prices =
 
 Output: 5
 ```
+
+## Meta Variation (Departures/Returns)
+
+![Meta Variation](./meta_variation.png)
+
+## References
+
+- https://www.youtube.com/watch?v=1zfHUTVli4Q&ab_channel=CodingwithMinmer

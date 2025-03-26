@@ -38,6 +38,64 @@ def merge_k_sorted_lists(list):
     return dummy.next
 
 
+# --------------------------------------------------------------- #
+
+# * Variation 1: Input is a nested array of integers
+"""
+Input:
+nums = [
+    [3, 5, 6, 9]
+    [1, 2, 3]
+    [6]
+]
+
+Output:
+[1, 2, 3, 3, 5, 6, 6, 9]
+"""
+
+
+def merge_k_sorted_arrays(nums):
+    res, min_heap = [], []
+
+    for row in range(len(nums)):
+        heapq.heappush(min_heap, (nums[row][0], row, 0))
+
+    while min_heap:
+        value, row, col = heapq.heappop(min_heap)
+        res.append(value)
+        if col + 1 < len(nums[row]):
+            heapq.heappush(min_heap, (nums[row][col + 1], row, col + 1))
+
+    return res
+
+
+# --------------------------------------------------------------- #
+
+# * Variation 2: Implement MergeKIterator class
+
+
+class MergeKIterator:
+    def __init__(self, nums):
+        self.nums, self.min_heap = nums, []
+
+        for row in range(len(nums)):
+            if nums[row]:
+                heapq.heappush(self.min_heap, (nums[row][0], row, 0))
+
+    def has_next(self):
+        return len(self.min_heap) > 0
+
+    def next(self):
+        if not self.has_next():
+            raise Exception("No next element available")
+
+        value, row, col = heapq.heappop(self.min_heap)
+        if col + 1 < len(self.nums[row]):
+            heapq.heappush(self.min_heap, (self.nums[row][col + 1], row, col + 1))
+
+        return value
+
+
 class TestMergeKSortedLists(unittest.TestCase):
     def linked_list_to_list(self, head):
         """Helper function to convert a linked list to a Python list for easy comparison."""
@@ -115,6 +173,60 @@ class TestMergeKSortedLists(unittest.TestCase):
         lists = [SLLNode(5), SLLNode(3), SLLNode(8), SLLNode(1)]
         merged = merge_k_sorted_lists(lists)
         self.assertEqual(self.linked_list_to_list(merged), [1, 3, 5, 8])
+
+
+class TestMergeKSortedArrays(unittest.TestCase):
+    def test_merge_k_sorted_arrays(self):
+        self.assertListEqual(
+            merge_k_sorted_arrays([[3, 5, 6, 9], [1, 2, 3], [6]]),
+            [1, 2, 3, 3, 5, 6, 6, 9],
+        )
+
+
+class TestMergeKIterator(unittest.TestCase):
+    def test_multiple_lists(self):
+        lists = [[1, 4, 5], [1, 3, 4], [2, 6]]
+        it = MergeKIterator(lists)
+        result = []
+        while it.has_next():
+            result.append(it.next())
+        self.assertEqual(result, [1, 1, 2, 3, 4, 4, 5, 6])
+
+    def test_single_list(self):
+        lists = [[1, 2, 3]]
+        it = MergeKIterator(lists)
+        self.assertTrue(it.has_next())
+        self.assertEqual(it.next(), 1)
+        self.assertTrue(it.has_next())
+        self.assertEqual(it.next(), 2)
+        self.assertTrue(it.has_next())
+        self.assertEqual(it.next(), 3)
+        self.assertFalse(it.has_next())
+
+    def test_empty_lists(self):
+        lists = [[], [1, 2, 3], []]
+        it = MergeKIterator(lists)
+        result = []
+        while it.has_next():
+            result.append(it.next())
+        self.assertEqual(result, [1, 2, 3])
+
+    def test_all_empty(self):
+        lists = [[], [], []]
+        it = MergeKIterator(lists)
+        self.assertFalse(it.has_next())
+        with self.assertRaises(Exception):
+            it.next()  # should raise an exception because there's no element
+
+    def test_next_beyond_end(self):
+        lists = [[1]]
+        it = MergeKIterator(lists)
+        self.assertTrue(it.has_next())
+        self.assertEqual(it.next(), 1)
+        self.assertFalse(it.has_next())
+        # Attempting to call next() beyond the end should raise an Exception
+        with self.assertRaises(Exception):
+            it.next()
 
 
 if __name__ == "__main__":

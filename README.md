@@ -8,6 +8,10 @@
 
 > This section focuses on critical code snippets with syntax that can be easily forgotten under pressure during interviews. By memorizing these minimal yet essential patterns, you can avoid small syntactic mistakes and speed up implementation during coding challenges.
 
+#### Diagonal Properties of Matrix
+
+![Diagonal Properties of Matrix](./assets/DiagonalPropertiesOfMatrix.png)
+
 #### ASCII Letters
 
 ```
@@ -328,21 +332,49 @@ print(sorted_intervals)
 
 #### Binary Search Decision Table
 
-| Problem Type                                  | `while` Condition | `mid` Conditions     | Actions        | Return Value |
-| --------------------------------------------- | ----------------- | -------------------- | -------------- | ------------ |
-|                                               |                   |                      |                |              |
-| Exact Value Search                            | `while lo <= hi`  | `arr[mid] == target` | `return mid`   | `mid`        |
-|                                               |                   | `arr[mid] > target`  | `hi = mid - 1` |              |
-|                                               |                   | `arr[mid] < target`  | `lo = mid + 1` |              |
-|                                               |                   |                      |                |              |
-| First Occurrence                              | `while lo < hi`   | arr[mid] >= target   | `hi = mid`     | `lo`         |
-|                                               |                   | arr[mid] < target    | lo = mid + 1   |              |
-|                                               |                   |                      |                |              |
-| Last Occurence                                | `while lo < hi`   | arr[mid] > target    | `hi = mid`     | `hi`         |
-|                                               |                   | arr[mid] <= target   | `lo = mid + 1` |              |
-|                                               |                   |                      |                |              |
-| Threshold (Smallest `x` where `f(x) == True`) | `while lo < hi`   | `f(mid) == True`     | `hi = mid`     | `lo`         |
-|                                               |                   | `f(mid) == False`    | `lo = mid + 1` |              |
+**Using the Table: Edge Case Behavior**
+
+- **Empty Array (`arr = []`):**
+
+  - Exact Value Search: returns **-1**
+  - First Occurrence: returns **-1**
+  - Last Occurrence: returns **-1**
+
+- **Target Lower than `nums[0]` (e.g. `arr = [1,2,3,4,5]`, target = 0):**
+
+  - Exact Value Search: returns **-1**
+  - First Occurrence: converges to index 0, but since `arr[0] ≠ 0`, returns **-1**
+  - Last Occurrence: candidate becomes **-1**, so returns **-1**
+
+- **Target Greater than `nums[-1]` (e.g. `arr = [1,2,3,4,5]`, target = 6):**
+
+  - Exact Value Search: returns **-1**
+  - First Occurrence: converges to index equal to `len(arr)`; fails the check, returns **-1**
+  - Last Occurrence: candidate becomes `len(arr) - 1` (index 4), but since `arr[4] ≠ 6`, returns **-1**
+
+- **Target Not in Array but Within Range (e.g. `arr = [1,2,4,5]`, target = 3):**
+
+  - Exact Value Search: returns **-1**
+  - First Occurrence: converges to index 2 (value 4), fails check (`4 ≠ 3`), returns **-1**
+  - Last Occurrence: candidate becomes index 1 (value 2), fails check (`2 ≠ 3`), returns **-1**
+
+- **First Occurrence:**  
+  The algorithm converges to the index of the first element that is greater than or equal to the target. So if the target isn’t in the array, that index is where the first element larger than the target sits. In other words, if you were to insert the target, it would be inserted at that position (i.e. to the left of the number just greater than the target).
+
+- **Last Occurrence:**  
+  The algorithm converges to the position right after the last element that is less than or equal to the target. So if the target isn’t present, the candidate index is one more than the index of the largest element smaller than the target. Effectively, if you were to insert the target, it would be placed at that candidate index, meaning it would fall on the right side of the number just less than the target.
+
+| **Problem Type**                            | **Initial Values (lo, hi)** | **Loop Condition** | **Condition at mid**  | **Action**   | **Return Value / Post-Processing**                              |
+| ------------------------------------------- | --------------------------- | ------------------ | --------------------- | ------------ | --------------------------------------------------------------- |
+| **Exact Value Search**                      | lo = 0, hi = len(arr) - 1   | while lo <= hi     | if arr[mid] == target | return mid   | If not found, return -1                                         |
+|                                             |                             |                    | if arr[mid] > target  | hi = mid - 1 |                                                                 |
+|                                             |                             |                    | if arr[mid] < target  | lo = mid + 1 |                                                                 |
+| **First Occurrence (Lower Bound)**          | lo = 0, hi = len(arr)       | while lo < hi      | if arr[mid] >= target | hi = mid     | Return lo if lo < len(arr) and arr[lo] == target, else -1       |
+|                                             |                             |                    | if arr[mid] < target  | lo = mid + 1 |                                                                 |
+| **Last Occurrence (via Upper Bound)**       | lo = 0, hi = len(arr)       | while lo < hi      | if arr[mid] > target  | hi = mid     | Return lo - 1 if lo - 1 >= 0 and arr[lo - 1] == target, else -1 |
+|                                             |                             |                    | if arr[mid] <= target | lo = mid + 1 |                                                                 |
+| **Threshold (Smallest x where f(x)==True)** | lo = 0, hi = len(arr)       | while lo < hi      | if f(mid) is True     | hi = mid     | Return lo (with f(lo)==True, assuming valid answer exists)      |
+|                                             |                             |                    | if f(mid) is False    | lo = mid + 1 |                                                                 |
 
 #### Summary of Monotonic Stack Behavior:
 
@@ -445,6 +477,40 @@ def is_overlapping(current, given):
 def is_overlapping(current, given):
     return current[0] <= given[1] and given[0] <= current[1]
 ```
+
+#### Sweeping Line Algorithm (Intervals Problems)
+
+1. **Transforming the Problem into Events**
+
+   - **Step:** Convert each interval or event into discrete events.
+   - **Example:** For a meeting or life span, represent the start (birth or meeting start) and end (death or meeting end) as separate events.
+
+2. **Sorting the Events**
+
+   - **Step:** Sort all events by their key value (time, x-coordinate, etc.).
+   - **Tie-breaking:** When two events have the same value, decide the order—typically processing “end” events before “start” events helps reuse resources (like meeting rooms).
+
+3. **Sweeping Through the Events**
+
+   - **Step:** Conceptually move a “sweeping line” through the sorted events.
+   - **Update State:**
+     - When encountering a “start” event, update your state (e.g., increment the active count).
+     - When encountering an “end” event, update your state (e.g., decrement the active count).
+
+4. **Tracking the Result**
+   - **Step:** As you update the state, track the metric of interest (for example, the maximum count reached).
+   - **Example:** The maximum number of overlapping intervals directly answers problems like “minimum number of meeting rooms required” or “maximum population at a time.”
+
+**Problems Solved Using the Sweeping Line Algorithm**
+
+- **Meeting Room Scheduling:**  
+  Determine the minimum number of conference rooms required by calculating the maximum number of concurrent meetings.
+
+- **Maximum Population Problem:**  
+  Given birth and death dates, find the time when the population is at its highest by tracking the net increase (births) and decrease (deaths) over time.
+
+- **Interval Overlap and Intersection:**  
+  Calculate the total number of overlapping intervals or detect intersections among segments.
 
 #### Random Library in Python
 

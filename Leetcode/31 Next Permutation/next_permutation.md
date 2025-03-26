@@ -68,6 +68,16 @@ Step 3: Reverse the Suffix
 
 - The remaining right part is in descending order, so reverse it to get the next smallest order.
 
+## Variation (Find Previous Permutation)
+
+Differences:
+
+- Pivot: Find the first element (from the right) that is larger than its next element.
+- Predecessor: Instead of finding the smallest element greater than the pivot,
+  find the largest element that is smaller than the pivot.
+- Reverse: As before, reverse the suffix to get the highest order for that section.
+
 ## References
 
 - https://www.youtube.com/watch?v=quAS1iydq7U&ab_channel=BackToBackSWE
+- https://www.youtube.com/watch?v=v5Fz177Ihow&ab_channel=CodingwithMinmer

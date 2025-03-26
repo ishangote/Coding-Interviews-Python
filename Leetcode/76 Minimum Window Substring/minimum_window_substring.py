@@ -3,15 +3,7 @@ import sys
 from collections import Counter, defaultdict
 
 
-def is_valid_substring(required_characters_freq, window_freq):
-    for char in required_characters_freq:
-        if window_freq[char] < required_characters_freq[char]:
-            return False
-
-    return True
-
-
-# Time: O(n * k) ~ O(n) since k = 56 (letters), where n => length of input_string, k => length of required_characters
+# Time: O(n), where n => length of input_string, k => unique characters in required_characters
 # Space: O(k)
 def minimum_window_substring(input_string, required_characters):
     lo, hi = -1, -1
@@ -20,20 +12,29 @@ def minimum_window_substring(input_string, required_characters):
 
     required_characters_freq = Counter(required_characters)
     window_freq = defaultdict(int)
+    have, need = 0, len(required_characters_freq)
 
     for end in range(len(input_string)):
         if input_string[end] in required_characters_freq:
             window_freq[input_string[end]] += 1
+            if (
+                window_freq[input_string[end]]
+                == required_characters_freq[input_string[end]]
+            ):
+                have += 1
 
-        while start <= end and is_valid_substring(
-            required_characters_freq, window_freq
-        ):
+        while start <= end and have == need:
             if end - start + 1 < min_length:
                 lo, hi = start, end
                 min_length = end - start + 1
 
             if input_string[start] in required_characters_freq:
                 window_freq[input_string[start]] -= 1
+                if (
+                    window_freq[input_string[start]]
+                    < required_characters_freq[input_string[start]]
+                ):
+                    have -= 1
 
             start += 1
 

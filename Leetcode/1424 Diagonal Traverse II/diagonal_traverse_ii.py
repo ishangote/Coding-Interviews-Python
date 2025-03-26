@@ -51,6 +51,11 @@ def diagonal_traverse_ii_bfs(nums):
     return res
 
 
+# Anti Diagonal
+def diagonal_traverse_ii_variation1(nums):
+    pass
+
+
 class TestDiagonalTraverseII(unittest.TestCase):
     def test_diagonal_traverse_ii(self):
         self.assertEqual(

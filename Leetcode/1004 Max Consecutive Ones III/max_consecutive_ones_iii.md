@@ -56,3 +56,7 @@ nums =
 Output:
 4
 ```
+
+## References
+
+- https://www.youtube.com/watch?v=vQBybrutCCY&ab_channel=CodingwithMinmer

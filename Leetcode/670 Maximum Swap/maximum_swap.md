@@ -109,7 +109,12 @@ Approach
 - Return the result: Once the optimal swap is performed (if any), return the new number. If no swap is needed, return the original number.
 ```
 
+## Variation
+
+![Second Largest Variation](./second_largest_variation.png)
+
 ## References
 
 - Two Pass: https://www.youtube.com/watch?v=4FZtJ8420m8&ab_channel=NeetCodeIO
 - One Pass: https://leetcode.com/problems/maximum-swap/solutions/5922945/beats-100-00-step-by-step-breakdown/
+- Variation: https://www.youtube.com/watch?v=2DH0a3h6juI&ab_channel=CodingwithMinmer

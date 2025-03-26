@@ -126,3 +126,7 @@ Output: [1, 3, 7, 8]
 * Level-order traversal of the tree (BFS) from left to right
 * Return the right most node value
 ```
+
+## Variation: Left Side and Right Side View (Clockwise)
+
+![Variation](./left_right_side_variation.png)

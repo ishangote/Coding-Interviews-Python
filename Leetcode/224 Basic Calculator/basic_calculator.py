@@ -48,6 +48,7 @@ def basic_calculator(input_string):
 class TestBasicCalculator(unittest.TestCase):
     def test_basic_calculator(self):
         self.assertEqual(basic_calculator(" 2-1 + 2 "), 3)
+        self.assertEqual(basic_calculator("11-(2+3)-4"), 2)
         self.assertEqual(basic_calculator("(1+(4+5+2)-3)+(6+8)"), 23)
         self.assertEqual(basic_calculator("- (3 + (4 + 5))"), -12)
         self.assertEqual(basic_calculator("10 + (2 - 3) + 7"), 16)

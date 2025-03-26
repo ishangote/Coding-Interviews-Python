@@ -40,6 +40,16 @@ def lowest_common_ancestor_iii(node1, node2):
     return pt1
 
 
+def lowest_common_ancestor_iii_clean(node1, node2):
+    pt1, pt2 = node1, node2
+
+    while pt1 != pt2:
+        pt1 = pt1.parent if pt1.parent else node2
+        pt2 = pt2.parent if pt2.parent else node1
+
+    return pt1
+
+
 class TestLowestCommonAncestorIII(unittest.TestCase):
     def test_lowest_common_ancestor_iii(self):
         root = BTNode(3)
@@ -67,6 +77,7 @@ class TestLowestCommonAncestorIII(unittest.TestCase):
         root.right.right.left.parent = root.right.right
 
         self.assertEqual(lowest_common_ancestor_iii(node1, node2).value, 6)
+        self.assertEqual(lowest_common_ancestor_iii_clean(node1, node2).value, 6)
 
 
 if __name__ == "__main__":

@@ -67,3 +67,7 @@ stack = [4, 3, 1]
 Output:
 [0, 2, 3]
 ```
+
+## References
+
+- https://www.youtube.com/watch?v=tbkzCFlKNWU&ab_channel=CodingwithMinmer
