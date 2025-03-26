@@ -47,6 +47,10 @@ how much space would 5 million 1 kb records take up?
 5M * 1Kb => 5,000,000,000 = 5GB
 ```
 
+### Numbers to know (2025)
+
+![Numbers](./assets/numbers.png)
+
 ### Latencies
 
 | Action                                       | Time   | Comparison |
@@ -96,6 +100,12 @@ how much space would 5 million 1 kb records take up?
 
 1. The client requests a specific file from the server and are returned a presigned URL.
 2. The client uses the presigned URL to download the file via the CDN, which proxies the request to the underlying blob storage.
+
+## Key Concepts & Technologies
+
+### AWS API Gateway
+
+> "AWS API Gateway supports authentication via built-in integrations like AWS Cognito, IAM policies, or even custom authentication through Lambda Authorizers. For user-facing apps, we'd typically use Cognito to issue JWT tokens, which API Gateway validates directly. For internal AWS services or server-to-server communication, IAM-based authentication is ideal. In scenarios with special or legacy authentication requirements, we'd implement a Custom Lambda Authorizer for flexible authentication logic."
 
 ## References
 

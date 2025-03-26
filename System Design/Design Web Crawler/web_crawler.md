@@ -97,6 +97,8 @@ Crawl-delay: 10
 3. Check before crawling; if url is disallowed skip url OR enforce specified crawl delay
 4. Enforcing crawl delay: Track the last crawl timestamp per domain, requeue URL with delay
 
+> "We can store domain metadata in a Redis instance alongside our crawlers. When a URL is first pulled, we'll make a request to Redis to see if the robots.txt has already been pulled. If it hasn't, we'll pull it and push it back into Redis. We'll use Redis like a rate limiter for our crawling by incrementing a key associated with the domain. If the number of requests for the past second exceeds a number (e.g. 10), we'll wait until the next second to proceed."
+
 ---
 
 ## Deep Dive 3: Scalability - Estimate number of servers required for 5 days crawl (4-5)

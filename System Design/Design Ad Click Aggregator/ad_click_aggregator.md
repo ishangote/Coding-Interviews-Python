@@ -112,6 +112,9 @@
 6. Cache Scaling: Use a distributed cache (Redis Cluster or Memcached) for scalability and ensure fault tolerance with replicas and persistence.
 7. Challenges: Managing cache scaling and ensuring malicious users can't spoof impression IDs.
 
+> "I've added a Redis cluster that will store `userId:adId` pairs. When an ad is clicked, we'll check Redis to see if that pair already exists. If it does, then we know the user already clicked this ad, and we can drop it. If it does not exist, we add the click to the message queue and also update Redis with the new `userId:adId` click to be able to deduplicate future clicks.
+> I'm a little worried about this Redis instance growing infinitely large, so I've added a 10-day TTL. This does allow the same ad to be clicked after 10 days, which is a product decision we would need to be okay with, but I'm trying to balance deduplication accuracy with storage costs."
+
 ---
 
 ## Deep Dive 3 (Query over large time windows) - Pre aggregate data in OLAP database
@@ -134,6 +137,9 @@ Solution:
 
 1. Shard on AdId
 2. For hot shards, dynamic repartitioning (append unique key to the hot AdId)
+
+> "In our system, we’ve designed both our message queue and click database to be partitioned by adId, which is crucial for handling high event throughput from popular ad campaigns. However, this can lead to the issue of hot partitions, where some partitions may get overwhelmed due to a large volume of clicks on popular ads. To address this, we can dynamically distribute the load by appending a random numerical suffix to the partition key of each adId for these high-traffic ads. For instance, for a popular ad, instead of having a single partition key, we would create multiple keys like `‘adId:1’`, `‘adId:2’`, etc., up to `‘adId:10’`.
+> This spreads the load across ten partitions, significantly mitigating the risk of any single partition becoming a bottleneck. We can further refine this approach by increasing the range of random numbers as the ad’s popularity grows, thereby scaling the partitioning mechanism in response to real-time traffic demands."
 
 ---
 
